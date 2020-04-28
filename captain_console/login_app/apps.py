@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class LoginscreenConfig(AppConfig):
+class LoginAppConfig(AppConfig):
     name = 'login_app'
