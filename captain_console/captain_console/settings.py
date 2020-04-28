@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'profile_app.apps.ProfileAppConfig',
     'shoppingcart_app.apps.ShoppingcartAppConfig',
     'store_app.apps.StoreAppConfig',
+    'products' # For our product instances and such
 ]
 
 MIDDLEWARE = [
