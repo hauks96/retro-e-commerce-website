@@ -38,9 +38,11 @@
             <a class="nav-link" href="#">Shopping cart<span class="sr-only">(current)</span></a></a>
           </li>
           <li class="nav-item" id=loginButton>
-            <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="true" autocomplete="off">
-              Login
-            </button>
+             <a class="navbar-brand" href="{% url 'login-index' %}">
+              <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="true" autocomplete="off">
+                Login
+              </button>
+             </a>
           </li>
         </ul>
       </div>
