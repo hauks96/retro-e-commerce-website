@@ -9,24 +9,27 @@ class Address(models.Model):
     addr = models.CharField(max_length=32)
     country = models.CharField(max_length=32)
     city = models.CharField(max_length=32)
-    postal_code = models.IntegerField()
+    postal_code = models.IntegerField()  # Maybe make CharField
     note = models.CharField(max_length=32)
 
 
 class User(models.Model):
     firstName = models.CharField(max_length=32)
     lastName = models.CharField(max_length=32)
-    username = models.CharField(max_length=12)
-    email = models.EmailField()
+    username = models.CharField(max_length=12, unique=True)
+    email = models.EmailField(unique=True)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
     image = models.CharField(max_length=999, default='Set a default image')
     enabled = models.BooleanField(default=True)
 
     def validate_username(self):
-        if len(self.username) > 6 or len(self.username) > 12:
-            raise ValueError
-        return
+        if len(self.username) > 12:
+            return False
+        usn = ''.join([i for i in self.username if not i.isdigit()])
+        if not usn.isalpha():
+            return False
+        return True
 
     def get_address(self):
         return {
@@ -42,4 +45,3 @@ class User(models.Model):
 
     def get_cart(self):
         return self.cart.get_products()
-

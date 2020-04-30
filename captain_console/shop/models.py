@@ -4,7 +4,7 @@ from django.db import models
 # Create your models here.
 
 class Category(models.Model):
-    name = models.CharField(max_length=64)
+    name = models.CharField(max_length=64, unique=True)
 
 
 class Product(models.Model):
@@ -24,13 +24,12 @@ class Product(models.Model):
 
 
 # can be called with ProductImages.objects.filter(product=product_id) to fetch all product images
-class ProductImages(models.Model):
+class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     image = models.CharField(max_length=999)
-    pass
 
 
 # can be called with Tags.objects.filter(product=product_id) to fetch all product tags
-class Tags(models.Model):
+class Tag(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     tag = models.CharField(max_length=50)
