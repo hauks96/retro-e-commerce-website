@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from django.conf.global_settings import SESSION_ENGINE
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -42,6 +44,7 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'cart.apps.CartConfig',
     'shop.apps.ShopConfig',
+    'order.apps.OrderConfig'
 ]
 
 MIDDLEWARE = [
@@ -55,6 +58,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'captain_console.urls'
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+#https://docs.djangoproject.com/en/3.0/topics/http/sessions/#configuring-sessions
 
 TEMPLATES = [
     {
