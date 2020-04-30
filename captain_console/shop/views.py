@@ -19,5 +19,6 @@ def shop(request):
 
 def product(request, product_id):
     #fetch product data or return 404
+    #if user.is_authenticated -> save search to search hisory model
     #load product details page
     return render(request, 'shop/product.html')

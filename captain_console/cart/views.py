@@ -1,29 +1,33 @@
 from django.shortcuts import render
 
+
 # Create your views here.
-
-
 # https://docs.djangoproject.com/en/3.0/topics/http/sessions/
 # Fetch the cart screen
+
+
 def cart(request):
     if request.method == "GET":
-        #load session data
+        # if logged in fetch users cart
+        # else load session data
         return render(request, 'cart/cart.html')
 
+
+def modify_cart(request, product_id):
     # Edit cart
-    elif request.method == "PUT":
-    # edit something from session data (cart menu)
-    # change values etc
-        return render(request, 'cart/cart.html')# reload the cart screen with updated data
+    if request.method == "PUT":
+        # if logged in edit users cart
+        # else edit something from session data
+        return render(request, 'cart/cart.html')  # reload the cart screen with updated data
 
-    #Remove something from cart
-    elif request.method  == "DELETE":
-        #delete from django session data
-        return render(request, 'cart/cart.html')# reload the cart
+    # Remove something from cart
+    elif request.method == "DELETE":
+        # if logged in delete from users cart
+        # else delete from session data
+        return render(request, 'cart/cart.html')  # reload the cart
 
-
-    #Add the "add to cart" request to user session
+    # Add to cart
     elif request.method == "POST":
-        #do something with request.data
-        return render(request, 'cart/cart.html')#Render the previous screen
-
+        # if logged in add to users cart
+        # else add product + quantity to session data
+        return render(request, 'cart/cart.html')  # Render the previous screen
