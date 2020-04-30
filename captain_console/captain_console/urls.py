@@ -18,11 +18,9 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('', include('frontpage_app.urls')),
+    path('', include('home.urls')),
     path('admin/', admin.site.urls),  # extra content? make admin backend to add products
-    path('store/', include('store_app.urls')),
-    path('login/', include('login_app.urls')),
-    #path('profile/', include('profile_app.urls')),
-    #path('shoppingcart/', include('shoppingcart_app.urls')),
-    #path('shoppingcart/checkout/', include('payment_app.urls')),
+    path('user/', include('user.urls')),
+    path('shop/', include('shop.urls')),
+    path('cart/', include('cart.urls')),
 ]
