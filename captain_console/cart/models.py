@@ -36,14 +36,13 @@ class CartItem(models.Model):
             session_cart = cart_data
 
         session_cart.append({
-            'List number': len(session_cart)+1,
+            'List number': len(session_cart) + 1,
             'Name': self.product.name,
             'Quantity': self.product_quantity,
             'Unit price': self.product.price,
             'Total item price': self.item_total_price(),
         })
         return session_cart
-
 
 
 class Cart(models.Model):
