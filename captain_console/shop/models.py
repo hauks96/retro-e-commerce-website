@@ -9,7 +9,7 @@ class Category(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=64, unique=True)
-    price = models.FloatField()
+    price = models.DecimalField(decimal_places=2, max_digits=100)
     enabled = models.BooleanField(default=True)
     discount = models.IntegerField(default=0)
     short_description = models.CharField(max_length=150)
@@ -27,6 +27,9 @@ class Product(models.Model):
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     image = models.CharField(max_length=999)
+
+    def __str__(self):
+        return self.image
 
 
 # can be called with Tags.objects.filter(product=product_id) to fetch all product tags
