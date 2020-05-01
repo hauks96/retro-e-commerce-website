@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1> THIS IS THE SHOP PAGE<h1>
+    <h1> THIS IS THE SHOP PAGE</h1>
     <p> We want to load data from the product table here</p>
-
+    {% for product in products %}
+        <h4>{{product.name}}</h4>
+        <p>{{product.price}}€</p>
+        <p>{{product.description}}</p>
+        {% endfor %}
 {% endblock %}

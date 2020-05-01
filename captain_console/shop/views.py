@@ -1,6 +1,9 @@
 from django.shortcuts import render
 
 # Create your views here.
+products = [{"name": "Crash Bandicoot", "price": 59.99, "description": "Quarantine Game of the year"}, #too be deleted obviously
+            {"name": "Rachet and Clank", "price": 29.99, "description": "Nostalgic overload"}]
+
 def shop(request):
     if 'search_filter' in request:
         #filter by search filter
@@ -15,7 +18,7 @@ def shop(request):
         #return all data
         pass
 
-    return render(request, 'shop/shop.html')
+    return render(request, 'shop/shop.html', context={"products": products})
 
 def product(request, product_id):
     #fetch product data or return 404

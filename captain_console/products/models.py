@@ -6,4 +6,7 @@ class Product(models.Model):
     LongDescription = models.TextField(default="")
     price = models.DecimalField(decimal_places=2, max_digits=100)
     type = models.CharField(max_length=50)
-    images = models.TextField() # How to best store images?
+    images = models.TextField() # Image links here
+    tags = models.TextField(default="")
+    discount = models.DecimalField(default=0)
+    enabled = models.BooleanField(default=True)
