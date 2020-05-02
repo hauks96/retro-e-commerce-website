@@ -1,3 +1,4 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from cart.models import Cart
 from django import forms  # for password
@@ -14,7 +15,7 @@ class Address(models.Model):
     note = models.CharField(max_length=32)
 
 
-class User(models.Model):
+class User(AbstractUser):
     username = models.CharField(max_length=12, unique=True)
     password = models.CharField(max_length=32)
     email = models.EmailField(unique=True)
