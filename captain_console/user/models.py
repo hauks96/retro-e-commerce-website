@@ -15,16 +15,15 @@ class Address(models.Model):
 
 
 class User(models.Model):
+    username = models.CharField(max_length=12, unique=True)
+    password = models.CharField(max_length=32)
+    email = models.EmailField(unique=True)
     firstName = models.CharField(max_length=32)
     lastName = models.CharField(max_length=32)
-    username = models.CharField(max_length=12, unique=True)
-    email = models.EmailField(unique=True)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
     image = models.CharField(max_length=999, default='Set a default image')
     enabled = models.BooleanField(default=True)
-    password = models.CharField(max_length=32, )
-    #password = forms.CharField(widget=forms.PasswordInput)
 
     def validate_username(self):
         if len(self.username) > 12:
