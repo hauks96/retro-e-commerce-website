@@ -1,5 +1,6 @@
 from django.db import models
 from cart.models import Cart
+from django import forms  # for password
 
 
 # Create your models here.
@@ -22,6 +23,8 @@ class User(models.Model):
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
     image = models.CharField(max_length=999, default='Set a default image')
     enabled = models.BooleanField(default=True)
+    password = models.CharField(max_length=32, )
+    #password = forms.CharField(widget=forms.PasswordInput)
 
     def validate_username(self):
         if len(self.username) > 12:
