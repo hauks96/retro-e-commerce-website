@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from captain_console.forms.register_form import UserCreateForm
+from .forms import UserRegistrationForm
 from django.contrib import messages
 
 # Create your views here.
@@ -11,18 +11,19 @@ def login(request):
 
 
 def register(request):
+    context = {}
     if request.method == "POST":
-        form = UserCreateForm(data=request.POST)
+        form = UserRegistrationForm(data=request.POST)
         if form.is_valid():
             form.save()
             return redirect('login-index')
         else:
+            context['registration_form'] = form
             print("not valid")
     else:
-        form = UserCreateForm()
-    return render(request, "user/register.html", {
-        'form': form
-    })
+        form = UserRegistrationForm()
+        context['registration_form'] = form
+    return render(request, "user/register.html", context)
 
 
 def profile(request):

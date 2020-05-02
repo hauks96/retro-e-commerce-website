@@ -25,6 +25,8 @@ class User(models.Model):
     image = models.CharField(max_length=999, default='Set a default image')
     enabled = models.BooleanField(default=True)
 
+    USERNAME_FIELD = 'username'
+
     def validate_username(self):
         if len(self.username) > 12:
             return False
