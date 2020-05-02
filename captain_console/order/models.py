@@ -6,6 +6,7 @@ from cart.models import Cart
 class Order(models.Model):
     order_items = models.ForeignKey(Cart, on_delete=models.CASCADE)
     order_date = models.DateTimeField(auto_now=True)
+    order_status = models.CharField(max_length=50, blank=True)
 
     def get_order_data(self):
         return self.order_items.get_products()
