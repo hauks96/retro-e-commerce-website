@@ -11,7 +11,7 @@
                         {{field}}
                     </div>
                     {% if registration_form.errors %}
-                        {% for field in registration_form %}
+                        {% for error in field.errors %}
                             <div class="form-group">
                             {{ error|escape }}
                             </div>
