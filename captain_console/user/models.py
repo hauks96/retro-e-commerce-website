@@ -8,21 +8,21 @@ from django import forms  # for password
 
 
 class Address(models.Model):
-    addr = models.CharField(max_length=32)
-    country = models.CharField(max_length=32)
-    city = models.CharField(max_length=32)
-    postal_code = models.IntegerField()  # Maybe make CharField
-    note = models.CharField(max_length=32)
+    addr = models.CharField(max_length=32, blank=True, default="")
+    country = models.CharField(max_length=32, blank=True, default="")
+    city = models.CharField(max_length=32, blank=True, default="")
+    postal_code = models.CharField(max_length=12, blank=True, default="")  # Maybe make CharField
+    note = models.CharField(max_length=32, blank=True, default="")
 
 
 class User(AbstractUser):
     username = models.CharField(max_length=12, unique=True)
-    password = models.CharField(max_length=32)
+    password = models.CharField(max_length=999, default="test123")
     email = models.EmailField(unique=True)
-    firstName = models.CharField(max_length=32)
-    lastName = models.CharField(max_length=32)
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
-    address = models.ForeignKey(Address, on_delete=models.CASCADE)
+    firstName = models.CharField(max_length=32, help_text="Enter first name")
+    lastName = models.CharField(max_length=32, help_text="Enter last name")
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, blank=True)
+    address = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True)
     image = models.CharField(max_length=999, default='Set a default image')
     enabled = models.BooleanField(default=True)
 
