@@ -3,23 +3,23 @@
     <div class="container">
     <div class="row">
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-            <form class="form form-horizontal" action="{% url 'register-index' %}" method="POST">
+            <form class="form form-horizontal bg-secondary" action="{% url 'register-index' %}" method="POST">
                 {% csrf_token %}
                 {% for field in registration_form %}
-                <p> {{field.label_tag}}
-                    {{field}}
-
-                    {% if field.help_text %}
-                    <small style="color: grey;">{{field.help_text}}</small>
-                    {% endif %}
-                </p>
-
-                        {% for errors in field.errors %}
-                        <p style="color: red;">{{field.error}}</p>
+                    <div class="form-group input-group">
+                    <div class="input-group">{{ field.label_tag }}</div>
+                        {{field}}
+                    </div>
+                    {% if registration_form.errors %}
+                        {% for error in field.errors %}
+                            <div class="form-group">
+                            {{ error|escape }}
+                            </div>
                         {% endfor %}
+                    {% endif %}
                 {% endfor %}
 
-                <input type="submit" value="Create Account" class="btn btn-lg btn-primary btn-clock text-uppercase w-100 my-2">
+                <input type="submit" value="Create Account" class="btn btn-lg btn-primary btn-clock text-uppercase w-100 my-5">
             </form>
         </div>
     </div>
