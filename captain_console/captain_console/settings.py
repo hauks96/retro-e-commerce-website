@@ -17,7 +17,6 @@ from django.conf.global_settings import SESSION_ENGINE
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -28,7 +27,6 @@ SECRET_KEY = 'cj^&mhw!#mjj+0tag#_wh$-_*o&2y*zk6-epb$3r#3%bt8v*-0'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -60,7 +58,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'captain_console.urls'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
-#https://docs.djangoproject.com/en/3.0/topics/http/sessions/#configuring-sessions
+# https://docs.djangoproject.com/en/3.0/topics/http/sessions/#configuring-sessions
 
 TEMPLATES = [
     {
@@ -80,7 +78,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'captain_console.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -103,7 +100,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication'
     ),
- }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -125,6 +122,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # CUSTOM USER MODEL - arnar
 AUTH_USER_MODEL = 'user.User'
 
+LOGIN_REDIRECT_URL = '/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -138,7 +136,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/

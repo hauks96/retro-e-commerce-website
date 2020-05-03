@@ -19,8 +19,8 @@ class User(AbstractUser):
     username = models.CharField(max_length=12, unique=True)
     password = models.CharField(max_length=999, default="test123")
     email = models.EmailField(unique=True)
-    firstName = models.CharField(max_length=32, help_text="Enter first name")
-    lastName = models.CharField(max_length=32, help_text="Enter last name")
+    first_name = models.CharField(max_length=32, help_text="Enter first name")
+    last_name = models.CharField(max_length=32, help_text="Enter last name")
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, blank=True)
     address = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True)
     image = models.CharField(max_length=999, default='Set a default image')
@@ -46,7 +46,7 @@ class User(AbstractUser):
         }
 
     def get_full_name(self):
-        return self.firstName + ' ' + self.lastName
+        return self.first_name + ' ' + self.last_name
 
     def get_cart(self):
         return self.cart.get_products()

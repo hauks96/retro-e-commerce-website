@@ -10,7 +10,7 @@ class UserRegistrationForm(UserCreationForm):
     class Meta:
         model = User
         exclude = ['id', 'enabled', 'address', 'image', 'cart']
-        fields = ['username', 'email', 'password1', 'password2', 'firstName', 'lastName']
+        fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name']
 
     def save(self, commit=True):
         user = super(UserRegistrationForm, self).save(commit=False)

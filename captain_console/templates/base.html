@@ -37,13 +37,30 @@
           <li class="nav-item active ml-auto">
             <a class="nav-link" href="{% url 'cart-index' %}">Shopping cart<span class="sr-only">(current)</span></a></a>
           </li>
+          {% if user.is_authenticated %}
+          <li class="nav-item" id=profileButton >
+            <a class="navbar-brand" href="{% url 'profile-index' %}">
+              <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="true" autocomplete="off">
+              Profile
+            </button>
+            </a>
+          </li>
+          <li class="nav-item" id=logoutButton >
+            <a class="navbar-brand" href="{% url 'logout' %}">
+              <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="true" autocomplete="off">
+              Logout
+            </button>
+            </a>
+          </li>
+          {% else %}
           <li class="nav-item" id=loginButton >
-            <a class="navbar-brand" href="{% url 'login-index' %}">
+            <a class="navbar-brand" href="{% url 'login' %}">
               <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="true" autocomplete="off">
               Login
             </button>
             </a>
           </li>
+          {% endif %}
         </ul>
       </div>
     </nav>

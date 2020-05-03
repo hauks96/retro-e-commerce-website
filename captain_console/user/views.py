@@ -1,13 +1,23 @@
 from django.shortcuts import render, redirect
 from .forms import UserRegistrationForm
+from django.contrib.auth import authenticate
 from django.contrib import messages
 
 # Create your views here.
 
 
 # login page view ( user/login )
+"""
 def login(request):
-    return render(request, "user/login.html")
+    #  Requires an ajax request
+    user = authenticate(username=request.data["username"], password=request.data["password"])
+    if user:
+        #  user exists, redirect to home-index
+        return render(request, "home/home.html")
+    else:
+        #  return an response and redirect to login-index
+        return render(request, "user/login.html")
+"""
 
 
 def register(request):
