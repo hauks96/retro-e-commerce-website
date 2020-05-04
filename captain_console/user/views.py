@@ -3,11 +3,12 @@ from .forms import UserRegistrationForm
 from django.contrib.auth import authenticate
 from django.contrib import messages
 
+
 # Create your views here.
 
 
 # login page view ( user/login )
-"""
+
 def login(request):
     #  Requires an ajax request
     user = authenticate(username=request.data["username"], password=request.data["password"])
@@ -17,7 +18,6 @@ def login(request):
     else:
         #  return an response and redirect to login-index
         return render(request, "user/login.html")
-"""
 
 
 def register(request):
@@ -26,7 +26,7 @@ def register(request):
         form = UserRegistrationForm(data=request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login-index')
+            return redirect('login')
         else:
             context['registration_form'] = form
             print("not valid")
