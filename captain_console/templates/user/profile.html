@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1> THIS IS THE PROFILE PAGE<h1>
-    <p> We want to load userID specific data from the user table here</p>
+    <div class="container">
+    {% csrf_token %}
+    {{ form }}
+    </div>
 {% endblock %}

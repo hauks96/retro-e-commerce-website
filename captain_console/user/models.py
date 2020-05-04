@@ -50,3 +50,9 @@ class User(AbstractUser):
 
     def get_cart(self):
         return self.cart.get_products()
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    address = models.ForeignKey(Address, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)

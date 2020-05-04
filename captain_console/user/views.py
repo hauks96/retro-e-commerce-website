@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm, ProfileForm
 from django.contrib.auth import authenticate
-from django.contrib import messages
+from .models import Profile
 
 
 # Create your views here.
 
 
 # login page view ( user/login )
+
 
 def login(request):
     #  Requires an ajax request
@@ -29,7 +30,6 @@ def register(request):
             return redirect('login')
         else:
             context['registration_form'] = form
-            print("not valid")
     else:
         form = UserRegistrationForm()
         context['registration_form'] = form
@@ -37,7 +37,17 @@ def register(request):
 
 
 def profile(request):
-    return
+    profile = Profile.objects.filter(user=request.user).first()  # fetch user, change to .get() and add try except
+    if request.method == "POST":
+        form = ProfileForm(instance=profile, data=request.POST)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = request.user
+            profile.save()
+            return redirect('profile-index')
+    return render(request, "user/profile.html", {
+        'form': ProfileForm(instance=profile)
+    })
 
 
 def logout(request):
