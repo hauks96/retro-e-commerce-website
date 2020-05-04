@@ -29,4 +29,11 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = User
         exclude = ['id', 'enabled', 'cart']
-        fields = ['username', 'email', 'first_name', 'last_name', 'address', 'image']
+        fields = ['email', 'first_name', 'last_name']
+
+
+class AddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        exclude = ['id']
+        fields = ['address', 'country', 'city', 'postal_code', 'note']

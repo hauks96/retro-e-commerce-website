@@ -1,8 +1,9 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .forms import UserRegistrationForm, ProfileForm
-from django.contrib.auth import authenticate
-from .models import Profile
 
+from .forms import UserRegistrationForm, ProfileForm, AddressForm
+from django.contrib.auth import authenticate
+from .models import User
 
 # Create your views here.
 
@@ -11,7 +12,6 @@ from .models import Profile
 
 
 def login(request):
-    #  Requires an ajax request
     user = authenticate(username=request.data["username"], password=request.data["password"])
     if user:
         #  user exists, redirect to home-index
@@ -19,6 +19,11 @@ def login(request):
     else:
         #  return an response and redirect to login-index
         return render(request, "user/login.html")
+
+
+@login_required
+def logout(request):
+    return
 
 
 def register(request):
@@ -36,19 +41,59 @@ def register(request):
     return render(request, "user/register.html", context)
 
 
+@login_required
 def profile(request):
-    profile = Profile.objects.filter(user=request.user).first()  # fetch user, change to .get() and add try except
-    if request.method == "POST":
-        form = ProfileForm(instance=profile, data=request.POST)
-        if form.is_valid():
-            profile = form.save(commit=False)
-            profile.user = request.user
-            profile.save()
-            return redirect('profile-index')
+    user_id = request.user.id  # Users id from django auth
+    user = User.objects.get(id=user_id)  # User instance
+    address = user.address  # Users address instance
+
     return render(request, "user/profile.html", {
-        'form': ProfileForm(instance=profile)
+        'user': user,
+        'address': address
     })
 
 
-def logout(request):
-    return
+@login_required
+def user_edit(request):
+    context = {}
+    user_id = request.user.id  # Users id from django auth
+    user = User.objects.get(id=user_id)  # User instance
+    form = ProfileForm(instance=user)
+    if request.method == "POST":
+        form = ProfileForm(instance=user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('profile-index')
+        else:
+            context['form'] = form
+
+    context['form'] = form
+    return render(request, 'user/edit_person.html', context)
+
+
+@login_required()
+def address_edit(request):
+    context = {}
+    user_id = request.user.id  # Users id from django auth
+    user = User.objects.get(id=user_id)  # User instance
+    address = user.address
+    form = AddressForm(instance=address)
+    if request.method == "POST":
+        form = AddressForm(instance=address, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('profile-index')
+        else:
+            context['form'] = form
+
+    context['form'] = form
+    return render(request, 'user/edit_address.html', context)
+
+
+@login_required()
+def search_history():
+    pass
+
+
+
+

@@ -8,7 +8,7 @@ from django import forms  # for password
 
 
 class Address(models.Model):
-    addr = models.CharField(max_length=32, blank=True, default="")
+    address = models.CharField(max_length=32, blank=True, default="")
     country = models.CharField(max_length=32, blank=True, default="")
     city = models.CharField(max_length=32, blank=True, default="")
     postal_code = models.CharField(max_length=12, blank=True, default="")  # Maybe make CharField
@@ -38,7 +38,7 @@ class User(AbstractUser):
 
     def get_address(self):
         return {
-            'addr': self.address.addr,
+            'addr': self.address.address,
             'country': self.address.country,
             'city': self.address.city,
             'postal_code': self.address.postal_code,
@@ -52,7 +52,9 @@ class User(AbstractUser):
         return self.cart.get_products()
 
 
+"""
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+"""

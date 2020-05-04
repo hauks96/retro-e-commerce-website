@@ -1,0 +1,23 @@
+{% extends 'user/base.html' %}
+{% block content %}
+    <div class="container" id="edit-window">
+        <legend>Shipping Address:</legend>
+        <div class="container" id="form">
+            <form action="{% url 'edit-address' %}" method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                     <div class="input-group"><b>{{ field.label_tag }}</b></div>
+                    {{ field }}
+                    {% if form.errors %}
+                        {% for error in field.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            {% endfor %}
+                <button type="submit" value="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
