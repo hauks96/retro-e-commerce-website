@@ -1,8 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1> THIS IS THE SHOP PAGE</h1>
-    <p> We want to load data from the product table here</p>
+    <!-- sidebar -->
+    <div class="row w-75 mx-auto">
+    <div class="col-3 bg-primary">
+    {% include 'shop/sidebar.html' %}
+    <!-- feed -->
+    </div>
+    <div class="col-9 bg-danger">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-3">
     {% for product in products %}
         {% include 'shop/single_product.html' with products=products %}
     {% endfor %}
-    {% endblock %}
+    </div>
+    </div>
+    </div>
+{% endblock %}

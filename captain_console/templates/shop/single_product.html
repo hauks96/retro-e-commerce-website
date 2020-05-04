@@ -1,12 +1,14 @@
 {% load static %}
-
 <link rel="stylesheet" type="text/css" href="{% static 'css/shop/shop.css' %}">
 
-<div class="singleProducts">
+
+
     <a href="#">
-        <img class="productImage" src="https://elko.is/media/catalog/product/cache/5ca3b4f0a50077dea1f180edffcd2886/P/S/PS4FIFA20.jpg"/> <! –– {{ shop.ProductImage.image}} –– >
-        <h4>{{product.name}}</h4>
-        <p>{{product.price}}$</p>
-        <p>{{product.short_description}}</p>
+        <div class="col">
+            <div class="card my-2">
+                <img src="{{ product.productImage }}" alt="image">
+                <div class="card-title">{{ product.name }}</div>
+                <div class="card-text">{{ product.short_description }}</div>
+            </div>
+        </div>
     </a>
-</div>
