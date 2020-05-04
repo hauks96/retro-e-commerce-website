@@ -1,0 +1,18 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/backend/backend.css' %}">
+
+<div class="singleProducts">
+        <img class="productImage" src="https://elko.is/media/catalog/product/cache/5ca3b4f0a50077dea1f180edffcd2886/P/S/PS4FIFA20.jpg"/> <! –– {{ shop.ProductImage.image}} –– >
+        <div class="productInfoBox">
+            <div class="productName"><h3>Product name: {{product.name}}</h3></div>
+            <div class="productInfoHeader"><h4>Product price: {{product.price}}$</h4></div>
+            <div class="productInfoHeader"><h4>Product short description: {{product.short_description}}</h4></div>
+            <div class="productInfoHeader"><h4>Product long description: {{product.long_description}}</h4></div>
+            <div class="productInfoHeader"><h4>Category: {{product.category}}</h4></div>
+            <div class="productInfoHeader"><h4>Enabled: {{product.enabled}}</h4></div>
+        </div>
+</div>
+    <div class="buttonBoxes">
+        <div class="button"><a class="buttonEffect" href="{% url 'update_product' product.id %}"> Update product</a></div>
+        <div class="button"><a class="buttonEffect" href="{% url 'delete_product' product.id%}"> Remove product</a></div>
+    </div>

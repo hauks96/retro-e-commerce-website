@@ -1,0 +1,15 @@
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-3">
+    {% for type in productTypes %}
+        <a href="#"> <!-- todo: dynamic links -->
+        <div class="col">
+            <div class="card my-2">
+                <img src="{{ type.image }}" class="card-img-top" alt="{{ type.name }}">
+                <div class="card-img-overlay">
+                    <h5 class="card-title"><b>{{ type.name }}</b></h5>
+                    <p class="card-text">{{ type.description }}</p>
+                </div>
+            </div>
+        </div>
+        </a>
+    {% endfor %}
+</div>
