@@ -1,9 +1,0 @@
-{% extends 'base.html' %}
-{% block content %}
-    <h1> THIS IS THE BACKEND PAGE</h1>
-    <h2 href="{% url 'create_product' %}">Add product</h2>
-    <h2 href="{% url 'delete_product' %}">Delete product</h2>
-    {% for product in products %}
-        {% include 'shop/single_product.html' with products=products %}
-    {% endfor %}
-{% endblock %}

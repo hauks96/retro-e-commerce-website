@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/backend/backend.css' %}">
 {% block content %}
-    <h1> THIS IS THE SHOP PAGE</h1>
-    <p> We want to load data from the product table here</p>
-    {% for product in products %}
-        {% include 'backend/backendSingleProduct.html' with products=products %}
-    {% endfor %}
-    {% endblock %}
+    <h1> THIS IS THE BACKEND PAGE</h1>
+    <div class="button" align="right"><a class="buttonEffect" href="{% url 'create_product' %}"> Create product</a></div>
+    <div class="products">
+        {% for product in products %}
+            {% include 'backend/backendSingleProduct.html' with products=products %}
+            {% endfor %}
+    </div>
+{% endblock %}
