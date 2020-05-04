@@ -7,15 +7,15 @@
           <div class="card-body w-100">
             <h5 class="card-title text-center">Sign In</h5>
             {% if form.errors %}
-            <p>Your username and password didn't match. Please try again.</p>
+            <p style="color:red;">Your username and password didn't match. Please try again.</p>
             {% endif %}
 
             {% if next %}
                 {% if user.is_authenticated %}
-                <p>Your account doesn't have access to this page. To proceed,
+                <p style="color:red;">Your account doesn't have access to this page. To proceed,
                 please login with an account that has access.</p>
                 {% else %}
-                <p>Please login to see this page.</p>
+                <p style="color:red;">Please login to see this page.</p>
                 {% endif %}
             {% endif %}
 
