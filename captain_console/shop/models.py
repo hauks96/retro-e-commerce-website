@@ -1,10 +1,17 @@
 from django.db import models
 
+NO_IMAGE = 'static/images/no-image-found.png'  # constant for missing images
+
 
 # Create your models here.
 
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
+    image = models.CharField(max_length=999, default=NO_IMAGE)
+    description = models.CharField(max_length=150, default=NO_IMAGE)
+
+    def __str__(self):
+        return self.name
 
     def __str__(self):
         return self.name
