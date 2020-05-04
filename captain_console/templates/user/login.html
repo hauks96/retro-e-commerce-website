@@ -3,34 +3,32 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-        <div class="card card-signin my-5">
+        <div class="card card-signin my-5 border border-dark">
           <div class="card-body w-100">
             <h5 class="card-title text-center">Sign In</h5>
             {% if form.errors %}
-            <p>Your username and password didn't match. Please try again.</p>
+
+            <b class="text-danger">Your username and password didn't match. Please try again.</b>
             {% endif %}
 
             {% if next %}
                 {% if user.is_authenticated %}
-                <p>Your account doesn't have access to this page. To proceed,
+                <p style="color:red;">Your account doesn't have access to this page. To proceed,
                 please login with an account that has access.</p>
                 {% else %}
-                <p>Please login to see this page.</p>
+                <p style="color:red;">Please login to see this page.</p>
                 {% endif %}
             {% endif %}
 
             <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
-            <table>
-            <tr>
-                <td>{{ form.username.label_tag }}</td>
-                <td>{{ form.username }}</td>
-            </tr>
-            <tr>
-                <td>{{ form.password.label_tag }}</td>
-                <td>{{ form.password }}</td>
-            </tr>
-            </table>
+                {% for field in form %}
+                    <div class="form-group input-group w-100">
+                    <div class="input-group"><b>{{ field.label_tag }}</b></div>
+                        <div class="">{{field}}</div>
+                    </div>
+                {% endfor %}
+
 
             <button class="btn btn-lg btn-primary btn-clock text-uppercase w-100" type="submit" value="login">Login</button></a>
             <input type="hidden" name="next" value="{{ next }}">

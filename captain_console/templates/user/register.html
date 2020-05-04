@@ -1,25 +1,32 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="container">
+    <div class="container mb-4">
+    <h1 class="text-center py-3">Register</h1>
     <div class="row">
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-            <form class="form form-horizontal bg-secondary" action="{% url 'register-index' %}" method="POST">
+            <form class="form form-horizontal border border-dark rounded bg-white" action="{% url 'register-index' %}" method="POST">
                 {% csrf_token %}
                 {% for field in registration_form %}
-                    <div class="form-group input-group">
-                    <div class="input-group">{{ field.label_tag }}</div>
-                        {{field}}
-                    </div>
+                    <div class="form-group input-group pl-5">
+                    <div class="input-group"><b>{{ field.label_tag }}</b></div>
+                        <div class="">{{field}}</div>
+
                     {% if registration_form.errors %}
+                        <table>
                         {% for error in field.errors %}
-                            <div class="form-group">
-                            {{ error|escape }}
-                            </div>
+                            <tr>
+                            <td class="text-danger">
+                                <b>* {{ error|escape }}</b>
+                            </td>
+                            </tr>
                         {% endfor %}
+                        </table>
                     {% endif %}
+
+                    </div>
                 {% endfor %}
 
-                <input type="submit" value="Create Account" class="btn btn-lg btn-primary btn-clock text-uppercase w-100 my-5">
+                <input type="submit" value="Create Account" class="btn btn-lg btn-primary btn-clock text-uppercase w-100 mt-3">
             </form>
         </div>
     </div>

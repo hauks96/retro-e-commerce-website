@@ -23,3 +23,10 @@ class UserRegistrationForm(UserCreationForm):
 
         if commit:
             user.save()
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        exclude = ['id', 'enabled', 'cart']
+        fields = ['username', 'email', 'first_name', 'last_name', 'address', 'image']
