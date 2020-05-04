@@ -122,7 +122,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # CUSTOM USER MODEL - arnar
 AUTH_USER_MODEL = 'user.User'
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/user/profile'
+LOGIN_URL = '/user/login'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
