@@ -1,8 +1,8 @@
-{% extends 'base.html' % }
-{% block content % }
+{% extends 'base.html' %}
+{% block content %}
     <form action="{% url 'update_product' id %}" method='POST'>
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="Update" class="">
     </form>
-{% end block % }
+{% endblock %}
