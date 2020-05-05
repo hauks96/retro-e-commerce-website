@@ -1,9 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render
-from shop.models import Product  # imports products
-from shop.models import ProductImage
 
-
+from shop.models import Product, ProductImage
 # Create your views here.
 
 
@@ -72,6 +70,7 @@ def shop(request):
     else:
         data = Product.objects.all()
 
+    """
     products = [{
         'id': x.id,
         'name': x.name,
@@ -79,7 +78,22 @@ def shop(request):
         'price': x.price,
         'image': ProductImage.objects.filter(product_id=x.id).first().image
     } for x in data]
-    return JsonResponse({'products': products})
+    """
+
+    # todo: fix image getting after filtering has been configured.
+    products = Product.objects.all()
+    # dump images into product collection
+    # we only want the first image we find
+    temp = {}
+    for item in products:
+        temp[item] = ProductImage.objects.filter(product_id=item.id).first()
+        if temp[item] is None:  # if no image is found
+            temp[item] = "static/images/no-image-found.png"  # default.
+
+    products = temp
+    context = {"products": products}
+    return render(request, 'shop/shop.html', context)
+
 
 
 def product(request, product_id):

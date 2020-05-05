@@ -1,12 +1,7 @@
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/shop/shop.css' %}">
-
-
-
-    <a href="#">
+ <a href="{{ request.path }}{{ product.id }}">
         <div class="col">
             <div class="card my-2">
-                <img src="{{ product.productImage }}" alt="image">
+                <img class="img-fluid" src="../{{ image }}" alt="{{ product.name }}">
                 <div class="card-title">{{ product.name }}</div>
                 <div class="card-text">{{ product.short_description }}</div>
             </div>
