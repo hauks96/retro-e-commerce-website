@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1> THIS IS THE PRODUCT PAGE<h1>
-    <p> We want to load data for a specific product ID from the product table here</p>
-
+    <div class="container border border-dark rounded mb-3">
+        {{ product }}
+        <img src="../../{{ image }}" alt="{{ product.name }}">
+    </div>
 {% endblock %}
