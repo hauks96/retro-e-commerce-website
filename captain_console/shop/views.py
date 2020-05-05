@@ -1,74 +1,85 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 from shop.models import Product  # imports products
+from shop.models import ProductImage
+
+
 # Create your views here.
-from user.models import User
 
 
 def shop(request):
     context = {}
+    data = []
     if 'search_filter' in request.GET:
         search = request.GET['search_filter']
 
         if 'by_name' in request.GET:
             by_name = request.GET['by_name']  # Asc or Desc
             if by_name == 'asc':
-                context["products"] = Product.objects.filter(name__icontains=search).order_by('-name')
+                data = Product.objects.filter(name__icontains=search).order_by('-name')
             else:
-                context["products"] = Product.objects.filter(name__icontains=search).order_by('name')
+                data = Product.objects.filter(name__icontains=search).order_by('name')
 
         elif 'by_price' in request.GET:
             by_price = request.GET['by_price']  # Asc or Desc
             if by_price == 'asc':
-                context["products"] = Product.objects.filter(name__icontains=search).order_by('-price')
+                data = Product.objects.filter(name__icontains=search).order_by('-price')
             else:
-                context["products"] = Product.objects.filter(name__icontains=search).order_by('price')
+                data = Product.objects.filter(name__icontains=search).order_by('price')
 
         else:
-            context["products"] = Product.objects.filter(name__icontains=search)
+            data = Product.objects.filter(name__icontains=search)
 
     if 'product_type' in request.GET:
         prod_type = request.GET['product_type']
-        if context:
-            for item in context['product']:
-                if item.type != prod_type:
+        if data:
+            for item in data:
+                if item.category != prod_type:
                     del item
 
         else:
             if 'by_name' in request.GET:
                 by_name = request.GET['by_name']  # Asc or Desc
                 if by_name == 'asc':
-                    context["products"] = Product.objects.filter(type=prod_type).order_by('-name')
+                    data = Product.objects.filter(category=prod_type).order_by('-name')
                 else:
-                    context["products"] = Product.objects.filter(type=prod_type).order_by('name')
+                    data = Product.objects.filter(category=prod_type).order_by('name')
 
             elif 'by_price' in request.GET:
                 by_price = request.GET['by_price']  # Asc or Desc
                 if by_price == 'asc':
-                    context["products"] = Product.objects.filter(type=prod_type).order_by('-price')
+                    data = Product.objects.filter(category=prod_type).order_by('-price')
                 else:
-                    context["products"] = Product.objects.filter(type=prod_type).order_by('price')
+                    data = Product.objects.filter(category=prod_type).order_by('price')
 
             else:
-                context['product'] = Product.objects.filter(type=prod_type)
+                data = Product.objects.filter(category=prod_type)
 
     elif 'by_name' in request.GET:
         by_name = request.GET['by_name']  # Asc or Desc
         if by_name == 'asc':
-            context['product'] = Product.objects.all().order_by('-name')
+            data = Product.objects.all().order_by('-name')
         else:
-            context['product'] = Product.objects.all().order_by('name')
+            data = Product.objects.all().order_by('name')
 
     elif 'by_price' in request.GET:
         by_price = request.GET['by_price']  # Asc or Desc
         if by_price == 'asc':
-            context["products"] = Product.objects.all().order_by('-price')
+            data = Product.objects.all().order_by('-price')
         else:
-            context["products"] = Product.objects.all().order_by('price')
+            data = Product.objects.all().order_by('price')
 
     else:
-        context['products'] = Product.objects.all()
+        data = Product.objects.all()
 
-    return render(request, 'shop/shop.html', context)
+    products = [{
+        'id': x.id,
+        'name': x.name,
+        'category': x.category.name,
+        'price': x.price,
+        'image': ProductImage.objects.filter(product_id=x.id).first().image
+    } for x in data]
+    return JsonResponse({'products': products})
 
 
 def product(request, product_id):
