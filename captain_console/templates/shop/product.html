@@ -1,10 +1,40 @@
 {% extends 'base.html' %}
+<!-- todo: import static css-->
 {% block content %}
-    <div class="container border border-dark rounded mb-3">
-        {{ product.name }}
-        {{ product.price }}
-        {{ product.long_description }}
-        {{ product.name }}
-        <div class="imageBox"><img src="{{ image }}" alt="{{ product.name }}"></div>
+    <div class="container border border-dark rounded mb-3 bg-white">
+    <div class="row">
+        <!-- product image and title -->
+        <div class="col col-sm-12 col-md-4 col-xs-12">
+            <div class="card">
+                <div class="card-img-top">
+                    <img class="img-fluid" src="{{ image }}" alt="{{ product.name }}">
+                    {% if product.discount != 0 %}
+                        <div class="push-bottom card-img-overlay w-100 p-0 text-center text-uppercase">
+                            <div class="py-2 bg-success w-100"><b>{{ product.discount }}% discount</b></div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <div class="card-title">
+                        <h1 class="text-center">{{ product.name }}</h1>
+                    </div>
+                    <!-- todo: add all images related to product -->
+                </div>
+            </div>
+        </div>
+        <!-- product body -->
+        <div class="col col-md-4 col-sm-12 col-xs-12">
+            <p class="pt-2"><b>Price:</b> ${{ product.price }}</p>
+            <p>{{ product.long_description }}</p>
+            <div class="float-left">
+                <!-- todo: replace with actual buy button -->
+                <button class="btn-success" value="temp button">temp button</button>
+            </div>
+        </div>
+        <!-- related products -->
+        <div class="col col-md-4 col-sm-12 col-xs-12">
+            <!-- todo: get related products(max 5)-->
+        </div>
+    </div>
     </div>
 {% endblock %}
