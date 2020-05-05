@@ -97,10 +97,21 @@ def shop(request):
 
 
 def product(request, product_id):
-    # fetch product data or return 404
-    # if user.is_authenticated -> save search to search hisory model
+    # if user.is_authenticated -> save search to search history model
     # load product details page
-    return render(request, 'shop/product.html')
+    # todo: add to search history if authenticated
+
+    try:
+        product = Product.objects.get(pk=product_id)
+    except Product.DoesNotExist:
+        pass    # todo: reroute to 404 page
+        return render(request, 'shop/product.html')
+
+    image = ProductImage.objects.filter(product_id=product_id).first()
+    context = {'product': product,
+               'image': image
+               }
+    return render(request, 'shop/product.html', context)
 
 
 def add_to_basket(request):

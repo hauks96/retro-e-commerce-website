@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'backend/backendbase.html' %}
 {% block content %}
     <form action="{% url 'create_product' %}" method='POST'>
         {% csrf_token %}

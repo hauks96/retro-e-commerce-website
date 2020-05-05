@@ -1,0 +1,17 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/backend/backend.css' %}">
+
+<div class="singleProducts">
+        <div class="productInfoBox">
+            <div class="productName"><h3>Product name: {{product.name}}</h3></div>
+            <div class="productInfoHeader"><h4>Product price: {{product.price}}$</h4></div>
+            <div class="productInfoHeader"><h4>Category: {{product.category}}</h4></div>
+            <div class="productInfoHeader"><h4>Product short description: {{product.short_description}}</h4></div>
+            <div class="productInfoHeader"><h4>Product long description: {{product.long_description}}</h4></div>
+            <div class="productInfoHeader"><h4>Enabled: {{product.enabled}}</h4></div>
+        </div>
+</div>
+    <div class="buttonBoxes">
+        <div class="button"><a class="buttonEffect" href="{% url 'update_product' product.id %}"> Update product</a></div>
+        <div class="button"><a class="buttonEffect" href="{% url 'delete_product' product.id%}"> Remove product</a></div>
+    </div>
