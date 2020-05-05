@@ -9,6 +9,8 @@ from shop.models import Product
 
 # Create your views here.
 
+#Product views
+
 def backend(request):
     if request.method == "GET":
         # if logged in fetch users cart
@@ -46,3 +48,7 @@ def delete_product(request, id):
     product = get_object_or_404(Product, pk=id)
     product.delete()
     return redirect('backend_index')
+
+#User views here
+
+

@@ -1,8 +1,11 @@
 .button {
-    margin-right: 10px;
-    margin-bottom: 20px;
+    /*margin-right: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;*/
+    margin: auto;
 }
 .buttonEffect {
+
     color: #20bf6b !important;
 text-transform: uppercase;
 background: #ffffff;
@@ -30,16 +33,62 @@ transition: all 0.3s ease 0s;
 }
 
 .productImage {
-    height: 300px;
-    width: 300px;
+    height: 100px;
+    width: 100px;
 }
 
 .productName {
-
+    margin-right: 50px;
 }
 
 .productInfoBox {
-    margin-left: 50px;
+    display: flex;
+}
+
+.productBox {
+    background-color: lightblue;
+    width: 90%;
+    margin: auto;
     display: flex;
     flex-direction: column;
 }
+
+.productInfoHeader {
+    margin-right: 50px;
+}
+
+#productSearch, #allProducts {
+    margin-left: 5%;
+}
+
+#createButton {
+    margin-right: 5%;
+    margin-bottom: 10px;
+}
+
+table {
+    table-layout: auto;
+    width: 90%;
+    margin: auto;
+    background-color: lightgrey;
+    border-collapse: collapse;
+}
+
+td, th {
+  border: 1px solid #999;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+th {
+    background-color: #99CCFF;
+}
+
+td {
+    background-color: #FFFFFF;
+}
+
+tbody tr:hover {
+  background: yellow;
+}
+

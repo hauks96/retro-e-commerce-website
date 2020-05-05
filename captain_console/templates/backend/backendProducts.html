@@ -1,12 +1,40 @@
-{% extends 'base.html' %}
+{% extends 'backend/backendbase.html' %}
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/backend/backend.css' %}">
 {% block content %}
-    <h1> THIS IS THE BACKEND PAGE</h1>
-    <div class="button" align="right"><a class="buttonEffect" href="{% url 'create_product' %}"> Create product</a></div>
-    <div class="products">
+    <script src='http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.js'></script>
+    <div id="allProducts"><h1> All products</h1></div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="{% static 'js/backendProducts.js' %}"></script>
+    <input type="search" id="productSearch" placeholder="Filter by Name">
+    <div id="createButton"><div id="button" align="right"><a class="buttonEffect" href="{% url 'create_product' %}"> Add new product</a></div></div>
+
+    <table class="productTable">
+        <thead>
+            <tr>
+                <th>Product name</th>
+                <th>Product ID</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Short description</th>
+                <th>Operations</th>
+            </tr>
+        </thead>
         {% for product in products %}
-            {% include 'backend/backendSingleProduct.html' with products=products %}
-            {% endfor %}
-    </div>
+        <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.id }}</td>
+            <td>{{ product.price }}</td>
+            <td>{{ product.category }}</td>
+            <td>{{product.short_description}}</td>
+            <td><div class="buttonBoxes">
+                    <div class="button"><a class="buttonEffect" href="{% url 'update_product' product.id %}"> Update product</a></div>
+                    <div class="button"><a class="buttonEffect" href="{% url 'delete_product' product.id%}"> Remove product</a></div>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
 {% endblock %}
+
