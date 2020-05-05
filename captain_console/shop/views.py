@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from shop.models import Product, ProductImage
 # Create your views here.
@@ -100,18 +100,10 @@ def product(request, product_id):
     # if user.is_authenticated -> save search to search history model
     # load product details page
     # todo: add to search history if authenticated
-
-    try:
-        product = Product.objects.get(pk=product_id)
-    except Product.DoesNotExist:
-        pass    # todo: reroute to 404 page
-        return render(request, 'shop/product.html')
-
-    image = ProductImage.objects.filter(product_id=product_id).first()
-    context = {'product': product,
-               'image': image
-               }
-    return render(request, 'shop/product.html', context)
+    if request.method == 'GET':
+        instance = get_object_or_404(Product, pk=product_id)
+        image = ProductImage.objects.filter(product_id=product_id).first()
+        return render(request, 'shop/product.html', {'product': instance, 'image': image})
 
 
 def add_to_basket(request):

@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="container border border-dark rounded mb-3">
-        {{ product }}
-        <img src="../../{{ image }}" alt="{{ product.name }}">
+        {{ product.name }}
+        {{ product.price }}
+        {{ product.long_description }}
+        {{ product.name }}
+        <div class="imageBox"><img src="{{ image }}" alt="{{ product.name }}"></div>
     </div>
 {% endblock %}

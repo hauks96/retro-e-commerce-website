@@ -40,7 +40,7 @@ def update_product(request, id):
         form = productUpdateForm(data=request.POST, instance=instance)
         if form.is_valid():
             form.save()
-            return redirect('backendProduct', id=id)
+            return redirect('backend_product', id=id)
     else:
         form = productUpdateForm(instance=instance)
     return render(request, 'backend/updateProduct.html', {'form': form, 'id':id})
