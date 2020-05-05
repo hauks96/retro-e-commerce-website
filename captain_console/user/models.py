@@ -17,13 +17,13 @@ class Address(models.Model):
 
 class User(AbstractUser):
     username = models.CharField(max_length=12, unique=True)
-    password = models.CharField(max_length=999, default="test123")
+    password = models.CharField(max_length=999)
     email = models.EmailField(unique=True)
-    first_name = models.CharField(max_length=32, help_text="Enter first name")
-    last_name = models.CharField(max_length=32, help_text="Enter last name")
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, blank=True)
-    address = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True)
-    image = models.CharField(max_length=999, default='Set a default image')
+    first_name = models.CharField(max_length=32, default="", help_text="Enter first name", null=True)
+    last_name = models.CharField(max_length=32,  default="", help_text="Enter last name", null=True)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, blank=True, null=True)
+    address = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True, null=True)
+    image = models.CharField(max_length=999, default='static/images/base_cover.png')
     enabled = models.BooleanField(default=True)
 
     USERNAME_FIELD = 'username'
