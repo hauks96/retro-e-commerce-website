@@ -13,7 +13,7 @@
         <thead>
             <tr>
                 <th>Username</th>
-                <th>Password ID</th>
+                <th>Password</th>
                 <th>Email</th>
                 <th>First name</th>
                 <th>Last name</th>
@@ -36,8 +36,8 @@
             <td>{{ user.image }}</td>
             <td>{{ user.enabled }}</td>
             <td><div class="buttonBoxes">
-                    <div class="button"><a class="buttonEffect" href="{% url 'update_user' user.id %}"> Update user</a></div>
-                    <div class="button"><a class="buttonEffect" href="{% url 'delete_user' user.id%}"> Remove user</a></div>
+                    <div class="button"><a class="buttonEffect" href="#"> Update user</a></div>
+                    <div class="button"><a class="buttonEffect" href="#"> Remove user</a></div>
                 </div>
             </td>
         </tr>

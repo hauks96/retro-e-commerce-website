@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from backend.forms.product_form import productCreateForm, productUpdateForm
 from shop.models import ProductImage
 from shop.models import Product
+from user.models import Address, User
 
 # Create your views here.
 
@@ -51,4 +52,7 @@ def delete_product(request, id):
 
 #User views here
 
+def backend_users(request):
+    if request.method == "GET":
+        return render(request, 'backend/backendUsers.html', context={"users": User.objects.all()})
 
