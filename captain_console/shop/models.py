@@ -33,7 +33,7 @@ class Product(models.Model):
         return self.name
 
 
-# can be called with ProductImages.objects.filter(product=product_id) to fetch all product images
+# can be called with ProductImage.objects.filter(product=product.id) to fetch all product images
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     image = models.CharField(max_length=999)

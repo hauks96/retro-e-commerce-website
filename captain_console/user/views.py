@@ -21,11 +21,6 @@ def login(request):
         return render(request, "user/login.html")
 
 
-@login_required
-def logout(request):
-    return
-
-
 def register(request):
     context = {}
     if request.method == "POST":
