@@ -2,11 +2,11 @@
 {% block content %}
     <!-- sidebar -->
     <div class="row w-75 mx-auto">
-    <div class="col-3 bg-primary">
+    <div class="col-3 bg-white">
     {% include 'shop/sidebar.html' %}
     <!-- feed -->
     </div>
-    <div class="col-9 bg-danger">
+    <div class="col-9 bg-white">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-3">
     {% for product, image in products.items %}
         {% include 'shop/single_product.html' with products=products %}

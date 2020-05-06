@@ -1,9 +1,23 @@
- <a href="{{ request.path }}{{ product.id }}">
+
         <div class="col">
             <div class="card my-2">
-                <img class="img-fluid" src="../{{ image }}" alt="{{ product.name }}">
-                <div class="card-title">{{ product.name }}</div>
-                <div class="card-text">{{ product.short_description }}</div>
+                 <a href="{{ request.path }}{{ product.id }}">
+                 <div class="card-img-top">
+                    <img class="img-fluid" src="{{ image }}" alt="{{ product.name }}">
+                     {% if product.discount != 0 %}
+                        <div class="push-bottom card-img-overlay w-100 p-0 text-center text-uppercase">
+                            <div class="py-2 bg-success w-100 text-dark"><b>{{ product.discount }}% discount</b></div>
+                        </div>
+                     {% endif %}
+                 </div>
+                    <div class="card-title text-center border-bottom border-dark"><b>{{ product.name }}</b></div>
+                 </a>
+                <div class="card-text px-1">
+                    <p>{{ product.short_description }}</p>
+                    <div class="btn-group">
+                        <button class="bg-success">temp btn</button>
+                        <b>${{ product.price }}</b>
+                    </div>
+                </div>
             </div>
         </div>
-    </a>
