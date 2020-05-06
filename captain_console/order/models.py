@@ -17,3 +17,5 @@ class Order(models.Model):
     def null_cart(self):
         self.order_items.empty_cart()
         return
+
+

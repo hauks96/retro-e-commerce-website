@@ -4,9 +4,11 @@ from django.urls import reverse
 import json
 
 from shop.forms import AddToCart
-from shop.models import Product, ProductImage
 from user.models import User
 from cart.models import CartItem
+from shop.models import Product, ProductImage, Tag
+
+
 # Create your views here.
 
 
@@ -111,22 +113,36 @@ def shop(request):
 
 
 
-
 def product(request, product_id):
     # if user.is_authenticated -> save search to search history model
     # load product details page
     # todo: add to search history if authenticated
     if request.method == 'GET':
+
         instance = get_object_or_404(Product, pk=product_id)
         image = ProductImage.objects.filter(product_id=product_id).first()
+        tags = Tag.objects.filter(product_id=product_id)
+        relatedProducts = []
+        # todo: make a better searcher for related tags
+        for count, tag in enumerate(tags):
+            innerList = []
+            if count == 5:  # we dont want more than 5 items
+                break
+            innerList.append(Product.objects.filter(tag__tag__icontains=tag))
+            # get pictures of related products
+            innerList.append(ProductImage.objects.filter(product_id=innerList[0][0].pk).first())
+            relatedProducts.append(innerList)
+
         # calculate discounted price
         if instance.discount == 0:
             finalPrice = instance.price
         else:
-            finalPrice = instance.price * (100-instance.discount)/100
+            finalPrice = instance.price * (100 - instance.discount) / 100
         return render(request, 'shop/product.html', {'product': instance,
                                                      'image': image,
-                                                     'finalPrice': finalPrice})
+                                                     'tags': tags,
+                                                     'finalPrice': finalPrice,
+                                                     'relatedProducts': relatedProducts})
 
 
 def add_to_basket(request, product_id):
