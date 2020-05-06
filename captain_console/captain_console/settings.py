@@ -58,8 +58,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'captain_console.urls'
 
-SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
-# https://docs.djangoproject.com/en/3.0/topics/http/sessions/#configuring-sessions
 
 TEMPLATES = [
     {

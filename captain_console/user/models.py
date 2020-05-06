@@ -11,7 +11,7 @@ class Address(models.Model):
     address = models.CharField(max_length=32, blank=True, default="")
     country = models.CharField(max_length=32, blank=True, default="")
     city = models.CharField(max_length=32, blank=True, default="")
-    postal_code = models.CharField(max_length=12, blank=True, default="")  # Maybe make CharField
+    postal_code = models.CharField(max_length=12, blank=True, default="")
     note = models.CharField(max_length=32, blank=True, default="")
 
 
@@ -52,6 +52,10 @@ class User(AbstractUser):
         return self.cart.get_products()
 
 
+
+
+class UserHistory(models.Model):
+    pass
 """
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
