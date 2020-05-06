@@ -101,7 +101,8 @@ def shop(request):
     context = {"products": products}
     response = render(request, 'shop/shop.html', context)
     if 'cart' not in request.COOKIES:
-        response.set_cookie('cart', {})
+        response.set_cookie('cart', "")
+
     return response
 
 
@@ -160,16 +161,40 @@ def add_to_basket(request):
                 cart_item.save()
                 response = redirect('/shop/' + str(product_id) + '/')
             else:
-                cookie_cart = request.COOKIES['cart']
-                cart_dict = json.loads(cookie_cart)
-                if product_id in cart_dict:
-                    cart_dict[product_id] += quantity
+                try:
+                    cookie_cart = request.COOKIES['cart']
+                except KeyError:
+                    cookie_cart = ""
+
+                if cookie_cart == "":
+                    cart_dict = {str(product_id): str(quantity)}
+
                 else:
-                    cart_dict[product_id] = quantity
+                    cookie_items = cookie_cart.split(' ')
+                    cart_dict = {}
+
+                    for item in cookie_items:
+                        if not item:
+                            del item
+                        else:
+                            curr_item = item.split(":")
+                            cart_dict[curr_item[0]] = int(curr_item[1])
+
+                    if str(product_id) in cart_dict:
+                        cart_dict[str(product_id)] += quantity
+                        curr_quantity = cart_dict[str(product_id)]
+                        cart_dict[str(product_id)] = str(curr_quantity)
+                    else:
+                        cart_dict[str(product_id)] = str(quantity)
+
+                cart_product_ids = list(cart_dict.keys())
+                cookie_string = ""
+                for i in range(len(cart_product_ids)):
+                    cookie_string += cart_product_ids[i]+":"+cart_dict[cart_product_ids[i]]+" "
 
                 #  return HttpResponse('<h1>' + str(cart_dict) + '</h1>')
-                request.COOKIES['cart'] = cart_dict
                 response = redirect('/shop/'+str(product_id)+'/')
-                response.set_cookie('cart', cart_dict)
+                response.set_cookie('cart', cookie_string)
 
             return response
+
