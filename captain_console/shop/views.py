@@ -190,7 +190,7 @@ def add_to_basket(request):
                 cart_product_ids = list(cart_dict.keys())
                 cookie_string = ""
                 for i in range(len(cart_product_ids)):
-                    cookie_string += cart_product_ids[i]+":"+cart_dict[cart_product_ids[i]]+" "
+                    cookie_string += cart_product_ids[i]+":"+str(cart_dict[cart_product_ids[i]])+" "
 
                 #  return HttpResponse('<h1>' + str(cart_dict) + '</h1>')
                 response = redirect('/shop/'+str(product_id)+'/')
