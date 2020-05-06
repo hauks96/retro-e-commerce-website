@@ -28,20 +28,15 @@ def register(request):
     if request.method == "POST":
         form = UserRegistrationForm(data=request.POST)
         if form.is_valid():
-            username = form.cleaned_data.username
-            user = User.objects.get(username=username)
-            address = Address()
-            cart = Cart()
-            user.cart = cart
-            user.address = address
-            user.save()
             form.save()
-            username = form.username
+            username = form.cleaned_data['username']
             user = User.objects.get(username=username)
             address = Address()
-            user.address = address
+            address.save()
             cart = Cart()
+            cart.save()
             user.cart = cart
+            user.address = address
             user.save()
             return redirect('login')
         else:
