@@ -3,14 +3,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import UserRegistrationForm, ProfileForm, AddressForm, ProfilePicForm
 from django.contrib.auth import authenticate
-from .models import User
-from .models import Address
+from .models import User, Address
 from cart.models import Cart
 
 # Create your views here.
 
 
 # login page view ( user/login )
+
 
 
 def login(request):
@@ -28,6 +28,13 @@ def register(request):
     if request.method == "POST":
         form = UserRegistrationForm(data=request.POST)
         if form.is_valid():
+            username = form.cleaned_data.username
+            user = User.objects.get(username=username)
+            address = Address()
+            cart = Cart()
+            user.cart = cart
+            user.address = address
+            user.save()
             form.save()
             username = form.username
             user = User.objects.get(username=username)

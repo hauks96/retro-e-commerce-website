@@ -43,9 +43,24 @@
             <p>{{ product.long_description }}</p>
             <div class="float-left">
                 <!-- todo: replace with actual buy button -->
-                <button class="btn-success" value="temp button">temp button</button>
+                <form method="POST" action="{% url 'add-cart' %}">
+                {% csrf_token %}
+                    <div class="form-group">
+                         <div class="input-group"><b>{{ form.product_quantity.label_tag }}</b></div>
+                        {{ form.product_quantity }}
+                        {% if form.errors %}
+                            {% for error in form.product_quantity.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        {% endif %}
+                        {{ form.product_id }}
+                    </div>
+
+                <button type="submit" value="submit" class="btn btn-success">Add to cart</button>
+                </form>
             </div>
         </div>
+
         <!-- related products -->
         <div class="col col-md-4 col-sm-12 col-xs-12">
             <div class="card">
