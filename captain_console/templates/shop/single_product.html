@@ -1,5 +1,5 @@
 
-        <div class="col">
+        <div id="card" class="col">
             <div class="card my-2">
                  <a href="{{ request.path }}{{ product.id }}">
                  <div class="card-img-top">
@@ -10,7 +10,7 @@
                         </div>
                      {% endif %}
                  </div>
-                    <div class="card-title text-center border-bottom border-dark"><b>{{ product.name }}</b></div>
+                    <div id="test" class="card-title text-center border-bottom border-dark"><b>{{ product.name }}</b></div>
                  </a>
                 <div class="card-text px-1">
                     <p>{{ product.short_description }}</p>
