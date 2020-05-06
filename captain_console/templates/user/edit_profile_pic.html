@@ -3,7 +3,7 @@
     <div class="container" id="edit-window">
         <legend>Profile picture:</legend>
         <div class="container" id="form">
-            <form action="{% url 'edit-person' %}" method="POST">
+            <form action="{% url 'edit-profile-pic' %}" method="POST">
             {% csrf_token %}
             {% for field in form %}
                 <div class="form-group">

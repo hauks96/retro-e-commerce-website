@@ -92,7 +92,7 @@ def address_edit(request):
     if request.method == "POST":
         form = AddressForm(instance=address, data=request.POST)
         if form.is_valid():
-            print(form.is_valid())
+            #print(form.is_valid())
             form.save()
             return redirect('profile-index')
         else:
@@ -101,24 +101,23 @@ def address_edit(request):
     context['form'] = form
     return render(request, 'user/edit_address.html', context)
 
+@login_required()
 def change_profile_pic(request):
     user_id = request.user.id  # Users id from django auth
-    user = get_object_or_404(User, pk=user_id)  # User instance
+    user = User.objects.get(id=user_id)  # User instance  # User instance
     form = ProfilePicForm(instance=user)
+    #print(form)
     if request.method == "POST":
         form = ProfilePicForm(data=request.POST, instance=user)
+        #print(form)
         if form.is_valid():
+            #print(form.is_valid())
             form.save()
-            user.image = form.cleaned_data['image']
-            user.save()
             return redirect('profile-index')
         else:
-            #context['form'] = form
             form = ProfilePicForm(instance=user)
-            return redirect("home/home.html")
 
-    #context['form'] = form
-    return render(request, 'user/edit_address.html', {'form': form})
+    return render(request, 'user/edit_profile_pic.html', {'form': form})
 
 @login_required()
 def search_history():
