@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator
 from django.db import models
 from shop.models import Product
 from django.contrib.sessions.models import Session
@@ -7,9 +8,35 @@ from django.contrib.sessions.models import Session
 
 
 # This models data is to be saved to the session when a user adds something to basket and isn' logged in
+
+
+class Cart(models.Model):
+
+    def empty_cart(self):
+        self.cart_items.null()
+
+    def get_total_price(self):
+        total_price = 0
+        for item in self.cart_items:
+            total_price += item.item_total_price()
+
+    def get_products(self):
+        product_list = []
+        for item, i in enumerate(iterable=self.cart_items.all(), start=1):
+            product_list.append({
+                'List number': i,
+                'Name': item.product.name,
+                'Quantity': item.product_quantity,
+                'Unit price': item.product.price,
+                'Total item price': item.item_total_price(),
+            })
+        return product_list
+
+
 class CartItem(models.Model):
-    product = models.OneToOneField(Product, on_delete=models.SET_NULL, null=True)
-    product_quantity = models.IntegerField(default=1)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
+    product_quantity = models.IntegerField(default=1, validators=[MinValueValidator(1)])
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, null=True)
 
     def item_total_price(self):
         unit_price = self.product.price
@@ -43,27 +70,3 @@ class CartItem(models.Model):
             'Total item price': self.item_total_price(),
         })
         return session_cart
-
-
-class Cart(models.Model):
-    cart_items = models.ManyToManyField(CartItem, blank=True)
-
-    def empty_cart(self):
-        self.cart_items.null()
-
-    def get_total_price(self):
-        total_price = 0
-        for item in self.cart_items:
-            total_price += item.item_total_price()
-
-    def get_products(self):
-        product_list = []
-        for item, i in enumerate(iterable=self.cart_items.all(), start=1):
-            product_list.append({
-                'List number': i,
-                'Name': item.product.name,
-                'Quantity': item.product_quantity,
-                'Unit price': item.product.price,
-                'Total item price': item.item_total_price(),
-            })
-        return product_list

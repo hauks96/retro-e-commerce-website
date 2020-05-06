@@ -12,14 +12,7 @@ from shop.models import Product, ProductImage, Tag
 # Create your views here.
 
 
-
 def shop(request):
-    cookie_allowed = False
-    if request.session.test_cookie_worked():
-        request.session.delete_test_cookie()
-        cookie_allowed = True
-    else:
-        return HttpResponse("Please enable cookies and try again.")
     context = {}
     data = []
     if 'search_filter' in request.GET:
@@ -107,10 +100,9 @@ def shop(request):
     products = temp
     context = {"products": products}
     response = render(request, 'shop/shop.html', context)
-    if cookie_allowed:
+    if 'cart' not in request.COOKIES:
         response.set_cookie('cart', {})
     return response
-
 
 
 def product(request, product_id):
@@ -138,36 +130,46 @@ def product(request, product_id):
             finalPrice = instance.price
         else:
             finalPrice = instance.price * (100 - instance.discount) / 100
-        return render(request, 'shop/product.html', {'product': instance,
+
+        form = AddToCart(initial={'product_quantity': 1, 'product_id': product_id})
+
+        return render(request, 'shop/product.html', {'form': form,
+                                                     'product': instance,
                                                      'image': image,
                                                      'tags': tags,
                                                      'finalPrice': finalPrice,
                                                      'relatedProducts': relatedProducts})
 
 
-def add_to_basket(request, product_id):
+def add_to_basket(request):
     """Cart items in session are stored as prod_id: quantity"""
-    current_product = Product.objects.get(product_id)
     if request.method == "POST":
         form = AddToCart(data=request.POST)
         if form.is_valid():
-            quantity = form.cleaned_data('product_quantity')
-
+            quantity = form.cleaned_data['product_quantity']
+            product_id = form.cleaned_data['product_id']
+            current_product = Product.objects.get(id=product_id)
             if request.user.is_authenticated:
                 user = User.objects.get(id=request.user.id)
-                cart_item = CartItem(product=current_product, quantity=quantity)
                 cart = user.cart
-                cart.add(cart_item)
-
+                try:
+                    cart_item = CartItem.objects.get(product=product_id, cart=cart.id)
+                    cart_item.product_quantity += 1
+                except CartItem.DoesNotExist:
+                    cart_item = CartItem(product=current_product.id, quantity=quantity, cart=cart.id)
+                cart_item.save()
+                response = redirect('/shop/' + str(product_id) + '/')
             else:
-                cookie_cart = request.session.get('cart')
+                cookie_cart = request.COOKIES['cart']
                 cart_dict = json.loads(cookie_cart)
                 if product_id in cart_dict:
                     cart_dict[product_id] += quantity
                 else:
                     cart_dict[product_id] = quantity
 
-                request.session['cart'] = cart_dict
+                #  return HttpResponse('<h1>' + str(cart_dict) + '</h1>')
+                request.COOKIES['cart'] = cart_dict
+                response = redirect('/shop/'+str(product_id)+'/')
+                response.set_cookie('cart', cart_dict)
 
-            return HttpResponseRedirect(reverse('product-index', args=product_id))
-        return HttpResponseNotFound('<h1>A critical error occurred saving your item to basket</h1>')
+            return response
