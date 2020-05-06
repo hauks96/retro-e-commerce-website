@@ -103,7 +103,14 @@ def product(request, product_id):
     if request.method == 'GET':
         instance = get_object_or_404(Product, pk=product_id)
         image = ProductImage.objects.filter(product_id=product_id).first()
-        return render(request, 'shop/product.html', {'product': instance, 'image': image})
+        # calculate discounted price
+        if instance.discount == 0:
+            finalPrice = instance.price
+        else:
+            finalPrice = instance.price * (100-instance.discount)/100
+        return render(request, 'shop/product.html', {'product': instance,
+                                                     'image': image,
+                                                     'finalPrice': finalPrice})
 
 
 def add_to_basket(request):

@@ -24,7 +24,11 @@
         </div>
         <!-- product body -->
         <div class="col col-md-4 col-sm-12 col-xs-12">
-            <p class="pt-2"><b>Price:</b> ${{ product.price }}</p>
+            {% if product.discount == 0 %}
+                <p class="pt-2"><b>Price: </b>${{ finalPrice }}</p>
+                {% else %}
+                <p class="pt-2"><b>Price: </b>$<s>{{ product.price }}</s> <b class="text-monospace">${{ finalPrice }}</b></p>
+            {% endif %}
             <p>{{ product.long_description }}</p>
             <div class="float-left">
                 <!-- todo: replace with actual buy button -->
@@ -33,7 +37,7 @@
         </div>
         <!-- related products -->
         <div class="col col-md-4 col-sm-12 col-xs-12">
-            <!-- todo: get related products(max 5)-->
+            <!-- todo: get related products(max 5), add tags to model-->
         </div>
     </div>
     </div>
