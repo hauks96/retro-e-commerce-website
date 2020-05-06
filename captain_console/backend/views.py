@@ -56,3 +56,20 @@ def backend_users(request):
     if request.method == "GET":
         return render(request, 'backend/backendUsers.html', context={"users": User.objects.all()})
 
+
+#TODO def create_user(request):
+
+"""def update_user(request, id):
+    user = get_object_or_404(User, pk=id)
+    if request.method == "POST":
+        form = userUpdateForm(data=request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect('backend_product', id=id)
+    else:
+        form = productUpdateForm(instance=instance)
+    return render(request, 'backend/updateProduct.html', {'form': form, 'id':id})"""
+
+
+
+
