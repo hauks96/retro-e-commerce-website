@@ -46,5 +46,5 @@ class ProfilePicForm(forms.ModelForm):
         exclude = ['id', 'last_login', 'is_superuser', 'is_staff', 'is_active', 'date_joined', 'username', 'password',
                    'email', 'first_name', 'last_name', 'enabled', 'address', 'cart', 'user_permissions', 'groups']
         widgets = {
-            'image': widgets.URLInput(attrs={'class': 'form-control'}),
+            'image': widgets.URLInput(attrs={'class': 'form-control'}, ),
         }
