@@ -10,4 +10,5 @@ urlpatterns = [
     path('update_product/<int:id>', views.update_product, name='update_product'),
     #user urls
     path('users', views.backend_users, name='backend_users'),
+    #path('create_user', views.create_user, name='create_user')
 ]
