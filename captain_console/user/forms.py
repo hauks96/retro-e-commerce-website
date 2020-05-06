@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import User, Address
 from cart.models import Cart
+from django.forms import widgets
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -35,5 +36,15 @@ class ProfileForm(forms.ModelForm):
 class AddressForm(forms.ModelForm):
     class Meta:
         model = Address
-        exclude = ['id']
+        exclude = ['id', ]
         fields = ['address', 'country', 'city', 'postal_code', 'note']
+
+
+class ProfilePicForm(forms.ModelForm):
+    class Meta:
+        model = User
+        exclude = ['id', 'last_login', 'is_superuser', 'is_staff', 'is_active', 'date_joined', 'username', 'password',
+                   'email', 'first_name', 'last_name', 'enabled', 'address', 'cart', 'user_permissions', 'groups']
+        widgets = {
+            'image': widgets.URLInput(attrs={'class': 'form-control'}),
+        }

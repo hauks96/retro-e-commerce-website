@@ -1,9 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
-from .forms import UserRegistrationForm, ProfileForm, AddressForm
+from .forms import UserRegistrationForm, ProfileForm, AddressForm, ProfilePicForm
 from django.contrib.auth import authenticate
 from .models import User
+from .models import Address
+from cart.models import Cart
 
 # Create your views here.
 
@@ -27,6 +29,13 @@ def register(request):
         form = UserRegistrationForm(data=request.POST)
         if form.is_valid():
             form.save()
+            username = form.username
+            user = User.objects.get(username=username)
+            address = Address()
+            user.address = address
+            cart = Cart()
+            user.cart = cart
+            user.save()
             return redirect('login')
         else:
             context['registration_form'] = form
@@ -76,6 +85,7 @@ def address_edit(request):
     if request.method == "POST":
         form = AddressForm(instance=address, data=request.POST)
         if form.is_valid():
+            print(form.is_valid())
             form.save()
             return redirect('profile-index')
         else:
@@ -84,6 +94,24 @@ def address_edit(request):
     context['form'] = form
     return render(request, 'user/edit_address.html', context)
 
+def change_profile_pic(request):
+    user_id = request.user.id  # Users id from django auth
+    user = get_object_or_404(User, pk=user_id)  # User instance
+    form = ProfilePicForm(instance=user)
+    if request.method == "POST":
+        form = ProfilePicForm(data=request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            user.image = form.cleaned_data['image']
+            user.save()
+            return redirect('profile-index')
+        else:
+            #context['form'] = form
+            form = ProfilePicForm(instance=user)
+            return redirect("home/home.html")
+
+    #context['form'] = form
+    return render(request, 'user/edit_address.html', {'form': form})
 
 @login_required()
 def search_history():

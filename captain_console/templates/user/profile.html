@@ -1,18 +1,37 @@
 {% extends 'user/base.html' %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/user/profile.css' %}">
 {% block content %}
-    <div id="search_history_btn_container">
-        <a href="{% url 'search-history' %}" class="btn btn-primary">Search History</a>
-    </div>
-    <div id="profile_image_container">
-        <img src="{{ user.image }}" class="rounded mx-auto d-block" alt="Supposed to be an image" id="profile_pic">
+<div class="container" id="mainContainer">
+    <div class="row" id="row1">
+        <div class="col-md-12">
+            <div id="myInfo">
+            </div>
+                <div id="search_history_btn_container">
+                    <a href="{% url 'search-history' %}" class="btn btn-primary">Search History</a>
+                </div>
+                <div id="profile_image_container">
+                    <img class='img-responsive' src="{{ user.image }}" alt="Supposed to be an image" id="profile_pic">
+                </div>
+                <div id="username">
+                    <b>{{user.username}}</b>
+                </div>
+                <div id="changePicButton">
+                    <a href=" {% url 'edit-profile-pic' %}" class="btn btn-primary">Change Profile Picture</a>
+                </div>
+
+        </div>
     </div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col" id="personalia">
-                <form id="user-form">
+
+    <div class="row">
+    </div>
+
+    <div class="row">
+        <div class="col-md-6" id="information">
+            <form id="user-form">
                     <fieldset id="user-fieldset" disabled="true">
-                        <legend>Personalia:</legend>
+                        <legend>My Information:</legend>
                         {% csrf_token %}
                         <lable for="first_name">First Name:</lable>
                         <div class="form-group">
@@ -29,9 +48,9 @@
                     </fieldset>
                 </form>
                  <a href="{% url 'edit-person' %}" class="btn btn-primary">Edit person</a>
-            </div>
+        </div>
 
-            <div class="col" id="address">
+            <div class="col-md-6" id="address">
                 <form id="address-form">
                     {% csrf_token %}
                     <fieldset id="address-fieldset" disabled="disabled">
@@ -58,9 +77,7 @@
                         </div>
                      </fieldset>
                 </form>
-                <a href="{% url 'edit-address' %}" class="btn btn-primary">Edit address</a>
+                <a href="{% url 'edit-address' %}" class="btn btn-primary" id="editAddressButton">Edit address</a>
             </div>
-        </div>
-     </div>
-
+    </div>
 {% endblock %}

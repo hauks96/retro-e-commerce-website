@@ -1,0 +1,48 @@
+#mainContainer {
+    background-color: white;
+    border-color: black;
+    border-width: thin;
+    border-style: solid;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+#profile_image_container {
+    text-align: center;
+}
+
+#changePicButton {
+    text-align: center;
+}
+
+#search_history_btn_container {
+    text-align: right;
+    margin-top: 20px;
+}
+
+#editAddressButton {
+    margin-bottom: 20px;
+}
+
+#profile_pic {
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+}
+
+#username {
+    text-align: center;
+    font-size: 28px;
+}
+
+#address {
+    text-align: center;
+}
+
+#information {
+    text-align: center;
+}
+
+#lol {
+    color: pink;
+}
