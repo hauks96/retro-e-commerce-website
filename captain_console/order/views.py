@@ -45,5 +45,5 @@ def summary(request):
     return render(request, 'order/summaryPage.html')
 
 
-def confirmation(request):
-    pass
+def success(request):
+    return render(request, 'order/confirmationPage.html')

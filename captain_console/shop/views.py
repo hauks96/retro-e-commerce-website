@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 import json
@@ -100,6 +100,7 @@ def add_to_basket(request):
             quantity = form.cleaned_data['product_quantity']
             product_id = form.cleaned_data['product_id']
             current_product = Product.objects.get(id=product_id)
+            """
             if request.user.is_authenticated:
                 user = User.objects.get(id=request.user.id)
                 cart = user.cart
@@ -111,39 +112,58 @@ def add_to_basket(request):
                 cart_item.save()
                 response = redirect('/shop/' + str(product_id) + '/')
             else:
-                try:
-                    cookie_cart = request.COOKIES['cart']
-                except KeyError:
-                    cookie_cart = ""
+            """
+            #  User is not logged so we add his cart items to a cookie called cart
+            try:
+                cookie_cart = request.COOKIES['cart']
+            except KeyError:
+                #  If cookie does not exist yet set default to empty string
+                cookie_cart = ""
 
-                if cookie_cart == "":
-                    cart_dict = {str(product_id): str(quantity)}
+            if cookie_cart == "":
+                cart_dict = {str(product_id): int(quantity)}
 
+            #  If there is content in the cookie string we create a dictionary from it's content
+            else:
+                cart_dict = render_dict_cookie(cookie_cart)
+                if str(product_id) in cart_dict:
+                    cart_dict[str(product_id)] += quantity
+                    curr_quantity = cart_dict[str(product_id)]
+                    cart_dict[str(product_id)] = str(curr_quantity)
                 else:
-                    cookie_items = cookie_cart.split(' ')
-                    cart_dict = {}
 
-                    for item in cookie_items:
-                        if not item:
-                            del item
-                        else:
-                            curr_item = item.split(":")
-                            cart_dict[curr_item[0]] = int(curr_item[1])
+                    cart_dict[str(product_id)] = str(quantity)
 
-                    if str(product_id) in cart_dict:
-                        cart_dict[str(product_id)] += quantity
-                        curr_quantity = cart_dict[str(product_id)]
-                        cart_dict[str(product_id)] = str(curr_quantity)
-                    else:
-                        cart_dict[str(product_id)] = str(quantity)
-
-                cart_product_ids = list(cart_dict.keys())
-                cookie_string = ""
-                for i in range(len(cart_product_ids)):
-                    cookie_string += cart_product_ids[i] + ":" + str(cart_dict[cart_product_ids[i]]) + " "
-
-                #  return HttpResponse('<h1>' + str(cart_dict) + '</h1>')
-                response = redirect('/shop/' + str(product_id) + '/')
-                response.set_cookie('cart', cookie_string)
+            cookie_string = render_string_cookie(cart_dict)
+            response = redirect('/shop/' + str(product_id) + '/')
+            response.set_cookie('cart', cookie_string)
 
             return response
+
+
+def render_dict_cookie(cookie_cart):
+    """Converts cookie to dictionary object.
+    key being a string representing the product id
+    value being an integer representing the product quantity"""
+    cookie_items = cookie_cart.split(' ')
+    cart_dict = {}
+
+    for item in cookie_items:
+        if not item:
+            del item
+        else:
+            curr_item = item.split(":")
+            cart_dict[curr_item[0]] = int(curr_item[1])
+
+    return cart_dict
+
+
+def render_string_cookie(cart_dict):
+    """Converts the cookie dictionary created in render_dict_cookie method back to a string to set as cookie value"""
+    cart_product_ids = list(cart_dict.keys())
+    cookie_string = ""
+    for i in range(len(cart_product_ids)):
+        cookie_string += cart_product_ids[i] + ":" + str(cart_dict[cart_product_ids[i]]) + " "
+
+    return cookie_string
+
