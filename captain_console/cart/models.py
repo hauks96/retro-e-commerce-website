@@ -1,3 +1,5 @@
+#OBSOLETE FILE - TO BE REMOVED
+
 from django.core.validators import MinValueValidator
 from django.db import models
 from shop.models import Product
@@ -13,7 +15,13 @@ from django.contrib.sessions.models import Session
 class Cart(models.Model):
 
     def empty_cart(self):
-        self.cart_items.null()
+        cart_items = CartItem.objects.all(cart=self.id)
+        for item in cart_items:
+            item.delete()
+
+    def remove_item(self, item_id):
+        cart_item = CartItem.objects.get(id=item_id)
+        cart_item.delete()
 
     def get_total_price(self):
         total_price = 0
@@ -22,7 +30,8 @@ class Cart(models.Model):
 
     def get_products(self):
         product_list = []
-        for item, i in enumerate(iterable=self.cart_items.all(), start=1):
+        cart_items = CartItem.objects.filter(cart=self.id)
+        for item, i in enumerate(iterable=cart_items, start=1):
             product_list.append({
                 'List number': i,
                 'Name': item.product.name,
@@ -41,32 +50,3 @@ class CartItem(models.Model):
     def item_total_price(self):
         unit_price = self.product.price
         return unit_price * self.product_quantity
-
-    # if not logged in
-    def update_session_data(self, session_cart: list, reorder=False) -> list:
-        """This function takes in current session data, appends this objects data to the fetched data,
-        and then returns the new data for the session. To update session set session[cart]=ret_data.
-        To reorder session numeration in case of cart modifications use reorder=True"""
-        if session_cart is None:
-            session_cart = []
-
-        if reorder:
-            cart_data = []
-            for item, i in enumerate(iterable=session_cart, start=1):
-                cart_data.append({
-                    'List number': i,
-                    'Name': item.product.name,
-                    'Quantity': item.product_quantity,
-                    'Unit price': item.product.price,
-                    'Total item price': item.item_total_price(),
-                })
-            session_cart = cart_data
-
-        session_cart.append({
-            'List number': len(session_cart) + 1,
-            'Name': self.product.name,
-            'Quantity': self.product_quantity,
-            'Unit price': self.product.price,
-            'Total item price': self.item_total_price(),
-        })
-        return session_cart

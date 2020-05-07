@@ -1,6 +1,75 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-    <h1> THIS IS THE CART PAGE<h1>
-    <p> We want to load data from the django session table here</p>
+    <div id="cart-container">
+    {% for form in forms %}
+        <div class="single-product-container">
+        <form class="form-inline" method="POST" action="{% url 'edit-cart-index' %}">
+            <div class="input-group mb-3">
+                 <img src="{{ form.image.value }}" alt="ImageNotFound" class="product-icon">
+             </div>
+            {% csrf_token %}
+            {% for field in form %}
+                 <div class="form-group">
+                     {% if not field.name == "product_id" and not field.name == "is_remove" and not field.name == "is_edit" and not field.name == "image" %}
+                         <div class="d-flex flex-column">
+                         <b>{{ field.label_tag }}</b>
+                         {% if field.name == "quantity" %}
+                             <div class="input-group mb-3">
+                                 {{ field }}
+                                 <div class="input-group-append">
+                                     <button class="btn btn-primary" type="submit">Save</button>
+                                </div>
+                            </div>
+                         {% else %}
+                             <div class="input-group mb-3">
+                            {{ field }}
+                             </div>
+                         {% endif %}
+                         </div>
+
+                        {% if form.errors %}
+                            {% for error in field.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        {% endif %}
+                     {% endif %}
+                </div>
+            {% endfor %}
+            <div class="form-group">
+                <button id="remove-button" type="submit" value="submit" class="btn btn-danger">Remove</button>
+            </div>
+        </form>
+        </div>
+    {% endfor %}
+        <div id="total_price">
+            <input name="total"
+        </div>
+    </div>
+
+    <a href="{% url 'shipping-index' %}">
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="true" autocomplete="off">
+      Proceed To Check Out
+      </button>
+    </a>
 
 {% endblock %}
+
+  <!--
+                    {% if field.name == "quantity" %}
+                        <div class="input-group">
+                            <div><b>{{ field.label }}</b></div>
+                            {{ field }}
+                        <div class="input-group-append">
+                            <button class="btn btn-primary " id="edit-button" type="submit"
+                                    value="submit">Save Edit</button>
+                        </div>
+
+                    </div>
+                    {% else %}
+                     <div class="input-group">
+                         <div><b>{{ field.label }}</b></div>
+                        {{ field }}
+                     </div>
+                    {% endif %}
+                    -->
