@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 import json
 
-from shop.forms import AddToCart
+from shop.forms import AddToCart, Filtering, Categories
 from user.models import User
 from cart.models import CartItem
 from shop.models import Product, ProductImage, Tag
@@ -13,82 +13,51 @@ from shop.models import Product, ProductImage, Tag
 
 
 def shop(request):
-    context = {}
-    data = []
-    if 'search_filter' in request.GET:
-        search = request.GET['search_filter']
-
-        if 'by_name' in request.GET:
-            by_name = request.GET['by_name']  # Asc or Desc
-            if by_name == 'asc':
-                data = Product.objects.filter(name__icontains=search).order_by('-name')
-            else:
-                data = Product.objects.filter(name__icontains=search).order_by('name')
-
-        elif 'by_price' in request.GET:
-            by_price = request.GET['by_price']  # Asc or Desc
-            if by_price == 'asc':
-                data = Product.objects.filter(name__icontains=search).order_by('-price')
-            else:
-                data = Product.objects.filter(name__icontains=search).order_by('price')
-
-        else:
-            data = Product.objects.filter(name__icontains=search)
-
-    if 'product_type' in request.GET:
-        prod_type = request.GET['product_type']
-        if data:
-            for item in data:
-                if item.category != prod_type:
-                    del item
-
-        else:
-            if 'by_name' in request.GET:
-                by_name = request.GET['by_name']  # Asc or Desc
-                if by_name == 'asc':
-                    data = Product.objects.filter(category=prod_type).order_by('-name')
+    products = None  # namespace
+    if 'filter_by' in request.GET:
+        filter = request.GET['filter_by']
+        if filter == "nameAsc":
+            if 'categories' in request.GET:
+                if request.GET['categories'] != 'All':
+                    products = Product.objects.filter(category=request.GET['categories']).order_by('name')
                 else:
-                    data = Product.objects.filter(category=prod_type).order_by('name')
-
-            elif 'by_price' in request.GET:
-                by_price = request.GET['by_price']  # Asc or Desc
-                if by_price == 'asc':
-                    data = Product.objects.filter(category=prod_type).order_by('-price')
-                else:
-                    data = Product.objects.filter(category=prod_type).order_by('price')
-
+                    products = Product.objects.all().order_by('name')
             else:
-                data = Product.objects.filter(category=prod_type)
-
-    elif 'by_name' in request.GET:
-        by_name = request.GET['by_name']  # Asc or Desc
-        if by_name == 'asc':
-            data = Product.objects.all().order_by('-name')
-        else:
-            data = Product.objects.all().order_by('name')
-
-    elif 'by_price' in request.GET:
-        by_price = request.GET['by_price']  # Asc or Desc
-        if by_price == 'asc':
-            data = Product.objects.all().order_by('-price')
-        else:
-            data = Product.objects.all().order_by('price')
-
+                products = Product.objects.all().order_by('name')
+        elif filter == "nameDesc":
+            if 'categories' in request.GET:
+                if request.GET['categories'] != 'All':
+                    products = Product.objects.filter(category=request.GET['categories']).order_by('-name')
+                else:
+                    products = Product.objects.all().order_by('-name')
+            else:
+                products = Product.objects.all().order_by('-name')
+        elif filter == "priceAsc":
+            if 'categories' in request.GET:
+                if request.GET['categories'] != 'All':
+                    products = Product.objects.filter(category=request.GET['categories']).order_by('price')
+                else:
+                    products = Product.objects.all().order_by('price')
+            else:
+                products = Product.objects.all().order_by('price')
+        elif filter == "priceDesc":
+            if 'categories' in request.GET:
+                if request.GET['categories'] != 'All':
+                    products = Product.objects.filter(category=request.GET['categories']).order_by('price')
+                else:
+                    products = Product.objects.all().order_by('-price')
+            else:
+                products = Product.objects.all().order_by('-price')
     else:
-        data = Product.objects.all()
-
-    """
-    products = [{
-        'id': x.id,
-        'name': x.name,
-        'category': x.category.name,
-        'price': x.price,
-        'image': ProductImage.objects.filter(product_id=x.id).first().image
-    } for x in data]
-    """
+        if 'categories' in request.GET:
+            if request.GET['categories'] != 'All':
+                products = Product.objects.filter(category=request.GET['categories'])
+            else:
+                products = Product.objects.all()
+        else:
+            products = Product.objects.all()
 
     # todo: fix image getting after filtering has been configured.
-    products = Product.objects.all()
     # dump images into product collection
     # we only want the first image we find
     temp = {}
@@ -98,7 +67,11 @@ def shop(request):
             temp[item] = "static/images/no-image-found.png"  # default.
 
     products = temp
-    context = {"products": products}
+    filters = Filtering()
+    categories = Categories()
+    context = {"products": products,
+               "filters": filters,
+               "categories": categories}
     response = render(request, 'shop/shop.html', context)
     if 'cart' not in request.COOKIES:
         response.set_cookie('cart', "")
@@ -190,11 +163,10 @@ def add_to_basket(request):
                 cart_product_ids = list(cart_dict.keys())
                 cookie_string = ""
                 for i in range(len(cart_product_ids)):
-                    cookie_string += cart_product_ids[i]+":"+str(cart_dict[cart_product_ids[i]])+" "
+                    cookie_string += cart_product_ids[i] + ":" + str(cart_dict[cart_product_ids[i]]) + " "
 
                 #  return HttpResponse('<h1>' + str(cart_dict) + '</h1>')
-                response = redirect('/shop/'+str(product_id)+'/')
+                response = redirect('/shop/' + str(product_id) + '/')
                 response.set_cookie('cart', cookie_string)
 
             return response
-
