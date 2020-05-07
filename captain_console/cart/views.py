@@ -31,3 +31,5 @@ def modify_cart(request, product_id):
         # if logged in add to users cart
         # else add product + quantity to session data
         return render(request, 'cart/cart.html')  # Render the previous screen
+
+
