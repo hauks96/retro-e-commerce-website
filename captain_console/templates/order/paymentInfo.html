@@ -30,13 +30,10 @@
             <br>
         </div>
 
-        <div class="row" id="billingForm">
-            <form action="{% url 'billing-index' %}" method='POST'>
-                {% csrf_token %}
-                {{ form }}
-                <input type="submit" value="Submit" class="btn btn-primary">
-            </form>
+        <div class="row">
+            <div id="paymentForm">
         </div>
+
 
         <div class="row">
             <div id="checkoutButtons">

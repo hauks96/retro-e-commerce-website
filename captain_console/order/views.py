@@ -6,11 +6,8 @@ from .forms import ShippingAddressForm, PaymentInfoForm
 
 def shipping(request):
     context = {}
-    #user_id = request.user.id
     user = get_object_or_404(User, pk=request.user.id)
     address = user.address
-    #address = get_object_or_404(Address, pk=address_id)
-    print(request.method)
     form = ShippingAddressForm(instance=address)
     if request.method == "POST":
         form = ShippingAddressForm(instance=address, data=request.POST)
@@ -22,12 +19,12 @@ def shipping(request):
 
 
 def billing(request): #TODO fix so that form renders in template
-    context = {}
     form = PaymentInfoForm()
+    context = {'form': form}
     print(request.method)
     if request.method == "POST":
         print(request.method)
-        form = PaymentInfoForm(request.POST)
+        #form = PaymentInfoForm(request.POST)
         if form.is_valid():
             print(form.is_valid())
             print(form.cleaned_data)
@@ -37,7 +34,7 @@ def billing(request): #TODO fix so that form renders in template
     else:
         form = PaymentInfoForm()
         #print(form.errors)
-    #context['form'] = form
+    #context['form'] = form"""
     return render(request, 'order/paymentInfo.html', context)
 
 def summary(request):

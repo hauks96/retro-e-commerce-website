@@ -1,9 +1,9 @@
  <div id="card" class="col">
             <div class="card my-2">
                  <a href="{{ request.path }}{{ product.id }}">
-                 <div class="card-img-top">
+                 <div class="card-img-top" id="productImageCard">
                     {% for item in extra|slice:":1" %}
-                    <img class="img-fluid" src="{{ item }}" alt="{{ product.name }}">
+                    <img class="img-fluid" src="{{ item }}" alt="{{ product.name }}" id="productImages">
                     {% endfor %}
                      {% if product.discount != 0 %}
                         <div class="push-bottom card-img-overlay w-100 p-0 text-center text-uppercase">

@@ -4,7 +4,7 @@
 
         <div class="row">
             <div class="btn-group btn-group-toggle" data-toggle="buttons" id="radioButtons" disabled>
-              <label class="btn btn-secondary active">
+              <label class="btn btn-secondary active" id="checkoutStatusButtons">
                 <input type="radio" name="options" id="option1" autocomplete="off" checked href="#" disabled> Shipping
               </label>
               <label class="btn btn-secondary">
@@ -30,7 +30,8 @@
                 {% csrf_token %}
                 {{ form }}
                 <input type="submit" value="Submit" class="btn btn-primary">
-            </div>
+                    </form>
+                </div>
 
         </div>
 
