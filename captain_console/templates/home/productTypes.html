@@ -1,6 +1,6 @@
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-3">
     {% for type in productTypes %}
-        <a href="#"> <!-- todo: dynamic links -->
+        <a href="{% url 'shop-index' %}?categories={{ type.name }}">
         <div class="col">
             <div class="card my-2">
                 <img src="{{ type.image }}" class="card-img-top" alt="{{ type.name }}">

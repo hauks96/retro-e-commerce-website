@@ -13,21 +13,20 @@ class AddToCart(forms.ModelForm):
 
 
 class Categories(forms.Form):
-    # todo: dynamically get all categories from the Category model, change views accordingly(lot of work)
+    allCategories = Category.objects.all()
+    choices = [('All', 'All')]
+    for category in allCategories:
+        choices.append((category.getName(), category.getName()))
     categories = forms.ChoiceField(widget=forms.RadioSelect,
-                                   choices=[("All", "All"),
-                                            (1, "Console"),
-                                            (2, "Games"),
-                                            (3, "Other")
-                                            ],
+                                   choices=choices,
                                    initial=["All"])
 
 
 class Filtering(forms.Form):
-    filter_by = forms.ChoiceField(widget=forms.RadioSelect,
-                                  choices=[("nameAsc", "Name A-Z"),
-                                           ("nameDesc", "Name Z-A"),
-                                           ("priceDesc", "Price (high to low)"),
-                                           ("priceAsc", "Price (low to high)")
+    order_by = forms.ChoiceField(widget=forms.RadioSelect,
+                                  choices=[("name", "Name A-Z"),
+                                           ("-name", "Name Z-A"),
+                                           ("-price", "Price (high to low)"),
+                                           ("price", "Price (low to high)")
                                            ],
                                   required=False)

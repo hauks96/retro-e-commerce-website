@@ -13,53 +13,28 @@ from shop.models import Product, ProductImage, Tag
 
 
 def shop(request):
-    products = None  # namespace
-    if 'filter_by' in request.GET:
-        filter = request.GET['filter_by']
-        if filter == "nameAsc":
-            if 'categories' in request.GET:
-                if request.GET['categories'] != 'All':
-                    products = Product.objects.filter(category=request.GET['categories']).order_by('name')
-                else:
-                    products = Product.objects.all().order_by('name')
-            else:
-                products = Product.objects.all().order_by('name')
-        elif filter == "nameDesc":
-            if 'categories' in request.GET:
-                if request.GET['categories'] != 'All':
-                    products = Product.objects.filter(category=request.GET['categories']).order_by('-name')
-                else:
-                    products = Product.objects.all().order_by('-name')
-            else:
-                products = Product.objects.all().order_by('-name')
-        elif filter == "priceAsc":
-            if 'categories' in request.GET:
-                if request.GET['categories'] != 'All':
-                    products = Product.objects.filter(category=request.GET['categories']).order_by('price')
-                else:
-                    products = Product.objects.all().order_by('price')
-            else:
-                products = Product.objects.all().order_by('price')
-        elif filter == "priceDesc":
-            if 'categories' in request.GET:
-                if request.GET['categories'] != 'All':
-                    products = Product.objects.filter(category=request.GET['categories']).order_by('price')
-                else:
-                    products = Product.objects.all().order_by('-price')
-            else:
-                products = Product.objects.all().order_by('-price')
-    else:
-        if 'categories' in request.GET:
-            if request.GET['categories'] != 'All':
-                products = Product.objects.filter(category=request.GET['categories'])
-            else:
-                products = Product.objects.all()
+    # filtering is dynamic except for the 'All' category.
+    if 'categories' in request.GET and 'order_by' in request.GET:
+        if request.GET['categories'] == 'All':
+            products = Product.objects.all().order_by(request.GET['order_by'])
         else:
+            products = Product.objects.filter(
+                category__name__contains=request.GET['categories']
+            ).order_by(
+                request.GET['order_by'])
+    elif 'categories' in request.GET:
+        if request.GET['categories'] == 'All':
             products = Product.objects.all()
+        else:
+            products = Product.objects.filter(category__name__contains=request.GET['categories'])
+    elif 'order_by' in request.GET:
+        products = Product.objects.all().order_by(request.GET['order_by'])
+    else:
+        products = Product.objects.all()
 
-    # todo: fix image getting after filtering has been configured.
-    # dump images into product collection
-    # we only want the first image we find
+    if len(products) == 0:  # failsafe in case user messes with url parameters
+        products = Product.objects.all()
+    # dump images into product collection, we only want the first image we find
     temp = {}
     for item in products:
         temp[item] = ProductImage.objects.filter(product_id=item.id).first()

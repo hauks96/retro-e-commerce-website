@@ -10,6 +10,9 @@ class Category(models.Model):
     image = models.CharField(max_length=999, default=NO_IMAGE)
     description = models.CharField(max_length=150, default=NO_IMAGE)
 
+    def getName(self):
+        return self.name
+
     def __str__(self):
         return self.name
 
