@@ -10,3 +10,10 @@ def home(request):
                'productTypes': Category.objects.all().order_by('name')
                }
     return render(request, 'home/home.html', context)
+
+
+def affiliate(request):
+    return render(request, 'home/affiliatePage.html')
+
+def shipping(request):
+    return render(request, 'home/shipping.html')

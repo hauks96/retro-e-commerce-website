@@ -1,8 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-<script src='http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.js'></script>
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'js/shop.js' %}">
     <!-- sidebar -->
     <div class="row w-75 mx-auto">
     <div class="col-3 bg-white">
@@ -11,7 +8,7 @@
     </div>
     <div class="col-9 bg-white">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-3">
-    {% for product, image in products.items %}
+    {% for product, extra in products.items %}
         {% include 'shop/single_product.html' with products=products %}
     {% endfor %}
     </div>
