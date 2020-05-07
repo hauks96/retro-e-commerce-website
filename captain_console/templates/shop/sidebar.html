@@ -2,17 +2,9 @@
     <label>
         Search: <input type="search" id="search" placeholder="Search">
     </label>
-
-    <div class="btn-group">
-        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Order By
-        </button>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Price low-high</a>
-            <a class="dropdown-item" href="#">Price high-low</a>
-              <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Name A-Z</a>
-              <a class="dropdown-item" href="#">Name Z-A</a>
-          </div>
-    </div>
 </div>
+<form action="{% url 'shop-index' %}" method="get">
+    {{ categories }}
+    {{ filters }}
+    <button class="btn btn-primary" type="submit" value="shop">Filter</button>
+</form>
