@@ -24,9 +24,9 @@ class Categories(forms.Form):
 
 class Filtering(forms.Form):
     order_by = forms.ChoiceField(widget=forms.RadioSelect,
-                                  choices=[("name", "Name A-Z"),
-                                           ("-name", "Name Z-A"),
-                                           ("-price", "Price (high to low)"),
-                                           ("price", "Price (low to high)")
-                                           ],
-                                  required=False)
+                                 choices=[("name", "Name A-Z"),
+                                          ("-name", "Name Z-A"),
+                                          ("-price", "Price (high to low)"),
+                                          ("price", "Price (low to high)")
+                                          ],
+                                 required=False)

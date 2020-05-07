@@ -2,7 +2,9 @@
             <div class="card my-2">
                  <a href="{{ request.path }}{{ product.id }}">
                  <div class="card-img-top">
-                    <img class="img-fluid" src="{{ image }}" alt="{{ product.name }}">
+                    {% for item in extra|slice:":1" %}
+                    <img class="img-fluid" src="{{ item }}" alt="{{ product.name }}">
+                    {% endfor %}
                      {% if product.discount != 0 %}
                         <div class="push-bottom card-img-overlay w-100 p-0 text-center text-uppercase">
                             <div class="py-2 bg-success w-100 text-dark"><b>{{ product.discount }}% discount</b></div>
@@ -13,9 +15,15 @@
                  </a>
                 <div class="card-text-px-1">
                     <p>{{ product.short_description }}</p>
-                    <div class="btn-group">
-                        <button class="bg-success">temp btn</button>
-                        <b>${{ product.price }}</b>
+                    <div class="">
+                        {% if product.discount == 0 %}
+                            <b>${{ product.price }}</b>
+                        {% else %}
+                            <b><s>${{ product.price }}</s></b>
+                            {% for finalPrice in extra|slice:"1:" %}
+                                <b class="text-monospace">${{ finalPrice }}</b>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             </div>

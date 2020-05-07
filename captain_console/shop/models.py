@@ -32,6 +32,9 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    def getFinalPrice(self):  # returns a calculated price based on discount
+        return self.price * (100 - self.discount) / 100
+
 
 # can be called with ProductImage.objects.filter(product=product.id) to fetch all product images
 class ProductImage(models.Model):

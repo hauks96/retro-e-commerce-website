@@ -34,10 +34,12 @@ def shop(request):
 
     if len(products) == 0:  # failsafe in case user messes with url parameters
         products = Product.objects.all()
-    # dump images into product collection, we only want the first image we find
+    # dump images into product collection, we only want the first image we find,
+    # and calculate a final price
     temp = {}
+    finalPrice = {}
     for item in products:
-        temp[item] = ProductImage.objects.filter(product_id=item.id).first()
+        temp[item] = (ProductImage.objects.filter(product_id=item.id).first(), item.getFinalPrice())
         if temp[item] is None:  # if no image is found
             temp[item] = "static/images/no-image-found.png"  # default.
 
