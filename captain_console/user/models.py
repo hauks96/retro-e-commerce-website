@@ -1,8 +1,5 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from cart.models import Cart
-from django import forms  # for password
-
 
 # Create your models here.
 
@@ -21,7 +18,6 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=32, default="", help_text="Enter first name", null=True)
     last_name = models.CharField(max_length=32,  default="", help_text="Enter last name", null=True)
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, blank=True, null=True)
     address = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True, null=True)
     image = models.CharField(max_length=999, default='static/images/base_cover.png')
     enabled = models.BooleanField(default=True)
@@ -48,8 +44,6 @@ class User(AbstractUser):
     def get_full_name(self):
         return self.first_name + ' ' + self.last_name
 
-    def get_cart(self):
-        return self.cart.get_products()
 
 
 

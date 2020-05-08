@@ -4,7 +4,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserRegistrationForm, ProfileForm, AddressForm, ProfilePicForm
 from django.contrib.auth import authenticate
 from .models import User, Address
-from cart.models import Cart
 
 # Create your views here.
 
@@ -33,9 +32,6 @@ def register(request):
             user = User.objects.get(username=username)
             address = Address()
             address.save()
-            cart = Cart()
-            cart.save()
-            user.cart = cart
             user.address = address
             user.save()
             return redirect('login')

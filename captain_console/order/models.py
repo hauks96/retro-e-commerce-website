@@ -1,10 +1,9 @@
 from django.db import models
-from cart.models import Cart
 
 
 # Create your models here.
 class Order(models.Model):
-    order_items = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    order_file = models.CharField(max_length=2500, default="", blank=True)
     order_date = models.DateTimeField(auto_now=True)
     order_status = models.CharField(max_length=50, blank=True)
 

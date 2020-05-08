@@ -11,7 +11,7 @@ class EditCartItem(forms.Form):
                              widget=forms.NumberInput(attrs={'class': 'form-control'}))
 
     quantity = forms.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(50)],
-                                  widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'number', 'min': 1, 'max': 50, 'step': 1}))
+                                  widget=forms.NumberInput(attrs={'class': 'form-control', 'type': 'number', 'min': 1, 'max': 50, 'step': 1}))
 
     total_price = forms.FloatField(label='Total Price (€)',
                                    widget=forms.TextInput(attrs={'class': 'form-control'}))
