@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+
+        <div class="row">
+            <h1>Payment successful!</h1>
+        </div>
+
+        <div id="row">
+            <p>
+                Your payment was successful! <br>
+                Shortly you will receive an email with your order information. <br>
+                To go back to the store press the button below "Back to store" <br>
+            </p>
+        </div>
+
+
+        <div class="row" id="shippingForm">
+            <form action="{% url 'shipping-index' %}" method='POST'>
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Submit" class="" >
+
+                <a href="{% url 'shop-index' %}" class="btn btn-success">Back to shop</a>
+                <a href="{% url 'billing-index' %}" class="btn btn-success">Next</a>
+        </div>
+
+
+    </div>
+{% endblock %}

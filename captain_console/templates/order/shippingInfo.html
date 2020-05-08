@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+
+        <div class="row">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons" id="radioButtons" disabled>
+              <label class="btn btn-secondary active" id="checkoutStatusButtons">
+                <input type="radio" name="options" id="option1" autocomplete="off" checked href="#" disabled> Shipping
+              </label>
+              <label class="btn btn-secondary">
+                <input type="radio" name="options" id="option2" autocomplete="off" href="{% url 'billing-index' %}" disabled> Payment
+              </label>
+              <label class="btn btn-secondary">
+                <input type="radio" name="options" id="option3" autocomplete="off" href="#"> Summary
+              </label>
+            </div>
+        </div>
+
+        <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" style="width: 33%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" id="progressBar"></div>
+        </div>
+
+        <div class="row" id="orderHeaderText">
+            <h1>Shipping Address</h1>
+        </div>
+
+        <div class="row">
+                <div id="shippingForm">
+                    <form action="{% url 'shipping-index' %}" method='POST' id="checkoutForm">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" value="Submit" class="btn btn-primary">
+                    </form>
+                </div>
+
+        </div>
+
+        <div class="row">
+            <div id="checkoutButtons">
+                <a href="{% url 'shop-index' %}" class="btn btn-success">Back to shop</a>
+                <a href="{% url 'billing-index' %}" class="btn btn-success">Next</a>
+            </div>
+        </div>
+
+
+    </div>
+{% endblock %}

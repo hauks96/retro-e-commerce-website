@@ -1,16 +1,46 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
+from user.models import Address, User
+from .forms import ShippingAddressForm, PaymentInfoForm
 
 # Create your views here.
 
-
 def shipping(request):
-    pass
+    context = {}
+    user = get_object_or_404(User, pk=request.user.id)
+    address = user.address
+    form = ShippingAddressForm(instance=address)
+    if request.method == "POST":
+        form = ShippingAddressForm(instance=address, data=request.POST)
+        if form.is_valid():
+            form.save()
+            #return redirect('billing-index') TODO redirect on to payment
+    context['form'] = form
+    return render(request, 'order/shippingInfo.html', context)
 
-def payment(request):
-    pass
+
+def billing(request): #TODO fix so that form renders in template
+    form = PaymentInfoForm()
+    context = {'form': form}
+    print(request.method)
+    if request.method == "POST":
+        print(request.method)
+        #form = PaymentInfoForm(request.POST)
+        if form.is_valid():
+            print(form.is_valid())
+            print(form.cleaned_data)
+            context = {'form': form}
+            #form.save()
+            pass
+    else:
+        form = PaymentInfoForm()
+        #print(form.errors)
+    #context['form'] = form"""
+    return render(request, 'order/paymentInfo.html', context)
 
 def summary(request):
-    pass
+    #TODO addContext
+    return render(request, 'order/summaryPage.html')
+
 
 def success(request):
-    pass
+    return render(request, 'order/confirmationPage.html')

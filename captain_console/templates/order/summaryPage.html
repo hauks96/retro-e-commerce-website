@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+
+        <div class="row">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons" id="radioButtons">
+              <label class="btn btn-secondary active">
+                <input type="radio" name="options" id="option1" autocomplete="off" href="{% url 'billing-index' %}" disabled> Shipping
+              </label>
+              <label class="btn btn-secondary">
+                <input type="radio" name="options" id="option2" autocomplete="off" href="{% url 'billing-index' %}" disabled> Payment
+              </label>
+              <label class="btn btn-secondary">
+                <input type="radio" name="options" id="option3" autocomplete="off" checked href="#" disabled> Summary
+              </label>
+            </div>
+        </div>
+
+        <div class="progress" id="progressBar">
+            <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+
+        <div class="row" id="orderHeaderText">
+            <h1>Order Summary</h1>
+             <p>Show order overview here</p>
+                <br>
+                <br>
+                <br>
+                <br>
+        </div>
+
+
+        <div class="row">
+            <div id="checkoutButtons">
+                <a href="{% url 'billing-index' %}" class="btn btn-success">Previous</a>
+                <a href="#" class="btn btn-success">Submit order</a>
+            </div>
+        </div>
+
+        </div>
+
+
+    </div>
+{% endblock %}
