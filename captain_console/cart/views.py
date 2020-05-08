@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 # Create your views here.
 # https://docs.djangoproject.com/en/3.0/topics/http/sessions/
 # Fetch the cart screen
@@ -47,8 +47,8 @@ def cart(request):
                                                         'price': product.price,
                                                         'total_price': product.price*quantity,
                                                         'image': product_image,
-                                                        'is_remove': False,
-                                                        'is_edit': False})
+                                                        'remove': 'False',
+                                                        'edit': 'False'})
                     forms.append(single_form)
 
                 except Product.DoesNotExist:
@@ -58,35 +58,35 @@ def cart(request):
 
 
 def modify_cart(request):
-    # Edit cart
+    # Edit or delete cart item
     if request.method == "POST":
-        return HttpResponse("<p>"+str(request)+"<p>")
-        # if logged in edit users cart
-        # else edit something from session data
-        return render(request, 'cart/cart.html')  # reload the cart screen with updated data
+        form = EditCartItem(data=request.POST)
+        if form.is_valid():
+            true_false = {'True': True, 'False': False}
+            is_edit = form.cleaned_data['edit']
+            is_remove = form.cleaned_data['remove']
 
+            # DEBUG return HttpResponse("<h1>" + str(is_remove) + "</h1>")
+            quantity = int(form.cleaned_data['quantity'])
+            product_id = str(form.cleaned_data['product_id'])
 
+            cart_cookie = request.COOKIES['cart']
+            cart_dict = render_dict_cookie(cart_cookie)
 
-def delete_cart_item(item_id, cart_cookie=None):
-    """Method to delete an product from cart.
-    If cart_cookie argument is passed in, method returns string for cookie response, otherwise returns none"""
-    if cart_cookie:
-        cart_dict = render_dict_cookie(cart_cookie)
-        if str(item_id) in cart_dict:
-            del cart_dict[str(item_id)]
-            string_cookie = render_string_cookie(cart_dict)
-            return string_cookie
+            if product_id not in cart_dict:
+                return redirect('cart-index')
 
-    return
+            if true_false[is_edit]:
+                current_item_quantity = int(cart_dict[product_id])
+                if quantity != current_item_quantity:
+                    cart_dict[product_id] = int(quantity)
 
+            elif true_false[is_remove]:
+                del cart_dict[str(product_id)]
 
-def edit_item_quantity(item_id: int, new_quantity: int, cart_cookie=None):
-    """Method to edit quantity of a cart product.
-    If cart_cookie argument is passed in, method returns string for cookie response, otherwise returns none"""
-    if cart_cookie:
-        cart_dict = render_dict_cookie(cart_cookie)
-        if str(item_id) in cart_dict:
-            cart_dict[str(item_id)] = new_quantity
-            string_cookie = render_string_cookie(cart_dict)
-            return string_cookie
-    return
+            cart_cookie = render_string_cookie(cart_dict)
+            response = redirect('cart-index')
+            response.set_cookie('cart', cart_cookie)
+            return response
+
+        return HttpResponse("<h1>"+str(form.errors)+"</h1>")
