@@ -6,7 +6,7 @@
         <div class="row">
             <div class="btn-group btn-group-toggle" data-toggle="buttons" id="radioButtons">
               <label class="btn btn-secondary active">
-                <input type="radio" name="options" id="option1" autocomplete="off" href="{% url 'billing-index' %}" disabled> Shipping
+                <input type="radio" name="options" id="option1" autocomplete="off" href="#" disabled> Shipping
               </label>
               <label class="btn btn-secondary">
                 <input type="radio" name="options" id="option2" autocomplete="off" checked href="#" disabled> Payment
@@ -17,22 +17,30 @@
             </div>
         </div>
 
-        <div class="progress" id="progressBar">
+        <div class="progress">
             <div class="progress-bar bg-success" role="progressbar" style="width: 66%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-
 
         <div class="row" id="orderHeaderText">
             <h1>Payment Information</h1>
               <p>Load payment info here</p>
+            <p>
+            </p>
+
+            <div class="row">
+                <div id="paymentForm">
+                        <form action="{% url 'billing-index' %}" method='POST' id="checkoutForm">
+                    {% csrf_token %}
+                    {{ form }}
+                    <input type="submit" value="Submit" class="btn btn-primary">
+                        </form>
+                    </div>
+            </div>
             <br>
             <br>
             <br>
         </div>
 
-        <div class="row">
-            <div id="paymentForm">
-        </div>
 
 
         <div class="row">
