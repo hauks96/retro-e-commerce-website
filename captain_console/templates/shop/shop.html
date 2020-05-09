@@ -1,13 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
-    <!-- sidebar -->
+    <!-- mobile only sidebar -->
+    <button class="ml-3 btn-primary d-md-none" data-target="#filterBar" data-toggle="collapse">&#9776</button>
+    <div id="filterBar" class="d-md-none">
+    {% include 'shop/sidebar.html' %}
+    </div>
+    <!-- sidebar for medium or bigger screens (iPads and bigger) -->
     <div class="row w-75 mx-auto">
-    <div class="col-3 bg-white">
+    <div class="d-none d-sm-none d-md-block col-md-3 bg-white">
     {% include 'shop/sidebar.html' %}
     <!-- feed -->
     </div>
-    <div class="col-9 bg-white">
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-3">
+    <div class="col-xs-12 col-sm-12 col-md-9 bg-white">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3">
     {% for product, extra in products.items %}
         {% include 'shop/single_product.html' with products=products %}
     {% endfor %}

@@ -4,7 +4,13 @@
     </label>
 </div>
 <form action="{% url 'shop-index' %}" method="get">
-    {{ categories }}
-    {{ filters }}
-    <button class="btn btn-primary" type="submit" value="shop">Filter</button>
+    <div class="row w-100">
+        <div class="p-0 col-6 col-md-12 m-0">
+        {{ categories }}
+        </div>
+        <div class="p-0 col-6 col-md-12 m-0">
+        {{ filters }}
+        </div>
+    </div>
+    <button class="ml-3 btn btn-primary" type="submit" value="shop">Filter</button>
 </form>
