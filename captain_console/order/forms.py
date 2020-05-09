@@ -19,18 +19,53 @@ class ShippingAddressForm(ModelForm): #To use if user is logged in and wants to 
 
 class ShippingAddressInfoForm(forms.Form):
     address = forms.CharField(label='Please enter your Address', max_length=100, required=True)
-    country = forms.CharField(label='Please enter your Country', max_length=50, required=True)
-    city = forms.CharField(label='Please enter your City', max_length=50, required=True)
-    postal_code = forms.CharField(label='Please enter your Postal Code', max_length=20, required=True)
+    country = forms.CharField(label='Please enter your Country', max_length=56, required=True)
+    city = forms.CharField(label='Please enter your City', max_length=100, required=True)
+    postal_code = forms.CharField(label='Please enter your Postal Code', max_length=10, required=True)
     note = forms.CharField(label='Enter additional info if required', max_length=25, required=False)
 
 
 class PaymentInfoForm(forms.Form):
     # If forms.NumberInput() is used the form does not show on the template
-    cardholder_name = forms.CharField(label='Please enter cardholder name', max_length=100, required=True)
+    cardholder_name = forms.CharField(label='Please enter cardholder name', max_length=26, required=True)
     credit_card_num = forms.CharField(label='Please enter credit card number', max_length=100, required=True)
-    expiry_date = forms.CharField(label='Please enter expiry date', max_length=100, required=True)
+    expiry_date = forms.CharField(label='Please enter card expiry date with a slash in between, f.x: "01/21"', max_length=100, required=True)
     CVC = forms.CharField(label='Please enter 3 digit CVC number on the back of your card', max_length=100, required=True)
+
+    def clean_credit_card_num(self):
+        credit_card_num = self.cleaned_data.get("credit_card_num")
+        if len(credit_card_num.strip()) is not 16 and len(credit_card_num.strip()) is not 19: # 19 also to account for spaces in between the numbers
+            raise forms.ValidationError("Please enter a valid credit card number")
+        if not "".join(credit_card_num.split()).isdigit(): # If the number does not contain all digits
+            raise forms.ValidationError("Please enter a valid credit card number")
+        return credit_card_num
+
+    def clean_expiry_date(self):
+        expiry_date = self.cleaned_data.get("expiry_date")
+        if len(expiry_date.strip()) is not 5 or "/" not in expiry_date.strip():
+            raise forms.ValidationError("Please enter your card expiry date with a slash in between")
+        return expiry_date
+
+    def clean_CVC(self):
+        CVC = self.cleaned_data.get("CVC")
+        if len(CVC.strip()) is not 3:
+            raise forms.ValidationError("Please enter your 3 digit CVC number found on the back of your card")
+        return CVC
+
+
+
+
+
+
+
+class CartItemDisplay(forms.Form):
+    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    price = forms.FloatField(label='Unit Price', widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    total_price = forms.FloatField(label='Total Price (€)',
+                                   widget=forms.TextInput(attrs={'class': 'form-control'}))
+    quantity = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    image = forms.CharField(max_length=999, widget=forms.HiddenInput())
+
 
 
 

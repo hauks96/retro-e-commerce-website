@@ -124,6 +124,14 @@
         <button id="remove-{{ form.product_id.value }}" name="{{form.product_id.value}}" type="submit"
                 value="submit" class="btn btn-danger remove-button">Remove</button>
     </form>
+
     {% endfor %}
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col">
+            <a href="{% url 'shipping-index' %}" class="btn btn-success">Proceed to checkout</a>
+        </div>
+    </div>
 </div>
 {% endblock %}
