@@ -14,15 +14,7 @@
             </p>
         </div>
 
-
-        <div class="row" id="shippingForm">
-            <form action="{% url 'shipping-index' %}" method='POST'>
-            {% csrf_token %}
-            {{ form }}
-            <input type="submit" value="Submit" class="" >
-
                 <a href="{% url 'shop-index' %}" class="btn btn-success">Back to shop</a>
-                <a href="{% url 'billing-index' %}" class="btn btn-success">Next</a>
         </div>
 
 

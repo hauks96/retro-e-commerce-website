@@ -61,7 +61,7 @@ def product(request, product_id):
     if request.method == 'GET':
 
         instance = get_object_or_404(Product, pk=product_id)
-        image = ProductImage.objects.filter(product_id=product_id).first()
+        images = ProductImage.objects.filter(product_id=product_id)
         tags = Tag.objects.filter(product_id=product_id)
         relatedProducts = []
         # todo: make a better searcher for related tags
@@ -84,7 +84,7 @@ def product(request, product_id):
 
         return render(request, 'shop/product.html', {'form': form,
                                                      'product': instance,
-                                                     'image': image,
+                                                     'images': images,
                                                      'tags': tags,
                                                      'finalPrice': finalPrice,
                                                      'relatedProducts': relatedProducts})

@@ -139,10 +139,11 @@
             <input class="form-control" type="text" name="cart_total" value="{{ cart_total }}" id="cart-total-summary" readonly="readonly">
         </div>
         <div id="to-checkout-container">
-            <form method="GET" action="{% url 'shipping-index' %}"></form>
+            <form method="GET" action="{% url 'shipping-index' %}">
                 <button id="proceed-to-checkout-button" class="btn btn-primary" type="submit">
                     Proceed to checkout
                 </button>
+            </form>
         </div>
     </div>
 </div>

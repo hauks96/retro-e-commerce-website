@@ -33,15 +33,15 @@
                     <fieldset id="user-fieldset" disabled="true">
                         <legend>My Information:</legend>
                         {% csrf_token %}
-                        <lable for="first_name">First Name:</lable>
+                        <lable for="first_name"><b>First Name</b></lable>
                         <div class="form-group">
                            <input type="text" value="{{ user.first_name }}">
                         </div>
-                        <lable for="last_name">Last Name:</lable>
+                        <lable for="last_name"><b>Last Name</b></lable>
                         <div class="form-group">
                            <input type="text" value="{{ user.last_name }}">
                         </div>
-                        <lable for="email">Email:</lable>
+                        <lable for="email"><b>Email</b></lable>
                         <div class="form-group">
                            <input type="email" value="{{ user.email }}">
                         </div>
@@ -55,23 +55,23 @@
                     {% csrf_token %}
                     <fieldset id="address-fieldset" disabled="disabled">
                         <legend>Shipping address:</legend>
-                        <lable for="street">Street:</lable>
+                        <lable for="street"><b>Street</b></lable>
                         <div class="form-group">
                            <input type="text" value="{{ address.address }}">
                         </div>
-                        <lable for="city">City:</lable>
+                        <lable for="city"><b>City</b></lable>
                         <div class="form-group">
                            <input type="text" value="{{ address.city }}">
                         </div>
-                        <lable for="country">Country:</lable>
+                        <lable for="country"><b>Country</b></lable>
                         <div class="form-group">
                            <input type="text" value="{{ address.country }}">
                         </div>
-                        <lable for="post_code">Postcode:</lable>
+                        <lable for="post_code"><b>Postcode</b></lable>
                         <div class="form-group">
                            <input type="text" value="{{ address.postal_code }}">
                         </div>
-                        <lable for="note">Additional:</lable>
+                        <lable for="note"><b>Additional</b></lable>
                         <div class="form-group">
                            <input type="text" value="{{ address.note }}">
                         </div>
