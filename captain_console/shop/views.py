@@ -44,8 +44,12 @@ def shop(request):
                "filters": filters,
                "categories": categories}
     response = render(request, 'shop/shop.html', context)
-    if 'cart' not in request.COOKIES:
+    try:
+        request.COOKIES['cart']
+        request.COOKIES['itm_count']
+    except KeyError:
         response.set_cookie('cart', "")
+        response.set_cookie('itm_count', 0)
 
     return response
 
@@ -97,10 +101,14 @@ def add_to_basket(request):
             # trying to fetch cookie from request
             try:
                 cookie_cart = request.COOKIES['cart']
+                cookie_item_counter = request.COOKIES['itm_count']
             except KeyError:
                 #  If cookie does not exist yet, set cookie default to empty string
                 cookie_cart = ""
+                cookie_item_counter = 0
 
+            cookie_item_counter = int(cookie_item_counter)
+            cookie_item_counter += int(quantity)
             if cookie_cart == "":
                 cart_dict = {str(product_id): int(quantity)}
 
@@ -121,6 +129,7 @@ def add_to_basket(request):
             cookie_string = render_string_cookie(cart_dict)
             response = redirect('/shop/' + str(product_id) + '/')
             response.set_cookie('cart', cookie_string)
+            response.set_cookie('itm_count', cookie_item_counter)
 
             return response
 

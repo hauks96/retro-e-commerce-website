@@ -41,10 +41,35 @@ body {
     text-align: center;
 }
 
+#button-form {
+    margin: 0px;
+    -moz-margin:0px;
+    -webkit-margin:0px;
+
+}
 
 
+#shoppingcart-icon{
+    color: black;
+    font-size:26px;
+    padding-right: 5px;
+}
 
+#shopping-cart-button {
+    height: 39px;
+    width: 70px;
+    margin:0;
+    display: inline-flex;
+    justify-content: center;
+    padding-top: 5px;
+}
 
+#button-item-count {
+    display: inline-block;
+    color: red;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
 
 
 

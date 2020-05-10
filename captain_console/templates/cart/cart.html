@@ -1,129 +1,149 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div id="cart-container">
-{% for form in forms %}
-    <form class="form-inline single-cart-form" method="POST" action="{% url 'edit-cart-index' %}">
-         <!-- product image -->
-        <div class="input-group mb-3">
-            <img src="{{ form.image.value }}" alt="ImageNotFound" class="product-icon">
-        </div>
 
-        {% csrf_token %}
-
-        <!-- edit -->
-        <div class="input-group mb-3">
-             <input type="{{ form.edit.field.widget.input_type }}" name="{{ form.edit.name }}"
-                    value="{{ form.edit.value }}" class="form-control is-edit-{{ form.product_id.value }}"
-                    required id="{{ form.edit.id_for_label }}" readonly="readonly">
-        </div>
-
-
-        <!-- remove -->
-        <div class="input-group mb-3">
-             <input type="{{ form.remove.field.widget.input_type }}" name="{{ form.remove.name }}"
-                    value="{{ form.remove.value }}" class="form-control is-remove-{{ form.product_id.value }}"
-                    required id="{{ form.remove.id_for_label }}" readonly="readonly">
-        </div>
-
-        <!-- name -->
-        <div class="form-group">
-            <div class="d-flex flex-column">
-                <!-- label -->
-                <b>
-                    <label for="{{ form.name.id_for_label }}">
-                    {{form.name.label}}
-                    </label>
-                </b>
-                <!-- input -->
-                <div class="input-group mb-3">
-                     <input type="{{ form.name.field.widget.input_type }}" name="{{ form.name.name }}"
-                            value="{{ form.name.value }}" class="form-control is-name-{{ form.product_id.value }}"
-                            required id="{{ form.name.id_for_label }}" readonly="readonly">
+<div id="cartcart">
+    <div id="cart-container">
+    {% for form in forms %}
+        <div class="item-container">
+            <form class="form-inline single-cart-form" method="POST" action="{% url 'edit-cart-index' %}">
+                 <!-- product image -->
+                <div class="input-group mb-3" id="image-group">
+                    <img id="product-image" src="{{ form.image.value }}" alt="ImageNotFound" class="product-icon">
                 </div>
-            </div>
-        </div>
 
-        <!-- price -->
-        <div class="form-group">
-            <div class="d-flex flex-column">
-                <!-- label -->
-                <b>
-                    <label for="{{ form.price.id_for_label }}">
-                    {{form.price.label}}
-                    </label>
-                </b>
+                {% csrf_token %}
 
-                <!-- input -->
+                <!-- edit -->
                 <div class="input-group mb-3">
-                     <input type="{{ form.price.field.widget.input_type }}" name="{{ form.price.name }}"
-                            value="{{ form.price.value }}" class="form-control is-price-{{ form.product_id.value }}"
-                            required id="{{ form.price.id_for_label }}" readonly="readonly">
+                     <input type="{{ form.edit.field.widget.input_type }}" name="{{ form.edit.name }}"
+                            value="{{ form.edit.value }}" class="form-control is-edit-{{ form.product_id.value }}"
+                            required id="{{ form.edit.id_for_label }}" readonly="readonly">
                 </div>
-            </div>
-        </div>
 
-        <!-- quantity -->
-        <div class="form-group">
-            <div class="d-flex flex-column">
-                <!-- label -->
-                <b>
-                    <label for="{{ form.quantity.id_for_label }}">
-                    {{form.quantity.label}}
-                    </label>
-                </b>
 
-                <!-- input group -->
-                <div class="input-group mb-3">
-                    <!-- input field -->
-                    <input type="{{ form.quantity.field.widget.input_type }}" name="{{ form.quantity.name }}"
-                        value="{{ form.quantity.value }}" class="form-control quantity {{ form.product_id.value }}"
-                        min="1" max="50" step="1" required id="{{ form.quantity.id_for_label }}">
+                <!-- remove -->
+                <div class="input-group mb-3" id="remove-group">
+                     <input type="{{ form.remove.field.widget.input_type }}" name="{{ form.remove.name }}"
+                            value="{{ form.remove.value }}" class="form-control is-remove-{{ form.product_id.value }}"
+                            required id="{{ form.remove.id_for_label }}" readonly="readonly">
+                </div>
 
-                    <!-- button -->
-                    <div class="input-group-append">
-                        <button id="edit-{{ form.product_id.value }}" name="{{ form.product_id.value }}"
-                                class="btn btn-primary edit-button"
-                                type="submit" value="{{ form.product_id.value }}">Save</button>
+                <!-- name -->
+                <div class="form-group cart-grp" id="name-group">
+                    <div class="d-flex flex-column">
+                        <!-- label -->
+                        <b>
+                            <label for="{{ form.name.id_for_label }}">
+                            {{form.name.label}}
+                            </label>
+                        </b>
+                        <!-- input -->
+                        <div class="input-group mb-3">
+                             <input type="{{ form.name.field.widget.input_type }}" name="{{ form.name.name }}"
+                                    value="{{ form.name.value }}" class="form-control is-name-{{ form.product_id.value }}"
+                                    required id="{{ form.name.id_for_label }}" readonly="readonly">
+                        </div>
                     </div>
                 </div>
-             </div>
-        </div>
 
-        <!-- total price -->
-        <div class="form-group">
-            <div class="d-flex flex-column">
-                <!-- label -->
-                <b>
-                    <label for="{{ form.total_price.id_for_label }}">
-                    {{form.total_price.label}}
-                    </label>
-                </b>
+                <!-- price -->
+                <div class="form-group cart-grp" id="price-group">
+                    <div class="d-flex flex-column">
+                        <!-- label -->
+                        <b>
+                            <label for="{{ form.price.id_for_label }}">
+                            {{form.price.label}}
+                            </label>
+                        </b>
 
-                <div class="input-group mb-3">
-                     <input type="{{ form.total_price.field.widget.input_type }}" name="{{ form.total_price.name }}"
-                            value="{{ form.total_price.value }}" class="form-control total-price-{{ form.product_id.value }}"
-                            required id="{{ form.total_price.id_for_label }}" readonly="readonly">
+                        <!-- input -->
+                        <div class="input-group mb-3">
+                             <input type="text" name="{{ form.price.name }}"
+                                    value="{{ form.price.value }}" class="form-control is-price-{{ form.product_id.value }}"
+                                    required id="{{ form.price.id_for_label }}" readonly="readonly">
+                        </div>
+                    </div>
                 </div>
-            </div>
+
+                <!-- quantity -->
+                <div class="form-group cart-grp" id="quantity-group">
+                    <div class="d-flex flex-column">
+                        <!-- label -->
+                        <b>
+                            <label for="{{ form.quantity.id_for_label }}">
+                            {{form.quantity.label}}
+                            </label>
+                        </b>
+
+                        <!-- input group -->
+                        <div class="input-group mb-3">
+                            <!-- input field -->
+                            <input type="{{ form.quantity.field.widget.input_type }}" name="{{ form.quantity.name }}"
+                                value="{{ form.quantity.value }}" class="form-control quantity {{ form.product_id.value }}"
+                                min="1" max="50" step="1" required id="{{ form.quantity.id_for_label }}">
+
+                            <!-- button -->
+                            <div class="input-group-append">
+                                <button id="edit-{{ form.product_id.value }}" name="{{ form.product_id.value }}"
+                                        class="btn btn-primary edit-button"
+                                        type="submit" value="{{ form.product_id.value }}">Save</button>
+                            </div>
+                        </div>
+                     </div>
+                </div>
+
+                <!-- total price -->
+                <div class="form-group cart-grp" id="total_price-group">
+                    <div class="d-flex flex-column">
+                        <!-- label -->
+                        <b>
+                            <label for="{{ form.total_price.id_for_label }}">
+                            {{form.total_price.label}}
+                            </label>
+                        </b>
+
+                        <div class="input-group mb-3">
+                             <input type="{{ form.total_price.field.widget.input_type }}" name="{{ form.total_price.name }}"
+                                    value="{{ form.total_price.value }}" class="form-control total-price-{{ form.product_id.value }}"
+                                    required id="{{ form.total_price.id_for_label }}" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+                <!-- image -->
+                {{ form.image }}
+
+                <!-- product id -->
+                {{ form.product_id }}
+
+                <!-- error display -->
+                {% if form.errors %}
+                    {% for error in field.errors %}
+                        {{ error }}
+                    {% endfor %}
+                {% endif %}
+
+                <!-- remove button -->
+                    <button id="remove-{{ form.product_id.value }}" name="{{form.product_id.value}}" type="submit"
+                            value="submit" class="remove-button">
+                        <i class="fa fa-trash"></i>
+                    </button>
+            </form>
         </div>
-        <!-- image -->
-        {{ form.image }}
+        {% endfor %}
+    </div>
 
-        <!-- product id -->
-        {{ form.product_id }}
-
-        <!-- error display -->
-        {% if form.errors %}
-            {% for error in field.errors %}
-                {{ error }}
-            {% endfor %}
-        {% endif %}
-
-        <!-- remove button -->
-        <button id="remove-{{ form.product_id.value }}" name="{{form.product_id.value}}" type="submit"
-                value="submit" class="btn btn-danger remove-button">Remove</button>
-    </form>
-    {% endfor %}
+    <div id="cart-summary" class="input-group">
+        <div class="d-flex flex-column">
+            <label for="cart_total"><b>Cart Total:</b></label>
+            <input class="form-control" type="text" name="cart_total" value="{{ cart_total }}" id="cart-total-summary" readonly="readonly">
+        </div>
+        <div id="to-checkout-container">
+            <form method="GET" action="{% url 'shipping-index' %}"></form>
+                <button id="proceed-to-checkout-button" class="btn btn-primary" type="submit">
+                    Proceed to checkout
+                </button>
+        </div>
+    </div>
 </div>
 {% endblock %}

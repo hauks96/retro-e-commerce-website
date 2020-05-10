@@ -17,13 +17,14 @@ def cart(request):
             cart_cookie = request.COOKIES['cart']
         # if it fails to fetch, there is no cokkie, so we create a new empty cookie and return a response
         except KeyError:
-            response = render(request, 'cart/cart.html')
+            response = render(request, 'cart/cart.html', context={'cart_total': 0})
             response.set_cookie('cart', "")
+            response.set_cookie('itm_count', 0)
             return response
 
         # if the cart cookie exists but was empty, we return an empty cart page
         if cart_cookie == "":
-            response = render(request, 'cart/cart.html')
+            response = render(request, 'cart/cart.html', context={'cart_total': 0})
             return response
 
         # The cart wasn't empty so we create a dictionary with the cookie data
@@ -32,7 +33,7 @@ def cart(request):
 
         # If there for some reason is no keys in the cart dictionary we created
         if not cart_keys:
-            response = render(request, 'cart/cart.html')
+            response = render(request, 'cart/cart.html', context={'cart_total': 0})
             response.set_cookie('cart', "")
             return response
         # If there are keys in the cart dictionary we fetch the products
@@ -92,23 +93,43 @@ def modify_cart(request):
             quantity = int(form.cleaned_data['quantity'])
             product_id = str(form.cleaned_data['product_id'])
 
-            cart_cookie = request.COOKIES['cart']
+            try:
+                cart_cookie = request.COOKIES['cart']
+                cart_item_count = int(request.COOKIES['itm_count'])
+            except KeyError:
+                cart_cookie = ""
+                cart_item_count = 0
+                response = redirect('cart-index')
+                response.set_cookie('cart', cart_cookie)
+                response.set_cookie('itm_count', cart_item_count)
+                return response
+
             cart_dict = render_dict_cookie(cart_cookie)
 
             if product_id not in cart_dict:
-                return redirect('cart-index')
+                cart_cookie = ""
+                cart_item_count = 0
+                response = redirect('cart-index')
+                response.set_cookie('cart', cart_cookie)
+                response.set_cookie('itm_count', cart_item_count)
+                return response
 
             if true_false[is_edit]:
                 current_item_quantity = int(cart_dict[product_id])
                 if quantity != current_item_quantity:
+                    difference = quantity-current_item_quantity
+                    cart_item_count += difference
                     cart_dict[product_id] = int(quantity)
 
             elif true_false[is_remove]:
+                item_quantity = cart_dict[str(product_id)]
+                cart_item_count -= item_quantity
                 del cart_dict[str(product_id)]
 
             cart_cookie = render_string_cookie(cart_dict)
             response = redirect('cart-index')
             response.set_cookie('cart', cart_cookie)
+            response.set_cookie('itm_count', cart_item_count)
             return response
 
         return HttpResponse("<h1>"+str(form.errors)+"</h1>")

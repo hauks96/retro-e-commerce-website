@@ -7,8 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'css\base.css' %}">
+    <!-- Icon library font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Own stylesheets -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/order/order.css' %}">
+    <link rel="stylesheet" href="{% static 'css/user/profile.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/cart/cart.css' %}">
     <title>Captain Console</title>
   </head>
@@ -36,20 +40,26 @@
         </ul>
 
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item active ml-auto">
-            <a class="nav-link" href="{% url 'cart-index' %}">Shopping cart<span class="sr-only">(current)</span></a></a>
+          <li class="nav-item">
+            <form id="button-form" class="navbar-brand" action="{% url 'cart-index' %}" method="GET">
+              <button type="submit" class="btn btn-primary" id="shopping-cart-button">
+                <i id="shoppingcart-icon" class="fa fa-shopping-cart"></i>
+                <div id="button-item-count"></div>
+              </button>
+            </form>
+
           </li>
           {% if user.is_authenticated %}
           <li class="nav-item" id=profileButton >
             <a class="navbar-brand" href="{% url 'profile-index' %}">
-              <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="true" autocomplete="off">
+              <button type="button" class="btn btn-primary">
               Profile
             </button>
             </a>
           </li>
           <li class="nav-item" id=logoutButton >
             <a class="navbar-brand" href="{% url 'logout' %}">
-              <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="true" autocomplete="off">
+              <button type="button" class="btn btn-primary">
               Logout
             </button>
             </a>
@@ -57,7 +67,7 @@
           {% else %}
           <li class="nav-item" id=loginButton >
             <a class="navbar-brand" href="{% url 'login' %}">
-              <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="true" autocomplete="off">
+              <button type="button" class="btn btn-primary">
               Login
             </button>
             </a>
@@ -172,11 +182,11 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-
     <!-- Custom scripts from staticfiles -->
     <script src="{% static 'js/shop.js' %}"></script>
     <script src="{% static 'js/user.js' %}"></script>
     <script src="{% static 'js/cart.js' %}"></script>
+    <script src="{% static 'js/base.js' %}"></script>
 
 </body>
 </html>
