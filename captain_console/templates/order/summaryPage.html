@@ -38,10 +38,10 @@
             <div class="col">
                 <h2>Payment information</h2>
                 <br>
-                {{ request.GET.cardholder_name }} <br>
-                {{ request.GET.credit_card_num }} <br>
-                {{ request.GET.expiry_date }} <br>
-                {{ request.GET.CVC }}
+                {{ request.session.cardholder_name }} <br>
+                {{ request.session.credit_card_num }} <br>
+                {{ request.session.expiry_date }} <br>
+                {{ request.session.CVC }}
             </div>
         </div>
 

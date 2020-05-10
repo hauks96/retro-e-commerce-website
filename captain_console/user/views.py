@@ -83,7 +83,6 @@ def address_edit(request):
     if request.method == "POST":
         form = AddressForm(instance=address, data=request.POST)
         if form.is_valid():
-            #print(form.is_valid())
             form.save()
             return redirect('profile-index')
         else:

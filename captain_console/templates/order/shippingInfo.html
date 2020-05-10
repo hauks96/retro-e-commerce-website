@@ -40,7 +40,16 @@
                     {% endif %}
                 </div>
             {% endfor %}
-                 <button type="submit" value="submit" class="btn btn-primary">Save</button>
+                {% if user.is_authenticated %} <!-- User can save and use saved shipping info is he is logged in -->
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" name="savePaymentInfoBox" id="savePaymentInfoBox">
+                  <label class="form-check-label" for="savePaymentInfoBox">Save address information</label>
+                </div>
+                {% endif %}
+                 <button type="submit" value="submit" class="btn btn-primary">Submit</button>
+                {% if user.is_authenticated %} <!-- User can use saved shipping info is he is logged in -->
+                <a href="{% url 'shipping-index-saved' %}" class="btn btn-primary">Use saved address</a>
+                {% endif %}
             </form>
             </div>
 
@@ -50,7 +59,7 @@
         <div class="row">
             <div id="checkoutButtons">
                 <a href="{% url 'shop-index' %}" class="btn btn-success">Back to shop</a>
-                <a href="{% url 'billing-index' %}" class="btn btn-success">Next</a>
+                <!-- <a href="{% url 'billing-index' %}" class="btn btn-success">Next</a> -->
             </div>
         </div>
 

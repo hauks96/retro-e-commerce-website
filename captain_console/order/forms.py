@@ -36,15 +36,15 @@ class PaymentInfoForm(forms.Form):
 
     def clean_credit_card_num(self):
         credit_card_num = self.cleaned_data.get("credit_card_num")
-        if len(credit_card_num.strip('-')) != 16:
+        if len("".join(credit_card_num.split(" "))) != 16:
             raise forms.ValidationError("Please enter a valid credit card number")
-        if not "".join(credit_card_num.split("-")).isdigit():  # If the number does not contain all digits
-            raise forms.ValidationError("Please enter a valid credit card number")
+        if not "".join(credit_card_num.split(" ")).isdigit():  # If the number does not contain all digits
+            raise forms.ValidationError("Please enter a valid credit card number LOL")
         return credit_card_num
 
     def clean_expiry_date(self):
         expiry_date = self.cleaned_data.get("expiry_date")
-        if len(expiry_date != 5):
+        if len(expiry_date) != 5:
             raise forms.ValidationError("Please enter your card expiry date with a slash in between")
         elif "/" not in expiry_date:
             raise forms.ValidationError("Please enter your card expiry date with a slash in between")

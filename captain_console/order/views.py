@@ -4,6 +4,7 @@ from user.models import Address, User
 from shop.models import Product, ProductImage
 from cart.views import render_dict_cookie
 from .forms import ShippingAddressForm, PaymentInfoForm, ShippingAddressInfoForm, CartItemDisplay
+from django.contrib.auth.decorators import login_required
 from datetime import datetime
 
 # Create your views here.
@@ -11,20 +12,62 @@ from datetime import datetime
 def shipping(request):
     #TODO add option to use saved address info for registered user
     #TODO If user is logged and has already entered address info but doesn't have it saved in profile, offer to save it for them
+    print('DINGDOOONG')
     my_form = ShippingAddressInfoForm()
     if request.method == "POST":
         my_form = ShippingAddressInfoForm(request.POST)
+        #print(my_form.is_valid())
         if my_form.is_valid(): # Save address info into session
             request.session['address'] = my_form.cleaned_data['address']
             request.session['country'] = my_form.cleaned_data['country']
             request.session['city'] = my_form.cleaned_data['city']
             request.session['postal_code'] = my_form.cleaned_data['postal_code']
             request.session['note'] = my_form.cleaned_data['note']
+            print('savePaymentInfoBox' in request.POST)
+            if 'savePaymentInfoBox' in request.POST: # Saves user info if he checks the box
+                #if request.user.is_authenticated(): # Double check since it is already checked in template
+                # Save
+                print('YEEEEESSS')
+                user_id = request.user.id  # Users id from django auth
+                print(user_id)
+                user = User.objects.get(id=user_id)  # User instance
+                print(user)
+                address_id = user.address.id
+                print(address_id)
+                Address.objects.filter(id=address_id).update(address=my_form.cleaned_data['address'],
+                                                            country= my_form.cleaned_data['country'],
+                                                            city=my_form.cleaned_data['city'],
+                                                            postal_code=my_form.cleaned_data['postal_code'],
+                                                            note= my_form.cleaned_data['note'])
             return redirect('../payment/')
         else:
-            #my_form = ShippingAddressInfoForm()
-            return render(request, 'order/shippingInfo.html', {'form': my_form}, {'form': my_form})
+            return render(request, 'order/shippingInfo.html', {'form': my_form})
     return render(request, 'order/shippingInfo.html', {'form': my_form})
+
+
+@login_required
+def shipping_saved(request):
+    context = {}
+    user_id = request.user.id
+    user = User.objects.get(id=user_id)
+    address = user.address
+    my_form = ShippingAddressInfoForm({'address': address.address, 'country': address.country, 'city': address.city,
+                                       'postal_code': address.postal_code, 'note': address.note})
+    if request.method == "POST":
+        my_form = ShippingAddressInfoForm({'address': address.address, 'country': address.country, 'city': address.city,
+                                           'postal_code': address.postal_code, 'note': address.note}, data=request.POST)
+        # Save info in session
+        request.session['address'] = my_form.cleaned_data['address']
+        request.session['country'] = my_form.cleaned_data['country']
+        request.session['city'] = my_form.cleaned_data['city']
+        request.session['postal_code'] = my_form.cleaned_data['postal_code']
+        request.session['note'] = my_form.cleaned_data['note']
+    else:
+        context['form'] = my_form
+
+    context['form'] = my_form
+    return render(request, 'order/shippingInfo.html', context)
+
 
 
 def billing(request):
@@ -45,7 +88,6 @@ def billing(request):
             return redirect('../summary/')
         else:
             return render(request, 'order/paymentInfo.html', {'form': my_form})
-            my_form = PaymentInfoForm()
     return render(request, 'order/paymentInfo.html', {'form': my_form})
 
 
