@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/user/profile.css' %}">
+{% block content %}
+<div class="container" id="mainContainer">
+    <div class="row" id="row1">
+        <div class="col-md-12">
+            <div id="myInfo">
+            </div>
+                <div id="search_history_btn_container">
+                    <a href="{% url 'search-history' %}" class="btn btn-primary">Search History</a>
+                </div>
+                <div id="username">
+                    <b>{{user.username}}'s search history</b>
+                </div>
+
+
+        </div>
+    </div>
+
+
+    <div class="row">
+
+    </div>
+
+{% endblock %}

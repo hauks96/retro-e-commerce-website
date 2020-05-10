@@ -124,6 +124,10 @@ def success(request):
     cart_keys = list(cart_dict.keys())
     cart_total = 0
     productOrderList = []
+    user = ""
+    if request.user.is_authenticated():
+        user_id = request.user.id
+        user = User.objects.get(id=user_id)
 
     for product_id in cart_keys:
         quantity = int(cart_dict[str(product_id)])
@@ -140,7 +144,7 @@ def success(request):
             continue
 
     # TODO: create actual order instance
-    # Order.objects.create(order_file=str(productOrderList), order_date = datetime.now(), order_status = "received", user_id = request.user.id)
+    # Order.objects.create(order_file=str(productOrderList), order_date = datetime.now(), order_status = "received", user = user)
     # TODO: empty cart_cookie
     # cart_cookie = request.COOKIES['cart']
     # request.delete_cookie('cart')

@@ -110,8 +110,8 @@ def change_profile_pic(request):
     return render(request, 'user/edit_profile_pic.html', {'form': form})
 
 @login_required()
-def search_history():
-    pass
+def search_history(request):
+    return render(request, 'user/search_history.html')
 
 
 
