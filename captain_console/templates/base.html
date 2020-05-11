@@ -10,6 +10,8 @@
     <!-- Icon library font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Own stylesheets -->
+      {% block stylesheets %}
+      {% endblock %}
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/order/order.css' %}">
     <link rel="stylesheet" href="{% static 'css/user/profile.css' %}">
@@ -189,6 +191,8 @@
     <script src="{% static 'js/base.js' %}"></script>
     <script src="{% static 'js/billing.js' %}"></script>
     <script src="{% static 'js/shipping.js' %}"></script>
-
+    <!-- todo: replace these scripts into other templates where theyre needed. -->
+    {% block scripts %}
+    {% endblock %}
 </body>
 </html>
