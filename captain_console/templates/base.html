@@ -10,12 +10,9 @@
     <!-- Icon library font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Own stylesheets -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
       {% block stylesheets %}
       {% endblock %}
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'css/order/order.css' %}">
-    <link rel="stylesheet" href="{% static 'css/user/profile.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/cart/cart.css' %}">
     <title>Captain Console</title>
   </head>
 <body>
@@ -185,13 +182,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
     <!-- Custom scripts from staticfiles -->
-    <script src="{% static 'js/shop.js' %}"></script>
-    <script src="{% static 'js/user.js' %}"></script>
-    <script src="{% static 'js/cart.js' %}"></script>
     <script src="{% static 'js/base.js' %}"></script>
-    <script src="{% static 'js/billing.js' %}"></script>
-    <script src="{% static 'js/shipping.js' %}"></script>
-    <!-- todo: replace these scripts into other templates where theyre needed. -->
     {% block scripts %}
     {% endblock %}
 </body>

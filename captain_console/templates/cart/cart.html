@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cart/cart.css' %}">
+{% endblock %}
 {% block content %}
 
 <div id="cartcart">
@@ -147,4 +150,7 @@
         </div>
     </div>
 </div>
+{% endblock %}
+{% block scripts %}
+    <script src="{% static 'js/cart.js' %}"></script>
 {% endblock %}
