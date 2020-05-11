@@ -6,35 +6,38 @@
     <div id="allProducts"><h1> All products</h1></div>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="{% static 'js/backendProducts.js' %}"></script>
-    <input type="search" id="productSearch" placeholder="Filter by Name">
-    <div id="createButton"><div id="button" align="right"><a class="buttonEffect" href="{% url 'create_product' %}"> Add new product</a></div></div>
+    <input type="search" id="productSearch" placeholder="Search">
+    <div id="createButton"><div id="button" align="right"><a class="btn btn-primary" href="{% url 'create_category' %}"> Add new category</a></div></div>
+    <div id="createButton"><div id="button" align="right"><a class="btn btn-primary" href="{% url 'create_product' %}"> Add new product</a></div></div>
 
-    <table class="productTable">
-        <thead>
+    <div class="table-responsive" id="tableContainer">
+        <table class="productTable">
+            <thead>
+                <tr>
+                    <th>Product name</th>
+                    <th>Product ID</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Short description</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+            {% for product in products %}
             <tr>
-                <th>Product name</th>
-                <th>Product ID</th>
-                <th>Price</th>
-                <th>Category</th>
-                <th>Short description</th>
-                <th>Operations</th>
+                <td>{{ product.name }}</td>
+                <td>{{ product.id }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.category }}</td>
+                <td>{{product.short_description}}</td>
+                <td><div class="buttonBoxes">
+                        <div class="button"><a class="btn btn-success" href="{% url 'update_product' product.id %}"> Update</a></div>
+                        <div class="button"><a class="btn btn-success" href="{% url 'delete_product' product.id%}"> Remove</a></div>
+                    </div>
+                </td>
             </tr>
-        </thead>
-        {% for product in products %}
-        <tr>
-            <td>{{ product.name }}</td>
-            <td>{{ product.id }}</td>
-            <td>{{ product.price }}</td>
-            <td>{{ product.category }}</td>
-            <td>{{product.short_description}}</td>
-            <td><div class="buttonBoxes">
-                    <div class="button"><a class="buttonEffect" href="{% url 'update_product' product.id %}"> Update product</a></div>
-                    <div class="button"><a class="buttonEffect" href="{% url 'delete_product' product.id%}"> Remove product</a></div>
-                </div>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+            {% endfor %}
+        </table>
+    </div>
 
 {% endblock %}
 

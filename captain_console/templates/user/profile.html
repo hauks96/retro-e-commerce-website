@@ -33,7 +33,7 @@
         <div class="col-md-6" id="information">
             <form id="user-form">
                     <fieldset id="user-fieldset" disabled="true">
-                        <legend>My Information:</legend>
+                        <legend><b>User</b></legend>
                         {% csrf_token %}
                         <lable for="first_name"><b>First Name</b></lable>
                         <div class="form-group">
@@ -56,7 +56,7 @@
                 <form id="address-form">
                     {% csrf_token %}
                     <fieldset id="address-fieldset" disabled="disabled">
-                        <legend>Shipping address:</legend>
+                        <legend><b>Address</b></legend>
                         <label for="street"><b>Street</b></label>
                         <div class="form-group">
                            <input type="text" value="{{ address.address }}">
@@ -73,14 +73,11 @@
                         <div class="form-group">
                            <input type="text" value="{{ address.postal_code }}">
                         </div>
-                        <label for="note"><b>Additional</b></label>
-                        <div class="form-group">
-                           <input type="text" value="{{ address.note }}">
-                        </div>
                      </fieldset>
                 </form>
                 <a href="{% url 'edit-address' %}" class="btn btn-primary" id="editAddressButton">Edit address</a>
             </div>
+
     </div>
 </div>
 {% endblock %}

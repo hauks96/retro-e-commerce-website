@@ -8,7 +8,7 @@ NO_IMAGE = 'static/images/no-image-found.png'  # constant for missing images
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
     image = models.CharField(max_length=999, default=NO_IMAGE)
-    description = models.CharField(max_length=150, default=NO_IMAGE)
+    description = models.CharField(max_length=150, default="")
 
     def getName(self):
         return self.name
@@ -47,7 +47,7 @@ class ProductImage(models.Model):
 # can be called with Tags.objects.filter(product=product_id) to fetch all product tags
 class Tag(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    tag = models.CharField(max_length=50)
+    tag = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.tag
