@@ -59,13 +59,15 @@ def product(request, product_id):
     # if user.is_authenticated -> save search to search history model
     # load product details page
     # todo: add to search history if authenticated
-    if request.user.is_authenticated:
-        print(request.user.first_name)
-        newSearch = UserHistory(user=request.user.pk, product=product_id)
-        newSearch.save()  #
     if request.method == 'GET':
-
         instance = get_object_or_404(Product, pk=product_id)
+
+        if request.user.is_authenticated:
+            UserHistory.objects.update_or_create(
+                user=request.user,
+                product=Product.objects.get(pk=product_id)
+            )
+
         images = ProductImage.objects.filter(product_id=product_id)
         tags = Tag.objects.filter(product_id=product_id)
         relatedProducts = []

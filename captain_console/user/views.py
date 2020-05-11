@@ -3,13 +3,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import UserRegistrationForm, ProfileForm, AddressForm, ProfilePicForm
 from django.contrib.auth import authenticate
-from .models import User, Address
+from .models import User, Address, UserHistory
+
 
 # Create your views here.
 
 
 # login page view ( user/login )
-
 
 
 def login(request):
@@ -91,17 +91,18 @@ def address_edit(request):
     context['form'] = form
     return render(request, 'user/edit_address.html', context)
 
+
 @login_required()
 def change_profile_pic(request):
     user_id = request.user.id  # Users id from django auth
     user = User.objects.get(id=user_id)  # User instance  # User instance
     form = ProfilePicForm(instance=user)
-    #print(form)
+    # print(form)
     if request.method == "POST":
         form = ProfilePicForm(data=request.POST, instance=user)
-        #print(form)
+        # print(form)
         if form.is_valid():
-            #print(form.is_valid())
+            # print(form.is_valid())
             form.save()
             return redirect('profile-index')
         else:
@@ -109,10 +110,11 @@ def change_profile_pic(request):
 
     return render(request, 'user/edit_profile_pic.html', {'form': form})
 
+
 @login_required()
 def search_history(request):
-    return render(request, 'user/search_history.html')
-
-
-
-
+    history = UserHistory.objects.filter(user=request.user.id)
+    context = {
+        'history': history
+    }
+    return render(request, 'user/search_history.html', context)
