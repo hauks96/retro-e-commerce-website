@@ -73,7 +73,7 @@ def user_edit(request):
     return render(request, 'user/edit_person.html', context)
 
 
-@login_required()
+@login_required
 def address_edit(request):
     context = {}
     user_id = request.user.id  # Users id from django auth
@@ -92,7 +92,7 @@ def address_edit(request):
     return render(request, 'user/edit_address.html', context)
 
 
-@login_required()
+@login_required
 def change_profile_pic(request):
     user_id = request.user.id  # Users id from django auth
     user = User.objects.get(id=user_id)  # User instance  # User instance
@@ -111,10 +111,22 @@ def change_profile_pic(request):
     return render(request, 'user/edit_profile_pic.html', {'form': form})
 
 
-@login_required()
+@login_required
 def search_history(request):
     history = UserHistory.objects.filter(user=request.user.id)
     context = {
         'history': history
     }
     return render(request, 'user/search_history.html', context)
+
+
+
+
+
+
+
+
+
+@login_required
+def order_history(request):
+    pass
