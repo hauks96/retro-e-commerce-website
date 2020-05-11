@@ -24,6 +24,7 @@ def shipping(request):
             request.session['city'] = my_form.cleaned_data['city']
             request.session['postal_code'] = my_form.cleaned_data['postal_code']
             request.session['note'] = my_form.cleaned_data['note']
+            request.session['address_email'] = my_form.cleaned_data['address_email']
 
             if 'savePaymentInfoBox' in request.POST: # Saves user info if he checks the box
                 user_id = request.user.id  # Users id from django auth
@@ -48,14 +49,15 @@ def shipping_saved(request):
     user_id = request.user.id
     user = User.objects.get(id=user_id)
     address = user.address
-
     my_form = ShippingAddressInfoForm({'full_name': address.full_name, 'address': address.address,
                                        'country': address.country, 'city': address.city,
-                                       'postal_code': address.postal_code, 'note': address.note})
+                                       'postal_code': address.postal_code, 'note': address.note,
+                                       'address_email': user.email})
     if request.method == "POST":
         my_form = ShippingAddressInfoForm({'full_name': address.full_name, 'address': address.address,
                                            'country': address.country, 'city': address.city,
-                                           'postal_code': address.postal_code, 'note': address.note}, data=request.POST)
+                                           'postal_code': address.postal_code, 'note': address.note,
+                                           'address_email': user.email}, data=request.POST)
         # Save info in session
         request.session['full_name'] = my_form.cleaned_data['full_name']
         request.session['address'] = my_form.cleaned_data['address']
@@ -63,6 +65,7 @@ def shipping_saved(request):
         request.session['city'] = my_form.cleaned_data['city']
         request.session['postal_code'] = my_form.cleaned_data['postal_code']
         request.session['note'] = my_form.cleaned_data['note']
+        request.session['address_email'] = my_form.cleaned_data['address_email']
     else:
         context['form'] = my_form
 
@@ -148,7 +151,7 @@ def success(request):
         primary_id = order.id
         secondary_id = "#CPTCS" + str(primary_id)
         order.order_id = secondary_id
-        # order.email = order_email
+        order.email = user.email
         if user:
             order.user = user
         order.save()

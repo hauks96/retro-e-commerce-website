@@ -50,8 +50,8 @@
                         <input id="postal-code-value" type="hidden" value="{{ request.session.postal_code }}" disabled>
                     {% elif field.name == "note" %}
                         <input id="note-value" type="hidden" value="{{ request.session.note }}" disabled>
-                    {% elif field.name == "email" %}
-                        <input id="email-value" type="hidden" value="{{ request.session.email }}" disabled>
+                    {% elif field.name == "address_email" %}
+                        <input id="address-email-value" type="hidden" value="{{ request.session.address_email }}" disabled>
                     {% endif %}
                 {% endif %}
                 <div class="form-group">

@@ -6,6 +6,7 @@ from django.db import models
 
 
 class ShippingAddressForm(ModelForm):  # To use if user is logged in and wants to use his saved address info
+    address_email = forms.EmailField(required=True)
     class Meta:
         model = Address
         exclude = ['id']
@@ -20,6 +21,7 @@ class ShippingAddressForm(ModelForm):  # To use if user is logged in and wants t
 
 
 class ShippingAddressInfoForm(forms.Form):
+    address_email = forms.EmailField(required=True)
     full_name = forms.CharField(label='Full name', max_length=70, required=True)
     address = forms.CharField(label='Address', max_length=32, required=True)
     country = forms.CharField(label='Country', max_length=32, required=True)

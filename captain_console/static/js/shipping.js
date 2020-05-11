@@ -48,10 +48,10 @@ $(document).ready(function () {
 
     };
 
-     if ($('#email-value')!==undefined){
-        let email = $('#email-value').val();
+     if ($('#address-email-value')!==undefined){
+        let email = $('#address-email-value').val();
         if (email!=="" && email!==null && email!==undefined){
-            let email_input = $('#id_email');
+            let email_input = $('#id_address_email');
             email_input.val(email);
         };
 
