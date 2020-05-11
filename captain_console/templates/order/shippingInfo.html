@@ -33,44 +33,51 @@
         {% endif %}
 
         <div class="row">
-            <div class="container" id="form">
-            <form id="shipping-form" action="{% url 'shipping-index' %}" method="POST">
-            {% csrf_token %}
-            {% for field in form %}
-                {% if field.name in request.session %}
-                    {% if field.name == "full_name" %}
-                        <input id="full_name-value" type="hidden" value="{{ request.session.full_name }}" disabled>
-                    {% elif field.name == "address" %}
-                        <input id="address-value" type="hidden" value="{{ request.session.address }}" disabled>
-                    {% elif field.name == "country" %}
-                        <input id="country-value" type="hidden" value="{{ request.session.country }}" disabled>
-                    {% elif field.name == "city" %}
-                        <input id="city-value" type="hidden" value="{{ request.session.city }}" disabled>
-                    {% elif field.name == "postal_code" %}
-                        <input id="postal-code-value" type="hidden" value="{{ request.session.postal_code }}" disabled>
-                    {% elif field.name == "note" %}
-                        <input id="note-value" type="hidden" value="{{ request.session.note }}" disabled>
-                    {% elif field.name == "address_email" %}
-                        <input id="address-email-value" type="hidden" value="{{ request.session.address_email }}" disabled>
+            <div class="col-sm-6">
+                <div class="container" id="form">
+                <form id="shipping-form" action="{% url 'shipping-index' %}" method="POST">
+                {% csrf_token %}
+                {% for field in form %}
+                    {% if field.name in request.session %}
+                        {% if field.name == "full_name" %}
+                            <input id="full_name-value" type="hidden" value="{{ request.session.full_name }}" disabled>
+                        {% elif field.name == "address" %}
+                            <input id="address-value" type="hidden" value="{{ request.session.address }}" disabled>
+                        {% elif field.name == "country" %}
+                            <input id="country-value" type="hidden" value="{{ request.session.country }}" disabled>
+                        {% elif field.name == "city" %}
+                            <input id="city-value" type="hidden" value="{{ request.session.city }}" disabled>
+                        {% elif field.name == "postal_code" %}
+                            <input id="postal-code-value" type="hidden" value="{{ request.session.postal_code }}" disabled>
+                        {% elif field.name == "note" %}
+                            <input id="note-value" type="hidden" value="{{ request.session.note }}" disabled>
+                        {% elif field.name == "address_email" %}
+                            <input id="address-email-value" type="hidden" value="{{ request.session.address_email }}" disabled>
+                        {% endif %}
                     {% endif %}
-                {% endif %}
-                <div class="form-group">
-                     <div class="input-group"><b>{{ field.label_tag }}</b></div>
-                    {{ field }}
-                    {% if form.errors %}
-                        {% for error in field.errors %}
-                            {{ error }}
-                        {% endfor %}
+                    <div class="form-group">
+                         <div class="input-group"><b>{{ field.label_tag }}</b></div>
+                        {{ field }}
+                        {% if form.errors %}
+                            {% for error in field.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                    {% if user.is_authenticated %} <!-- User can save and use saved shipping info is he is logged in -->
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" name="savePaymentInfoBox" id="savePaymentInfoBox">
+                      <label class="form-check-label" for="savePaymentInfoBox">Save address information</label>
+                    </div>
                     {% endif %}
-                </div>
-            {% endfor %}
-                {% if user.is_authenticated %} <!-- User can save and use saved shipping info is he is logged in -->
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" name="savePaymentInfoBox" id="savePaymentInfoBox">
-                  <label class="form-check-label" for="savePaymentInfoBox">Save address information</label>
-                </div>
-                {% endif %}
-            </form>
+                </form>
+            </div>
+            </div>
+
+            <div class="col-sm-6">
+                <img class="img-fluid" src="{% static 'images/order/captain console shipping.png' %}" alt="Captain Console shipping" id="shippingImage">
             </div>
 
         </div>

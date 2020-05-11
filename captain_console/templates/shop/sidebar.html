@@ -1,15 +1,20 @@
 <div class="pt-5">
     <label>
-        Search: <input type="search" id="search" placeholder="Search">
+        <b>Search</b> <input type="search" id="search" placeholder="">
     </label>
 </div>
 <form action="{% url 'shop-index' %}" method="get">
     <div class="row w-100">
         <div class="p-0 col-6 col-md-12 m-0">
-        {{ categories }}
+            <div id="categories">
+                {{ categories }}
+            </div>
+
         </div>
         <div class="p-0 col-6 col-md-12 m-0">
-        {{ filters }}
+            <div id="filters">
+                {{ filters }}
+            </div>
         </div>
     </div>
     <button class="ml-3 btn btn-primary" type="submit" value="shop">Filter</button>
