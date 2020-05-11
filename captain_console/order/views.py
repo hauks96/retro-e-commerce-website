@@ -27,11 +27,14 @@ def shipping(request):
                 user_id = request.user.id  # Users id from django auth
                 user = User.objects.get(id=user_id)  # User instance
                 address_id = user.address.id
-                Address.objects.filter(id=address_id).update(address=my_form.cleaned_data['address'],
-                                                            country= my_form.cleaned_data['country'],
+                Address.objects.filter(id=address_id).update(
+                                                            full_name=my_form.cleaned_data['full_name'],
+                                                            address=my_form.cleaned_data['address'],
+                                                            country=my_form.cleaned_data['country'],
                                                             city=my_form.cleaned_data['city'],
                                                             postal_code=my_form.cleaned_data['postal_code'],
-                                                            note= my_form.cleaned_data['note'])
+                                                            note=my_form.cleaned_data['note'],
+                                                            email=my_form.cleaned_data['email'])
             return redirect('../payment/')
         else:
             return render(request, 'order/shippingInfo.html', {'form': my_form})
@@ -44,11 +47,11 @@ def shipping_saved(request):
     user_id = request.user.id
     user = User.objects.get(id=user_id)
     address = user.address
-    my_form = ShippingAddressInfoForm({'address': address.address, 'country': address.country, 'city': address.city,
-                                       'postal_code': address.postal_code, 'note': address.note})
+    my_form = ShippingAddressInfoForm({'full_name': address.full_name, 'address': address.address, 'country': address.country, 'city': address.city,
+                                       'postal_code': address.postal_code, 'note': address.note, 'email': address.email})
     if request.method == "POST":
-        my_form = ShippingAddressInfoForm({'address': address.address, 'country': address.country, 'city': address.city,
-                                           'postal_code': address.postal_code, 'note': address.note}, data=request.POST)
+        my_form = ShippingAddressInfoForm({'full_name': address.full_name, 'address': address.address, 'country': address.country, 'city': address.city,
+                                           'postal_code': address.postal_code, 'note': address.note, 'email': address.email}, data=request.POST)
         # Save info in session
         request.session['full_name'] = my_form.cleaned_data['full_name']
         request.session['address'] = my_form.cleaned_data['address']
@@ -66,13 +69,11 @@ def shipping_saved(request):
 
 
 def billing(request):
-    #TODO get form to acutally show validation errors
     my_form = PaymentInfoForm()
     if request.method == "POST":
         my_form = PaymentInfoForm(request.POST)
         if my_form.is_valid():
             my_form = my_form.cleaned_data # TEMP SOLUTION: Save payment info into session
-            #TODO possibly create payment info instance and store id in cookie
             request.session["cardholder_name"] = my_form['cardholder_name']
             request.session["credit_card_num"] = my_form['credit_card_num']
             request.session["expiry_year"] = my_form['expiry_year']

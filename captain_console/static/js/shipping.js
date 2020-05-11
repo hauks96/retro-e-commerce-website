@@ -49,10 +49,10 @@ $(document).ready(function () {
     };
 
      if ($('#email-value')!==undefined){
-        let emal = $('#emal-value').val();
-        if (emal!=="" && emal!==null && emal!==undefined){
-            let emal_input = $('#id_emal');
-            emal_input.val(emal);
+        let email = $('#email-value').val();
+        if (email!=="" && email!==null && email!==undefined){
+            let email_input = $('#id_email');
+            email_input.val(email);
         };
 
     };
