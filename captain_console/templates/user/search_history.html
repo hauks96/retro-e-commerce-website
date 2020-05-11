@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/user/profile.css' %}">
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/user/profile.css' %}">
+{% endblock %}
 {% block content %}
 <div class="container" id="mainContainer">
     <div class="row" id="row1">

@@ -4,7 +4,7 @@
 $(document).ready(function () {
     $("#search").on("keyup", function () { // When we type in something
         let value = $(this).val().toLowerCase(); // Makes title lowercase
-        $(".card-title").filter(function () {
+        $("#test").filter(function () {
             $(this).parent().parent().parent().toggle($(this).text().toLowerCase().indexOf(value) > -1); //Finds parent/parent/parent div of card-title
         });
     });
