@@ -4,7 +4,6 @@ from shop.models import Product, ProductImage
 from cart.views import render_dict_cookie
 from .forms import ShippingAddressForm, PaymentInfoForm, ShippingAddressInfoForm, CartItemDisplay
 from django.contrib.auth.decorators import login_required
-from datetime import datetime
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 
@@ -18,7 +17,7 @@ def shipping(request):
     my_form = ShippingAddressInfoForm()
     if request.method == "POST":
         my_form = ShippingAddressInfoForm(request.POST)
-        if my_form.is_valid(): # Save address info into session
+        if my_form.is_valid():  # Save address info into session
             request.session['full_name'] = my_form.cleaned_data['full_name']
             request.session['address'] = my_form.cleaned_data['address']
             request.session['country'] = my_form.cleaned_data['country']
@@ -26,19 +25,16 @@ def shipping(request):
             request.session['postal_code'] = my_form.cleaned_data['postal_code']
             request.session['note'] = my_form.cleaned_data['note']
 
-            request.session['email'] = my_form.cleaned_data['email']
             if 'savePaymentInfoBox' in request.POST: # Saves user info if he checks the box
                 user_id = request.user.id  # Users id from django auth
                 user = User.objects.get(id=user_id)  # User instance
                 address_id = user.address.id
-                Address.objects.filter(id=address_id).update(
-                                                            full_name=my_form.cleaned_data['full_name'],
+                Address.objects.filter(id=address_id).update(full_name=my_form.cleaned_data['full_name'],
                                                             address=my_form.cleaned_data['address'],
                                                             country=my_form.cleaned_data['country'],
                                                             city=my_form.cleaned_data['city'],
                                                             postal_code=my_form.cleaned_data['postal_code'],
-                                                            note=my_form.cleaned_data['note'],
-                                                            email=my_form.cleaned_data['email'])
+                                                            note=my_form.cleaned_data['note'])
 
             return redirect('../payment/')
         else:
@@ -52,11 +48,14 @@ def shipping_saved(request):
     user_id = request.user.id
     user = User.objects.get(id=user_id)
     address = user.address
-    my_form = ShippingAddressInfoForm({'full_name': address.full_name, 'address': address.address, 'country': address.country, 'city': address.city,
-                                       'postal_code': address.postal_code, 'note': address.note, 'email': address.email})
+
+    my_form = ShippingAddressInfoForm({'full_name': address.full_name, 'address': address.address,
+                                       'country': address.country, 'city': address.city,
+                                       'postal_code': address.postal_code, 'note': address.note})
     if request.method == "POST":
-        my_form = ShippingAddressInfoForm({'full_name': address.full_name, 'address': address.address, 'country': address.country, 'city': address.city,
-                                           'postal_code': address.postal_code, 'note': address.note, 'email': address.email}, data=request.POST)
+        my_form = ShippingAddressInfoForm({'full_name': address.full_name, 'address': address.address,
+                                           'country': address.country, 'city': address.city,
+                                           'postal_code': address.postal_code, 'note': address.note}, data=request.POST)
         # Save info in session
         request.session['full_name'] = my_form.cleaned_data['full_name']
         request.session['address'] = my_form.cleaned_data['address']
@@ -64,7 +63,6 @@ def shipping_saved(request):
         request.session['city'] = my_form.cleaned_data['city']
         request.session['postal_code'] = my_form.cleaned_data['postal_code']
         request.session['note'] = my_form.cleaned_data['note']
-        request.session['email'] = my_form.cleaned_data['email']
     else:
         context['form'] = my_form
 
@@ -135,6 +133,7 @@ def summary(request):
 
 def success(request):
     if request.method == "GET":
+        user=None
         cart_cookie = request.COOKIES['cart']
         # order_email = request.session['order_email']
 
@@ -154,22 +153,33 @@ def success(request):
             order.user = user
         order.save()
 
-        """
-        msg_plain = render_to_string('templates/email.txt', context={'data': user})
-        msg_html = render_to_string('templates/email.html', {'some_params': some_params})
+        dict_cookie = render_dict_cookie(cart_cookie)
+        product_keys = list(dict_cookie.keys())
+        product_list = []
+        total_price = 0
+        for key in product_keys:
+            product = Product.objects.get(id=int(key))
+            quantity = int(dict_cookie[key])
+            total_price += product.price*quantity
+            data = {
+                'quantity': quantity,
+                'name': product.name,
+                'price': product.price,
+                'total': product.price*quantity
+            }
+            product_list.append(data)
+
+        msg_plain = render_to_string('order/email.txt',
+                                     context={'user': user, 'cart': product_list,
+                                                'id': secondary_id, 'total_price': total_price, 'status': order.status})
 
         send_mail(
-            'email title',
+            'Order Confirmation from Captain Console '+secondary_id,
             msg_plain,
-            'some@sender.com',
-            ['some@receiver.com'],
-            html_message=msg_html,
+            'aegir19@ru.is',
+            ['agir96@gmail.com'],
         )
-        """
-
-
-
-
+        # html_message=msg_html,
 
         response = render(request, 'order/confirmationPage.html', context={'order': order})
         response.set_cookie('cart', "")
