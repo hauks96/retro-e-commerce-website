@@ -1,1 +1,10 @@
 {% load static %}
+This is a confirmation of your order with number: {{ id }}
+Order status: {{ status }}
+
+{% for item in product_list %}
+    Product: {{ item.name }} | Quantity: {{ item.quantity }} | Price: {{ item.price }} | Total: {{ item.total }}
+{% endfor %}
+    Total payment: {{ total_price }}
+
+Thank you!
