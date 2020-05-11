@@ -11,6 +11,9 @@ class Address(models.Model):
     postal_code = models.CharField(max_length=12, blank=True, default="")
     note = models.CharField(max_length=32, blank=True, default="")
 
+    def __str__(self):
+        return self.address
+
 
 class User(AbstractUser):
     username = models.CharField(max_length=12, unique=True)

@@ -3,11 +3,22 @@ from user.models import User
 
 
 # Create your models here.
+
+
+class OrderStatus(models.Model):
+    status = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.status
+
+
 class Order(models.Model):
-    order_file = models.CharField(max_length=2500, default="", blank=True) #Change to Binary Field to store file??
-    order_date = models.DateTimeField(auto_now=True)
-    order_status = models.CharField(max_length=50, blank=True)
+    order_id = models.CharField(max_length=15, default="")
+    items = models.CharField(max_length=300, default="")
+    date = models.DateTimeField(auto_now=True)
+    status = models.ForeignKey(OrderStatus, blank=True, null=True, on_delete=models.DO_NOTHING)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    email = models.EmailField(default="email@email.com")
 
     def get_order_data(self):
         return self.order_items.get_products()
@@ -19,4 +30,6 @@ class Order(models.Model):
         self.order_items.empty_cart()
         return
 
+    def __str__(self):
+        return self.order_id
 
