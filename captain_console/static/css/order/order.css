@@ -14,8 +14,21 @@
 }
 
 #checkoutButtons {
-    margin-left: auto;
+
 }
 
+#next-previous {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
 
+#next-button {
+    margin-left: auto;
+    margin-right: 0;
+    text-align: right;
+}
+
+#saved-address {
+    margin-bottom: 20px;
+}
 

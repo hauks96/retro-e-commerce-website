@@ -40,14 +40,14 @@
                 <br>
                 {{ request.session.cardholder_name }} <br>
                 {{ request.session.credit_card_num }} <br>
-                {{ request.session.expiry_date }} <br>
+                {{ request.session.expiry_month }}/{{ request.session.expiry_year }} <br>
                 {{ request.session.CVC }}
             </div>
         </div>
 
         <div class="row">
             <div class="col">
-                <h2>Shopping cart</h2>
+                <h2>Product Details</h2>
                 <br>
                 <div id="cart-container">
 {% for form in forms %}
@@ -153,7 +153,7 @@
                 </div>
         <div class="row">
             <div id="checkoutButtons">
-                <a href="{% url 'billing-index' %}" class="btn btn-success">Previous</a>
+                <a id="summary-to-payment-button" href="{% url 'billing-index' %}" class="btn btn-success">Previous</a>
             </div>
         </div>
 

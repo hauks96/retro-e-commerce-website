@@ -4,7 +4,7 @@ img.product-icon {
     height: 80px;
 }
 #cartcart{
-    min-width: 650px;
+    min-width: 375px;
     min-height: 500px;
     height: fit-content;
     width: 100%;
@@ -77,8 +77,8 @@ img.product-icon {
     width: 130px;
 }
 
-@media (max-width: 1000px) {
-    #cartcart {
+@media (max-width: 850px) {
+    #cart-container{
         display: block;
         width: 100%;
     }

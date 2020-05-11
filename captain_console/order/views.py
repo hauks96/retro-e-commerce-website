@@ -71,7 +71,8 @@ def billing(request):
             #TODO possibly create payment info instance and store id in cookie
             request.session["cardholder_name"] = my_form['cardholder_name']
             request.session["credit_card_num"] = my_form['credit_card_num']
-            request.session["expiry_date"] = my_form['expiry_date']
+            request.session["expiry_year"] = my_form['expiry_year']
+            request.session["expiry_month"] = my_form['expiry_month']
             request.session["CVC"] = my_form['CVC']
             """return redirect(
                 '../summary/?cardholder_name=' + cardholder_name

@@ -27,11 +27,22 @@
 
         <div class="row">
             <div class="container" id="form">
-            <form action="{% url 'billing-index' %}" method="POST">
+            <form id="billing-form" action="{% url 'billing-index' %}" method="POST">
             {% csrf_token %}
             {% for field in form %}
                 <div class="form-group">
                      <div class="input-group"><b>{{ field.label_tag }}</b></div>
+                    {% if field.name in request.session %}
+                        {% if field.name == "cardholder_name" %}
+                            <input id="cardholder-name-value" type="hidden" value="{{ request.session.cardholder_name }}" disabled>
+                        {% elif field.name == "credit_card_num" %}
+                            <input id="credit-card-num-value" type="hidden" value="{{ request.session.credit_card_num }}" disabled>
+                        {% elif field.name == "expiry_year" %}
+                            <input id="expiry-year-value" type="hidden" value="{{ request.session.expiry_year }}" disabled>
+                        {% elif field.name == "expiry_month" %}
+                            <input id="expiry-month-value" type="hidden" value="{{ request.session.expiry_month }}" disabled>
+                        {% endif %}
+                    {% endif %}
                     {{ field }}
                     {% if form.errors %}
                         {% for error in field.errors %}
@@ -40,16 +51,18 @@
                     {% endif %}
                 </div>
             {% endfor %}
-                 <button type="submit" value="submit" class="btn btn-primary">Submit</button>
             </form>
             </div>
 
         </div>
 
-        <div class="row">
+        <div id="next-previous" class="row">
             <div id="checkoutButtons">
-                <a href="{% url 'shipping-index' %}" class="btn btn-success">Previous</a>
+                <a href="{% url 'shipping-index' %}" class="btn btn-success">< Previous</a>
                 <!-- <a href="{% url 'summary-index' %}" class="btn btn-success">Next</a> -->
+            </div>
+            <div id="next-button">
+                 <button form="billing-form" type="submit" value="submit" class="btn btn-primary">Next ></button>
             </div>
         </div>
 
@@ -58,4 +71,5 @@
 
 
     </div>
+
 {% endblock %}

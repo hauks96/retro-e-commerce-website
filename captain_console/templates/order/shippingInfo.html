@@ -24,12 +24,28 @@
             <h1>Shipping Address</h1>
         </div>
 
+        {% if user.is_authenticated %} <!-- User can use saved shipping info is he is logged in -->
+        <a id="saved-address" href="{% url 'shipping-index-saved' %}" class="btn btn-primary">Use saved address</a>
+        {% endif %}
 
         <div class="row">
             <div class="container" id="form">
-            <form action="{% url 'shipping-index' %}" method="POST">
+            <form id="shipping-form" action="{% url 'shipping-index' %}" method="POST">
             {% csrf_token %}
             {% for field in form %}
+                {% if field.name in request.session %}
+                    {% if field.name == "address" %}
+                        <input id="address-value" type="hidden" value="{{ request.session.address }}" disabled>
+                    {% elif field.name == "country" %}
+                        <input id="country-value" type="hidden" value="{{ request.session.country }}" disabled>
+                    {% elif field.name == "city" %}
+                        <input id="city-value" type="hidden" value="{{ request.session.city }}" disabled>
+                    {% elif field.name == "postal_code" %}
+                        <input id="postal-code-value" type="hidden" value="{{ request.session.postal_code }}" disabled>
+                    {% elif field.name == "note" %}
+                        <input id="note-value" type="hidden" value="{{ request.session.note }}" disabled>
+                    {% endif %}
+                {% endif %}
                 <div class="form-group">
                      <div class="input-group"><b>{{ field.label_tag }}</b></div>
                     {{ field }}
@@ -46,21 +62,22 @@
                   <label class="form-check-label" for="savePaymentInfoBox">Save address information</label>
                 </div>
                 {% endif %}
-                 <button type="submit" value="submit" class="btn btn-primary">Submit</button>
-                {% if user.is_authenticated %} <!-- User can use saved shipping info is he is logged in -->
-                <a href="{% url 'shipping-index-saved' %}" class="btn btn-primary">Use saved address</a>
-                {% endif %}
             </form>
             </div>
 
         </div>
 
 
-        <div class="row">
+        <div id="next-previous" class="row">
             <div id="checkoutButtons">
-                <a href="{% url 'shop-index' %}" class="btn btn-success">Back to shop</a>
+                <a href="{% url 'shop-index' %}" class="btn btn-success">< Back to shop</a>
                 <!-- <a href="{% url 'billing-index' %}" class="btn btn-success">Next</a> -->
             </div>
+            <div id="next-button">
+                 <button id="shipping-to-payment-button" type="submit" form="shipping-form"
+                         value="submit" class="btn btn-primary">Next ></button>
+            </div>
+
         </div>
 
 
