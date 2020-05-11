@@ -9,8 +9,13 @@
         <div class="col-md-12">
             <div id="myInfo">
             </div>
-                <div id="search_history_btn_container">
-                    <a href="{% url 'search-history' %}" class="btn btn-primary">Search History</a>
+                <div class="row">
+                    <div id="search_history_btn_container">
+                        <a href="{% url 'search-history' %}" class="btn btn-primary">Search History</a>
+                    </div>
+                    <div id="order_history_btn_container">
+                        <a href="{% url 'order-history' %}" class="btn btn-primary">Order History</a>
+                    </div>
                 </div>
                 <div id="profile_image_container">
                     <img class='img-responsive' src="{{ user.image }}" alt="Supposed to be an image" id="profile_pic">

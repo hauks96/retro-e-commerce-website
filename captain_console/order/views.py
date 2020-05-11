@@ -1,14 +1,17 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 from user.models import Address, User
-from shop.models import Product, ProductImage
+from shop.models import Product
 from cart.views import render_dict_cookie
 from .forms import ShippingAddressForm, PaymentInfoForm, ShippingAddressInfoForm, CartItemDisplay
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 
-# Create your views here.
 from .models import Order, OrderStatus
+from user.views import get_product_forms
+
+
+# Create your views here.
 
 
 def shipping(request):
@@ -26,16 +29,16 @@ def shipping(request):
             request.session['note'] = my_form.cleaned_data['note']
             request.session['address_email'] = my_form.cleaned_data['address_email']
 
-            if 'savePaymentInfoBox' in request.POST: # Saves user info if he checks the box
+            if 'savePaymentInfoBox' in request.POST:  # Saves user info if he checks the box
                 user_id = request.user.id  # Users id from django auth
                 user = User.objects.get(id=user_id)  # User instance
                 address_id = user.address.id
                 Address.objects.filter(id=address_id).update(full_name=my_form.cleaned_data['full_name'],
-                                                            address=my_form.cleaned_data['address'],
-                                                            country=my_form.cleaned_data['country'],
-                                                            city=my_form.cleaned_data['city'],
-                                                            postal_code=my_form.cleaned_data['postal_code'],
-                                                            note=my_form.cleaned_data['note'])
+                                                             address=my_form.cleaned_data['address'],
+                                                             country=my_form.cleaned_data['country'],
+                                                             city=my_form.cleaned_data['city'],
+                                                             postal_code=my_form.cleaned_data['postal_code'],
+                                                             note=my_form.cleaned_data['note'])
 
             return redirect('../payment/')
         else:
@@ -100,43 +103,14 @@ def billing(request):
 
 def summary(request):
     cart_cookie = request.COOKIES['cart']
-    cart_dict = render_dict_cookie(cart_cookie)
-    cart_keys = list(cart_dict.keys())
-
-    # Initializing form list, since we are rendering multiple forms
-    forms = []
-
-    # Sending a cart total value with the return context (call by name in template)
-    cart_total = 0
-
-    # Iterating over all the keys in the cart dictionary
-    for product_id in cart_keys:
-        quantity = int(cart_dict[str(product_id)])
-        # Trying to fetch a product with the product id present in the cookie dict
-        try:
-            # Setting all return data values
-            product = Product.objects.get(id=product_id)
-            product_image = ProductImage.objects.filter(product=product.id).first()
-            cart_total += product.price * quantity
-            single_form = CartItemDisplay(initial={'quantity': quantity,
-                                                   'name': product.name,
-                                                   'price': product.price,
-                                                   'total_price': product.price * quantity,
-                                                   'image': product_image})
-            # Appending all forms to the form list
-            forms.append(single_form)
-
-        # If the product we tried to fetch didn't exist we skip it and delete the key
-        except Product.DoesNotExist:
-            del cart_dict[product_id]
-            continue
+    forms, cart_total = get_product_forms(cart_cookie)
 
     return render(request, 'order/summaryPage.html', context={'cart_total': cart_total, 'forms': forms})
 
 
 def success(request):
     if request.method == "GET":
-        user=None
+        user = None
         cart_cookie = request.COOKIES['cart']
         # order_email = request.session['order_email']
 
@@ -154,6 +128,14 @@ def success(request):
         order.email = user.email
         if user:
             order.user = user
+
+        address_data = get_session_address(request)
+        order.address = address_data['address']
+        order.country = address_data['country']
+        order.city = address_data['city']
+        order.postal_code = address_data['postcode']
+        order.full_name = address_data['full_name']
+        order.note = address_data['note']
         order.save()
 
         dict_cookie = render_dict_cookie(cart_cookie)
@@ -163,21 +145,21 @@ def success(request):
         for key in product_keys:
             product = Product.objects.get(id=int(key))
             quantity = int(dict_cookie[key])
-            total_price += product.price*quantity
+            total_price += product.price * quantity
             data = {
                 'quantity': quantity,
                 'name': product.name,
                 'price': product.price,
-                'total': product.price*quantity
+                'total': product.price * quantity
             }
             product_list.append(data)
 
         msg_plain = render_to_string('order/email.txt',
                                      context={'user': user, 'cart': product_list,
-                                                'id': secondary_id, 'total_price': total_price, 'status': order.status})
+                                              'id': secondary_id, 'total_price': total_price, 'status': order.status})
 
         send_mail(
-            'Order Confirmation from Captain Console '+secondary_id,
+            'Order Confirmation from Captain Console ' + secondary_id,
             msg_plain,
             'captainconsole69@gmail.com',
             ['agir96@gmail.com'],
@@ -189,17 +171,12 @@ def success(request):
         response.set_cookie('itm_count', 0)
         return response
 
-    # @login_required() - TODO For using when user wants to use stored address
 
-
-"""context = {}
-    user = get_object_or_404(User, pk=request.user.id)
-    address = user.address
-    form = ShippingAddressForm(instance=address)
-    if request.method == "POST":
-        form = ShippingAddressForm(instance=address, data=request.POST)
-        if form.is_valid():
-            form.save()
-            #return redirect('billing-index') TODO redirect on to payment
-    context['form'] = form
-    return render(request, 'order/shippingInfo.html', context)"""
+def get_session_address(request):
+    addr_dict = {'full_name': request.session['full_name'],
+                 'address': request.session['address'],
+                 'country': request.session['country'],
+                 'city': request.session['city'],
+                 'postcode': request.session['postal_code'],
+                 'note': request.session['note']}
+    return addr_dict

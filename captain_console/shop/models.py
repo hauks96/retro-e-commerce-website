@@ -24,7 +24,7 @@ class Product(models.Model):
     discount = models.IntegerField(default=0, blank=True)
     short_description = models.CharField(max_length=150)
     long_description = models.CharField(max_length=999)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
 
     def get_category_name(self):
         return self.category.name

@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cart/cart.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/user/order_history.css' %}">
+{% endblock %}
+{% block content %}
+    <div id="order_history_btn_container">
+        <a href="{% url 'order-history' %}" class="btn btn-primary">Back</a>
+    </div>
+    <div class="center-content">
+    <div id="cart-container-order-history">
+        {% for form in forms %}
+            <form class="form-inline single-cart-form center-content">
+                 <!-- product image -->
+                <div class="input-group mb-3">
+                    <img src="{{ form.image.value }}" alt="ImageNotFound" class="product-icon">
+                </div>
+
+                {% csrf_token %}
+
+                <!-- name -->
+                <div class="form-group">
+                    <div class="d-flex flex-column">
+                        <!-- label -->
+                        <b>
+                            <label for="{{ form.name.id_for_label }}">
+                            {{form.name.label}}
+                            </label>
+                        </b>
+                        <!-- input -->
+                        <div class="input-group mb-3">
+                             <input type="{{ form.name.field.widget.input_type }}" name="{{ form.name.name }}"
+                                    value="{{ form.name.value }}" class="form-control is-name-{{ form.product_id.value }}"
+                                    required id="{{ form.name.id_for_label }}" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- price -->
+                <div class="form-group">
+                    <div class="d-flex flex-column">
+                        <!-- label -->
+                        <b>
+                            <label for="{{ form.price.id_for_label }}">
+                            {{form.price.label}}
+                            </label>
+                        </b>
+
+                        <!-- input -->
+                        <div class="input-group mb-3">
+                             <input type="{{ form.price.field.widget.input_type }}" name="{{ form.price.name }}"
+                                    value="{{ form.price.value }}" class="form-control is-price-{{ form.product_id.value }}"
+                                    required id="{{ form.price.id_for_label }}" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- quantity -->
+                <div class="form-group">
+                    <div class="d-flex flex-column">
+                        <!-- label -->
+                        <b>
+                            <label for="{{ form.quantity.id_for_label }}">
+                            {{form.quantity.label}}
+                            </label>
+                        </b>
+
+                        <!-- input group -->
+                        <div class="input-group mb-3">
+                            <!-- input field -->
+                            <input type="{{ form.quantity.field.widget.input_type }}" name="{{ form.quantity.name }}"
+                                value="{{ form.quantity.value }}" class="form-control quantity {{ form.product_id.value }}"
+                                min="1" max="50" step="1" required id="{{ form.quantity.id_for_label }}" readonly="readonly">
+                        </div>
+                     </div>
+                </div>
+
+                <!-- total price -->
+                <div class="form-group">
+                    <div class="d-flex flex-column">
+                        <!-- label -->
+                        <b>
+                            <label for="{{ form.total_price.id_for_label }}">
+                            {{form.total_price.label}}
+                            </label>
+                        </b>
+
+                        <div class="input-group mb-3">
+                             <input type="{{ form.total_price.field.widget.input_type }}" name="{{ form.total_price.name }}"
+                                    value="{{ form.total_price.value }}" class="form-control total-price-{{ form.product_id.value }}"
+                                    required id="{{ form.total_price.id_for_label }}" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+                <!-- image -->
+                {{ form.image }}
+
+
+                <!-- error display -->
+                {% if form.errors %}
+                    {% for error in field.errors %}
+                        {{ error }}
+                    {% endfor %}
+                {% endif %}
+
+            </form>
+    {% endfor %}
+    </div>
+    </div>
+    <div class="center-content">
+    <div class="summary-container">
+        <div class="details">
+            <label for="order-address"><b>Order Address:</b></label>
+            <p id="order-address">
+                {{ order.full_name }}<br>
+                {{ order.address }}<br>
+                {{ order.postal_code }} {{ order.city }}<br>
+                {{ order.country }}
+            </p>
+        </div>
+        <div class="details">
+            <label for="order-id"><b>Order ID:</b></label>
+            <p id="order-id"> {{ order.order_id }} </p>
+        </div>
+        <div class="details">
+            <label for="order-email"><b>Confirmation Email:</b></label>
+            <p id="order-email"> {{ order.email }}" </p>
+        </div>
+        <div class="details">
+            <label for="cart_total"><b>Total Payment:</b></label>
+            <p id="cart-total-summary">{{ cart_total }}€</p>
+        </div>
+    </div>
+    </div>
+{% endblock %}
