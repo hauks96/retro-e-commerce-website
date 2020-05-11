@@ -1,9 +1,12 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from shop.models import Product
+from time import gmtime, strftime
 
 # Create your models here.
 
 DEFAULT_IMAGE = "https://www.kindpng.com/picc/m/495-4952535_create-digital-profile-icon-blue-user-profile-icon.png"
+
 
 class Address(models.Model):
     full_name = models.CharField(max_length=70, blank=True, default="")
@@ -25,7 +28,7 @@ class User(AbstractUser):
     password = models.CharField(max_length=999)
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=32, default="", help_text="Enter first name", null=True)
-    last_name = models.CharField(max_length=32,  default="", help_text="Enter last name", null=True)
+    last_name = models.CharField(max_length=32, default="", help_text="Enter last name", null=True)
     address = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True, null=True)
     image = models.CharField(max_length=999, default=DEFAULT_IMAGE)
     enabled = models.BooleanField(default=True)
@@ -54,7 +57,16 @@ class User(AbstractUser):
 
 
 class UserHistory(models.Model):
-    pass
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, default=1)
+    #todo: uncomment the date line and migrate, then fix views to show products ordered by date
+    #date = models.DateTimeField(default=strftime("%Y-%m-%d %H:%M:%S", gmtime()))
+
+    class Meta:
+        unique_together = ('user', 'product',)
+    # add a models.Date field?
+
+
 """
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

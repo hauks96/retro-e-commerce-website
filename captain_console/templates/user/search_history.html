@@ -16,13 +16,34 @@
                     <b>{{user.username}}'s search history</b>
                 </div>
 
-
         </div>
     </div>
 
 
     <div class="row">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Item</th>
+            <th scope="col">Category</th>
+            <th scope="col">Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for product in history %}
+            <a href="{% url "product-index" product.id %}">
+            <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ product.name }}</td>
+            <td>{{ product.category }}</td>
+            <td>{{ product.price }}</td>
+            </tr>
+            </a>
+        {% endfor %}
+        </tbody>
+    </table>
 
     </div>
-
+</div>
 {% endblock %}
