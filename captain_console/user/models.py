@@ -16,6 +16,9 @@ class Address(models.Model):
     def __str__(self):
         return str(self.id)
 
+    def __str__(self):
+        return self.address
+
 
 class User(AbstractUser):
     username = models.CharField(max_length=12, unique=True)
