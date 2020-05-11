@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from shop.forms import AddToCart, Filtering, Categories
 from shop.models import Product, ProductImage, Tag
+from user.models import UserHistory
 
 
 # Create your views here.
@@ -58,6 +59,10 @@ def product(request, product_id):
     # if user.is_authenticated -> save search to search history model
     # load product details page
     # todo: add to search history if authenticated
+    if request.user.is_authenticated:
+        print(request.user.first_name)
+        newSearch = UserHistory(user=request.user.pk, product=product_id)
+        newSearch.save()  #
     if request.method == 'GET':
 
         instance = get_object_or_404(Product, pk=product_id)

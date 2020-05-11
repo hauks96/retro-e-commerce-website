@@ -1,5 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from shop.models import Product
+
 
 # Create your models here.
 
@@ -17,7 +19,7 @@ class User(AbstractUser):
     password = models.CharField(max_length=999)
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=32, default="", help_text="Enter first name", null=True)
-    last_name = models.CharField(max_length=32,  default="", help_text="Enter last name", null=True)
+    last_name = models.CharField(max_length=32, default="", help_text="Enter last name", null=True)
     address = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True, null=True)
     image = models.CharField(max_length=999, default='static/images/base_cover.png')
     enabled = models.BooleanField(default=True)
@@ -45,11 +47,12 @@ class User(AbstractUser):
         return self.first_name + ' ' + self.last_name
 
 
-
-
-
 class UserHistory(models.Model):
-    pass
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, default=1)
+    # add a models.Date field?
+
+
 """
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
