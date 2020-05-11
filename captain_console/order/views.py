@@ -25,8 +25,6 @@ def shipping(request):
             request.session['city'] = my_form.cleaned_data['city']
             request.session['postal_code'] = my_form.cleaned_data['postal_code']
             request.session['note'] = my_form.cleaned_data['note']
-
-            request.session['email'] = my_form.cleaned_data['email']
             if 'savePaymentInfoBox' in request.POST: # Saves user info if he checks the box
                 user_id = request.user.id  # Users id from django auth
                 user = User.objects.get(id=user_id)  # User instance
@@ -37,8 +35,7 @@ def shipping(request):
                                                             country=my_form.cleaned_data['country'],
                                                             city=my_form.cleaned_data['city'],
                                                             postal_code=my_form.cleaned_data['postal_code'],
-                                                            note=my_form.cleaned_data['note'],
-                                                            email=my_form.cleaned_data['email'])
+                                                            note=my_form.cleaned_data['note'])
 
             return redirect('../payment/')
         else:
@@ -53,10 +50,10 @@ def shipping_saved(request):
     user = User.objects.get(id=user_id)
     address = user.address
     my_form = ShippingAddressInfoForm({'full_name': address.full_name, 'address': address.address, 'country': address.country, 'city': address.city,
-                                       'postal_code': address.postal_code, 'note': address.note, 'email': address.email})
+                                       'postal_code': address.postal_code, 'note': address.note})
     if request.method == "POST":
         my_form = ShippingAddressInfoForm({'full_name': address.full_name, 'address': address.address, 'country': address.country, 'city': address.city,
-                                           'postal_code': address.postal_code, 'note': address.note, 'email': address.email}, data=request.POST)
+                                           'postal_code': address.postal_code, 'note': address.note}, data=request.POST)
         # Save info in session
         request.session['full_name'] = my_form.cleaned_data['full_name']
         request.session['address'] = my_form.cleaned_data['address']
@@ -64,7 +61,6 @@ def shipping_saved(request):
         request.session['city'] = my_form.cleaned_data['city']
         request.session['postal_code'] = my_form.cleaned_data['postal_code']
         request.session['note'] = my_form.cleaned_data['note']
-        request.session['email'] = my_form.cleaned_data['email']
     else:
         context['form'] = my_form
 
