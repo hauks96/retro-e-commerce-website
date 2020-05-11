@@ -48,11 +48,13 @@ def shipping_saved(request):
         my_form = ShippingAddressInfoForm({'address': address.address, 'country': address.country, 'city': address.city,
                                            'postal_code': address.postal_code, 'note': address.note}, data=request.POST)
         # Save info in session
+        request.session['full_name'] = my_form.cleaned_data['full_name']
         request.session['address'] = my_form.cleaned_data['address']
         request.session['country'] = my_form.cleaned_data['country']
         request.session['city'] = my_form.cleaned_data['city']
         request.session['postal_code'] = my_form.cleaned_data['postal_code']
         request.session['note'] = my_form.cleaned_data['note']
+        request.session['email'] = my_form.cleaned_data['email']
     else:
         context['form'] = my_form
 

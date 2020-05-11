@@ -55,25 +55,33 @@
                     {% csrf_token %}
                     <fieldset id="address-fieldset" disabled="disabled">
                         <legend>Shipping address:</legend>
-                        <lable for="street"><b>Street</b></lable>
+                        <label for="full_name"><b>Full Name</b></label>
+                        <div class="form-group">
+                           <input type="text" value="{{ address.full_name }}">
+                        </div>
+                        <label for="street"><b>Street</b></label>
                         <div class="form-group">
                            <input type="text" value="{{ address.address }}">
                         </div>
-                        <lable for="city"><b>City</b></lable>
+                        <label for="city"><b>City</b></label>
                         <div class="form-group">
                            <input type="text" value="{{ address.city }}">
                         </div>
-                        <lable for="country"><b>Country</b></lable>
+                        <label for="country"><b>Country</b></label>
                         <div class="form-group">
                            <input type="text" value="{{ address.country }}">
                         </div>
-                        <lable for="post_code"><b>Postcode</b></lable>
+                        <label for="post_code"><b>Postcode</b></label>
                         <div class="form-group">
                            <input type="text" value="{{ address.postal_code }}">
                         </div>
-                        <lable for="note"><b>Additional</b></lable>
+                        <label for="note"><b>Additional</b></label>
                         <div class="form-group">
                            <input type="text" value="{{ address.note }}">
+                        </div>
+                        <label for="email"><b>Email</b></label>
+                        <div class="form-group">
+                           <input type="text" value="{{ address.email }}">
                         </div>
                      </fieldset>
                 </form>
