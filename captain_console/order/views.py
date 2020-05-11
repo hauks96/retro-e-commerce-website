@@ -16,11 +16,13 @@ def shipping(request):
     if request.method == "POST":
         my_form = ShippingAddressInfoForm(request.POST)
         if my_form.is_valid(): # Save address info into session
+            request.session['full_name'] = my_form.cleaned_data['full_name']
             request.session['address'] = my_form.cleaned_data['address']
             request.session['country'] = my_form.cleaned_data['country']
             request.session['city'] = my_form.cleaned_data['city']
             request.session['postal_code'] = my_form.cleaned_data['postal_code']
             request.session['note'] = my_form.cleaned_data['note']
+            request.session['email'] = my_form.cleaned_data['email']
             if 'savePaymentInfoBox' in request.POST: # Saves user info if he checks the box
                 user_id = request.user.id  # Users id from django auth
                 user = User.objects.get(id=user_id)  # User instance
