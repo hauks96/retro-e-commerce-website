@@ -176,7 +176,7 @@ def success(request):
         send_mail(
             'Order Confirmation from Captain Console '+secondary_id,
             msg_plain,
-            'aegir19@ru.is',
+            'captainconsole69@gmail.com',
             ['agir96@gmail.com'],
         )
         # html_message=msg_html,

@@ -146,3 +146,10 @@ STATICFILES_DIRS = [
 ]
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'captainconsole69@gmail.com'
+EMAIL_HOST_PASSWORD = 'zamnnbvxhvqtzemh'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
