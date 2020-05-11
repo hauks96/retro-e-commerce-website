@@ -3,7 +3,7 @@ from django.db import models
 
 # Create your models here.
 
-DEFAULT_IMAGE = "https://i7.pngguru.com/preview/831/88/865/user-profile-computer-icons-user-interface-mystique.jpg"
+DEFAULT_IMAGE = "https://www.kindpng.com/picc/m/495-4952535_create-digital-profile-icon-blue-user-profile-icon.png"
 
 class Address(models.Model):
     full_name = models.CharField(max_length=70, blank=True, default="")
@@ -12,7 +12,6 @@ class Address(models.Model):
     city = models.CharField(max_length=32, blank=True, default="")
     postal_code = models.CharField(max_length=12, blank=True, default="")
     note = models.CharField(max_length=100, blank=True, default="")
-    email = models.EmailField(max_length=320, blank=True, default="")
 
     def __str__(self):
         return str(self.id)

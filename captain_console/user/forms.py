@@ -33,7 +33,7 @@ class AddressForm(forms.ModelForm):
     class Meta:
         model = Address
         exclude = ['id', ]
-        fields = ['full_name', 'address', 'country', 'city', 'postal_code', 'note', 'email']
+        fields = ['full_name', 'address', 'country', 'city', 'postal_code', 'note']
 
 
 class ProfilePicForm(forms.ModelForm):
