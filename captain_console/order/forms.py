@@ -16,7 +16,6 @@ class ShippingAddressForm(ModelForm):  # To use if user is logged in and wants t
             'city': widgets.TextInput(attrs={'class': 'form-control'}),
             'postal_code': widgets.TextInput(attrs={'class': 'form-control'}),
             'note': widgets.TextInput(attrs={'class': 'form-control'}),
-            'email': widgets.EmailInput(attrs={'class': 'form-control'})
         }
 
 
@@ -27,7 +26,6 @@ class ShippingAddressInfoForm(forms.Form):
     city = forms.CharField(label='City', max_length=32, required=True)
     postal_code = forms.CharField(label='Postal Code', max_length=12, required=True)
     note = forms.CharField(label='Enter additional info if required', max_length=100, required=False)
-    email = forms.CharField(label='Email', max_length=320, required=True)
 
 
 

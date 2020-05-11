@@ -25,19 +25,16 @@ def shipping(request):
             request.session['postal_code'] = my_form.cleaned_data['postal_code']
             request.session['note'] = my_form.cleaned_data['note']
 
-            request.session['email'] = my_form.cleaned_data['email']
-            if 'savePaymentInfoBox' in request.POST:  # Saves user info if he checks the box
+            if 'savePaymentInfoBox' in request.POST: # Saves user info if he checks the box
                 user_id = request.user.id  # Users id from django auth
                 user = User.objects.get(id=user_id)  # User instance
                 address_id = user.address.id
-                Address.objects.filter(id=address_id).update(
-                    full_name=my_form.cleaned_data['full_name'],
-                    address=my_form.cleaned_data['address'],
-                    country=my_form.cleaned_data['country'],
-                    city=my_form.cleaned_data['city'],
-                    postal_code=my_form.cleaned_data['postal_code'],
-                    note=my_form.cleaned_data['note'],
-                    email=my_form.cleaned_data['email'])
+                Address.objects.filter(id=address_id).update(full_name=my_form.cleaned_data['full_name'],
+                                                            address=my_form.cleaned_data['address'],
+                                                            country=my_form.cleaned_data['country'],
+                                                            city=my_form.cleaned_data['city'],
+                                                            postal_code=my_form.cleaned_data['postal_code'],
+                                                            note=my_form.cleaned_data['note'])
 
             return redirect('../payment/')
         else:
@@ -51,14 +48,14 @@ def shipping_saved(request):
     user_id = request.user.id
     user = User.objects.get(id=user_id)
     address = user.address
-    my_form = ShippingAddressInfoForm(
-        {'full_name': address.full_name, 'address': address.address, 'country': address.country, 'city': address.city,
-         'postal_code': address.postal_code, 'note': address.note, 'email': address.email})
+
+    my_form = ShippingAddressInfoForm({'full_name': address.full_name, 'address': address.address,
+                                       'country': address.country, 'city': address.city,
+                                       'postal_code': address.postal_code, 'note': address.note})
     if request.method == "POST":
-        my_form = ShippingAddressInfoForm(
-            {'full_name': address.full_name, 'address': address.address, 'country': address.country,
-             'city': address.city,
-             'postal_code': address.postal_code, 'note': address.note, 'email': address.email}, data=request.POST)
+        my_form = ShippingAddressInfoForm({'full_name': address.full_name, 'address': address.address,
+                                           'country': address.country, 'city': address.city,
+                                           'postal_code': address.postal_code, 'note': address.note}, data=request.POST)
         # Save info in session
         request.session['full_name'] = my_form.cleaned_data['full_name']
         request.session['address'] = my_form.cleaned_data['address']
@@ -66,7 +63,6 @@ def shipping_saved(request):
         request.session['city'] = my_form.cleaned_data['city']
         request.session['postal_code'] = my_form.cleaned_data['postal_code']
         request.session['note'] = my_form.cleaned_data['note']
-        request.session['email'] = my_form.cleaned_data['email']
     else:
         context['form'] = my_form
 
@@ -137,6 +133,7 @@ def summary(request):
 
 def success(request):
     if request.method == "GET":
+        user=None
         cart_cookie = request.COOKIES['cart']
         # order_email = request.session['order_email']
 
@@ -162,7 +159,7 @@ def success(request):
         total_price = 0
         for key in product_keys:
             product = Product.objects.get(id=int(key))
-            quantity = int(dict_cookie(key))
+            quantity = int(dict_cookie[key])
             total_price += product.price*quantity
             data = {
                 'quantity': quantity,
@@ -172,7 +169,7 @@ def success(request):
             }
             product_list.append(data)
 
-        msg_plain = render_to_string('templates/order/email.txt',
+        msg_plain = render_to_string('order/email.txt',
                                      context={'user': user, 'cart': product_list,
                                                 'id': secondary_id, 'total_price': total_price, 'status': order.status})
 

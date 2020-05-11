@@ -25,11 +25,11 @@
         </div>
 
         <div class="row" id="orderHeaderText">
-            <h1>Shipping Address</h1>
+            <h1>Shipping Information</h1>
         </div>
 
         {% if user.is_authenticated %} <!-- User can use saved shipping info is he is logged in -->
-        <a id="saved-address" href="{% url 'shipping-index-saved' %}" class="btn btn-primary">Use saved address</a>
+        <a id="saved-address" href="{% url 'shipping-index-saved' %}" class="btn btn-primary">Use saved information</a>
         {% endif %}
 
         <div class="row">
