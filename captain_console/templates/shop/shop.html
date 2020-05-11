@@ -10,12 +10,15 @@
     <div class="row w-75 mx-auto">
     <div class="d-none d-sm-none d-md-block col-md-3 bg-white">
     {% include 'shop/sidebar.html' %}
-    <!-- feed -->
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-9 bg-white">
+    <!-- feed -->
+    <div class="col-xs-12 col-sm-12 col-md-9 bg-white" id="mainShoppingContainer">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3">
     {% for product, extra in products.items %}
+        <div id="productCard">
         {% include 'shop/single_product.html' with products=products %}
+            <br>
+        </div>
     {% endfor %}
     </div>
     </div>
