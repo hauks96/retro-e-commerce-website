@@ -38,7 +38,9 @@
             {% csrf_token %}
             {% for field in form %}
                 {% if field.name in request.session %}
-                    {% if field.name == "address" %}
+                    {% if field.name == "full_name" %}
+                        <input id="full_name-value" type="hidden" value="{{ request.session.full_name }}" disabled>
+                    {% elif field.name == "address" %}
                         <input id="address-value" type="hidden" value="{{ request.session.address }}" disabled>
                     {% elif field.name == "country" %}
                         <input id="country-value" type="hidden" value="{{ request.session.country }}" disabled>
@@ -48,6 +50,8 @@
                         <input id="postal-code-value" type="hidden" value="{{ request.session.postal_code }}" disabled>
                     {% elif field.name == "note" %}
                         <input id="note-value" type="hidden" value="{{ request.session.note }}" disabled>
+                    {% elif field.name == "email" %}
+                        <input id="email-value" type="hidden" value="{{ request.session.email }}" disabled>
                     {% endif %}
                 {% endif %}
                 <div class="form-group">

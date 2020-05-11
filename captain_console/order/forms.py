@@ -10,20 +10,25 @@ class ShippingAddressForm(ModelForm):  # To use if user is logged in and wants t
         model = Address
         exclude = ['id']
         widgets = {
+            'full_name': widgets.TextInput(attrs={'class': 'form-control'}),
             'address': widgets.TextInput(attrs={'class': 'form-control'}),
             'country': widgets.TextInput(attrs={'class': 'form-control'}),
             'city': widgets.TextInput(attrs={'class': 'form-control'}),
             'postal_code': widgets.TextInput(attrs={'class': 'form-control'}),
             'note': widgets.TextInput(attrs={'class': 'form-control'}),
+            'email': widgets.EmailInput(attrs={'class': 'form-control'})
         }
 
 
 class ShippingAddressInfoForm(forms.Form):
-    address = forms.CharField(label='Address', max_length=100, required=True)
-    country = forms.CharField(label='Country', max_length=56, required=True)
-    city = forms.CharField(label='City', max_length=100, required=True)
-    postal_code = forms.CharField(label='Postal Code', max_length=10, required=True)
-    note = forms.CharField(label='Enter additional info if required', max_length=25, required=False)
+    full_name = forms.CharField(label='Full name', max_length=70, required=True)
+    address = forms.CharField(label='Address', max_length=32, required=True)
+    country = forms.CharField(label='Country', max_length=32, required=True)
+    city = forms.CharField(label='City', max_length=32, required=True)
+    postal_code = forms.CharField(label='Postal Code', max_length=12, required=True)
+    note = forms.CharField(label='Enter additional info if required', max_length=100, required=False)
+    email = forms.CharField(label='Email', max_length=320, required=True)
+
 
 
 class PaymentInfoForm(forms.Form):

@@ -57,6 +57,10 @@
                     {% csrf_token %}
                     <fieldset id="address-fieldset" disabled="disabled">
                         <legend>Shipping address:</legend>
+                        <label for="full_name"><b>Full Name</b></label>
+                        <div class="form-group">
+                           <input type="text" value="{{ address.full_name }}">
+                        </div>
                         <label for="street"><b>Street</b></label>
                         <div class="form-group">
                            <input type="text" value="{{ address.address }}">
@@ -76,6 +80,10 @@
                         <label for="note"><b>Additional</b></label>
                         <div class="form-group">
                            <input type="text" value="{{ address.note }}">
+                        </div>
+                        <label for="email"><b>Email</b></label>
+                        <div class="form-group">
+                           <input type="text" value="{{ address.email }}">
                         </div>
                      </fieldset>
                 </form>

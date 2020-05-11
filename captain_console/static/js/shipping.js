@@ -1,4 +1,12 @@
 $(document).ready(function () {
+     if ($('#full_name-value')!==undefined){
+        let full_name = $('#full_name-value').val();
+        if (full_name!=="" && full_name!==null && full_name!==undefined){
+            let full_name_input = $('#id_full_name');
+            full_name_input.val(full_name);
+        };
+
+    };
     if ($('#address-value')!==undefined){
         let address = $('#address-value').val();
         if (address!=="" && address!==null && address!==undefined){
@@ -36,6 +44,15 @@ $(document).ready(function () {
         if (note!=="" && note!==null && note!==undefined) {
             let note_input = $('#id_note');
             note_input.val(note);
+        };
+
+    };
+
+     if ($('#email-value')!==undefined){
+        let email = $('#email-value').val();
+        if (email!=="" && email!==null && email!==undefined){
+            let email_input = $('#id_email');
+            email_input.val(email);
         };
 
     };

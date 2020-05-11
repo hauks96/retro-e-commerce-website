@@ -3,13 +3,19 @@ from django.db import models
 
 # Create your models here.
 
+DEFAULT_IMAGE = "https://i7.pngguru.com/preview/831/88/865/user-profile-computer-icons-user-interface-mystique.jpg"
 
 class Address(models.Model):
+    full_name = models.CharField(max_length=70, blank=True, default="")
     address = models.CharField(max_length=32, blank=True, default="")
     country = models.CharField(max_length=32, blank=True, default="")
     city = models.CharField(max_length=32, blank=True, default="")
     postal_code = models.CharField(max_length=12, blank=True, default="")
-    note = models.CharField(max_length=32, blank=True, default="")
+    note = models.CharField(max_length=100, blank=True, default="")
+    email = models.EmailField(max_length=320, blank=True, default="")
+
+    def __str__(self):
+        return str(self.id)
 
     def __str__(self):
         return self.address
@@ -22,7 +28,7 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=32, default="", help_text="Enter first name", null=True)
     last_name = models.CharField(max_length=32,  default="", help_text="Enter last name", null=True)
     address = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True, null=True)
-    image = models.CharField(max_length=999, default='static/images/base_cover.png')
+    image = models.CharField(max_length=999, default=DEFAULT_IMAGE)
     enabled = models.BooleanField(default=True)
 
     USERNAME_FIELD = 'username'
@@ -46,9 +52,6 @@ class User(AbstractUser):
 
     def get_full_name(self):
         return self.first_name + ' ' + self.last_name
-
-
-
 
 
 class UserHistory(models.Model):
