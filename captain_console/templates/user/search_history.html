@@ -28,22 +28,34 @@
             <th scope="col">Item</th>
             <th scope="col">Category</th>
             <th scope="col">Price</th>
+            <th scope="col">Date</th>
         </tr>
         </thead>
         <tbody>
         {% for product in history %}
-            <a href="{% url "product-index" product.id %}">
+
             <tr>
-            <th scope="row">{{ forloop.counter }}</th>
-            <td>{{ product.name }}</td>
-            <td>{{ product.category }}</td>
-            <td>{{ product.price }}</td>
+
+                <th scope="row">{{ forloop.counter }}</th>
+                <td><a href="{% url "product-index" product.product.id %}">
+                    {{ product.product }}
+                </a></td>
+                <td>{{ product.product.category }}</td>
+                <td>{{ product.product.price }}</td>
+                <td>{{ product.date}}</td>
+
             </tr>
-            </a>
+
         {% endfor %}
         </tbody>
     </table>
 
     </div>
 </div>
+    {% for product in history %}
+        {% for foo in product.many_set.all %}
+         {{ foo }}
+        {% endfor %}
+        
+    {% endfor %}
 {% endblock %}
