@@ -15,8 +15,14 @@
                         <img id="mainImage" class="embed-responsive-item" src="{{ image }}" alt="main image {{ forloop.counter }}">
                     </div>
                 {% endfor %}
+            {% if product.discount != 0 %}
+                <div id="discountTag" class="w-100 p-0 text-center text-uppercase">
+                    <div class="py-2 bg-success w-100 text-dark"><b>{{ product.discount }}% discount</b></div>
+                </div>
+            {% endif %}
             <div class="card-body mx-auto">
-                <p><b class="text-center">Images</b></p>
+
+                <p><b class="text-center p-2">Images</b></p>
                 <div class="row">
                     {% for image in images %}
                         <div id="altImg" class="border mx-2 border-dark">
