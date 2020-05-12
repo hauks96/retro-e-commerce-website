@@ -162,11 +162,12 @@ def get_product_forms(cart_cookie):
             # Setting all return data values
             product = Product.objects.get(id=product_id)
             product_image = ProductImage.objects.filter(product=product.id).first()
-            cart_total += product.price * quantity
+            final_price = float(product.price) * (1.0 - (float(product.discount) / 100.0))
+            cart_total += final_price * float(quantity)
             single_form = CartItemDisplay(initial={'quantity': quantity,
                                                    'name': product.name,
-                                                   'price': product.price,
-                                                   'total_price': product.price * quantity,
+                                                   'price': final_price,
+                                                   'total_price': final_price * float(quantity),
                                                    'image': product_image})
             # Appending all forms to the form list
             forms.append(single_form)
