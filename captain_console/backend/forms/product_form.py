@@ -1,6 +1,6 @@
 from django.forms import ModelForm, widgets
 from django import forms
-from shop.models import Product, Category, ProductImage
+from shop.models import Product, Category, ProductImage, Tag
 from user.models import User
 
 
@@ -31,17 +31,6 @@ class productCreateForm(ModelForm):
 
 
 class productUpdateForm(ModelForm):
-    image = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    image2 = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Not required'}))
-    image3 = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Not required'}))
-    image4 = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Not required'}))
-    image5 = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Not required'}))
-    tag = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Not required'}))
-    tag2 = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Not required'}))
-    tag3 = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Not required'}))
-    tag4 = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Not required'}))
-    tag5 = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Not required'}))
-
     class Meta:
         model = Product
         exclude = ['id']
@@ -54,6 +43,13 @@ class productUpdateForm(ModelForm):
             'long_description': widgets.TextInput(attrs={'class': 'form-control'}),
             'category': widgets.Select(attrs={'class': 'form-control'})
         }
+
+
+class singleTag(forms.Form):
+    name = forms.CharField(label="", widget=forms.TextInput(attrs={'class': 'form-control', 'disabled': 'True'}))
+    tagID = forms.HiddenInput()
+
+
 
 
 class categoryCreateForm(ModelForm):
