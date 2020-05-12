@@ -1,27 +1,30 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/shop/shop.css' %}">
+{% endblock %}
 {% block content %}
     <!-- mobile only sidebar -->
     <button class="ml-3 btn-primary d-md-none" data-target="#filterBar" data-toggle="collapse">&#9776</button>
     <div id="filterBar" class="d-md-none">
-    {% include 'shop/sidebar.html' %}
+    {% include 'shop/sidebar_mobile.html' %}
     </div>
     <!-- sidebar for medium or bigger screens (iPads and bigger) -->
     <div class="row w-75 mx-auto">
-    <div class="d-none d-sm-none d-md-block col-md-3 bg-white">
-    {% include 'shop/sidebar.html' %}
-    </div>
-    <!-- feed -->
-    <div class="col-xs-12 col-sm-12 col-md-9 bg-white" id="mainShoppingContainer">
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3">
-    {% for product, extra in products.items %}
-        <div id="productCard">
-        {% include 'shop/single_product.html' with products=products %}
-            <br>
+        <div id="desktop-sidebar" class="d-none d-sm-none d-md-block col-md-3 bg-white">
+            {% include 'shop/sidebar.html' %}
         </div>
-    {% endfor %}
-    </div>
-    </div>
+    <!-- feed -->
+        <div id="main-grid" class="col-xs-12 col-sm-12 col-md-9 bg-white" id="mainShoppingContainer">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3">
+                {% for product, extra in products.items %}
+                    <div id="productCard">
+                    {% include 'shop/single_product.html' with products=products %}
+                        <br>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 {% endblock %}
 {% block scripts %}

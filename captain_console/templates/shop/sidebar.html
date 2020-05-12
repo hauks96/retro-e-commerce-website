@@ -1,9 +1,10 @@
 <div class="pt-5">
-    <label>
-        <b>Search</b> <input type="search" id="search" placeholder="">
+    <label for="search">
+        <b>Search:</b>
     </label>
+    <input class="form-control" type="search" id="search" placeholder="Search product...">
 </div>
-<form action="{% url 'shop-index' %}" method="get">
+<form id="sidebar" action="{% url 'shop-index' %}" method="get">
     <div class="row w-100">
         <div class="p-0 col-6 col-md-12 m-0">
             <div id="categories">

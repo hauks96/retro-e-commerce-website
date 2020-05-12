@@ -1,0 +1,24 @@
+<div class="search-input">
+    <label id="mobile-search-label" for="search-mobile">
+        <b>Search:</b>
+    </label>
+    <input type="search" id="search-mobile" placeholder="search product">
+</div>
+<form id="sidebar-mobile" action="{% url 'shop-index' %}" method="get">
+    <div id="filter-container-mobile" class="row w-100">
+        <div class="p-0 col-6 col-md-12 m-0">
+            <div class="h-100" id="categories-mobile">
+                {{ categories }}
+            </div>
+
+        </div>
+        <div class="p-0 col-6 col-md-12 m-0">
+            <div class="h-100" id="filters-mobile">
+                {{ filters }}
+            </div>
+        </div>
+    </div>
+    <div id="mobile-filter-button-container">
+        <button id="sidebar-mobile-button" class="ml-3 btn btn-primary" type="submit" value="shop">Filter</button>
+    </div>
+</form>

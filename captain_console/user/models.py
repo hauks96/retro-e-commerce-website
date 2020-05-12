@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from shop.models import Product
+from django_countries.fields import CountryField
 from time import gmtime, strftime
 from django.utils import timezone
 
@@ -12,7 +13,7 @@ DEFAULT_IMAGE = "https://www.kindpng.com/picc/m/495-4952535_create-digital-profi
 class Address(models.Model):
     full_name = models.CharField(max_length=70, blank=True, default="")
     address = models.CharField(max_length=32, blank=True, default="")
-    country = models.CharField(max_length=32, blank=True, default="")
+    country = CountryField(blank_label='(Select country)', multiple=False)
     city = models.CharField(max_length=32, blank=True, default="")
     postal_code = models.CharField(max_length=12, blank=True, default="")
     note = models.CharField(max_length=100, blank=True, default="")

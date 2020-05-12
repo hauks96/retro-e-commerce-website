@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from django_countries.widgets import CountrySelectWidget
 from .models import User, Address
 from django.forms import widgets
 
@@ -34,6 +35,7 @@ class AddressForm(forms.ModelForm):
         model = Address
         exclude = ['id', ]
         fields = ['full_name', 'address', 'country', 'city', 'postal_code', 'note']
+        widgets = {'country': CountrySelectWidget()}
 
 
 class ProfilePicForm(forms.ModelForm):

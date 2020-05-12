@@ -4,14 +4,32 @@
 $(document).ready(function () {
     $("#search").on("keyup", function () { // When we type in something
         let value = $(this).val().toLowerCase(); // Makes title lowercase
-        $("#test").filter(function () {
-            $(this).parent().parent().parent().toggle($(this).text().toLowerCase().indexOf(value) > -1); //Finds parent/parent/parent div of card-title
-        });
+        let products = document.getElementsByClassName("product-name-div")
+        for(let i=0; i<products.length; i++){
+            if (products[i].textContent.toLowerCase().includes(value)==false){
+                products[i].parentElement.parentElement.style.display = 'none';
+            }
+            else {
+                products[i].parentElement.parentElement.style.display = 'block';
+            };
+        };
     });
 });
 // button filtering
 
 //The ajax request for adding an item to basket (reference to the onclick button)
-
-
-
+$(document).ready(function () {
+    $("#search-mobile").on("keyup", function () { // When we type in something
+        let value = $(this).val().toLowerCase(); // Makes title lowercase
+        let products = document.getElementsByClassName("product-name-div")
+        for(let i=0; i<products.length; i++){
+            if (products[i].textContent.toLowerCase().includes(value)==false){
+                products[i].parentElement.parentElement.style.display = 'none';
+            }
+            else {
+                products[i].parentElement.parentElement.style.display = 'block';
+            };
+        };
+    });
+});
+// button

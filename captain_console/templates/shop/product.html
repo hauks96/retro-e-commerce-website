@@ -66,7 +66,8 @@
                         {% endif %}
                         {{ form.product_id }}
                     </div>
-                <button type="submit" value="submit" class="btn btn-success">Add to cart</button>
+                    <a href="{% url 'shop-index' %}" class="btn btn-primary" role="button" aria-pressed="true">Back to shop</a>
+                    <button type="submit" value="submit" class="btn btn-success">Add to cart</button>
                 </form>
             </div>
         </div>
