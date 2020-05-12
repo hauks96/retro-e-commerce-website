@@ -1,30 +1,31 @@
- <div id="card" class="col">
-            <div class="card border-dark h-100 pad-some">
-                 <a href="{{ request.path }}{{ product.id }}">
-                 <div class="card-img-top embed-responsive-4by3 embed-responsive">
-                    {% for item in extra|slice:":1" %}
-                        <img class="embed-responsive-item" src="{{ item }}" alt="{{ product.name }}">
-                    {% endfor %}
-                     {% if product.discount != 0 %}
+<div id="card" class="col">
+    <div class="card border-dark h-100 pad-some">
+        <a href="{{ request.path }}{{ product.id }}">
+            <div class="card-img-top embed-responsive-4by3 embed-responsive">
+                <img class="embed-responsive-item" src="{{ product.getProductImage }}" alt="{{ product.name }}">
+                    {% if product.discount != 0 %}
                         <div class="card-img-overlay w-100 p-0 text-center text-uppercase">
-                            <div class="py-2 bg-success w-100 text-dark"><b>{{ product.discount }}% discount</b></div>
+                            <div class="py-2 bg-success w-100 text-dark">
+                                <b>{{ product.discount }}% discount</b>
+                            </div>
                         </div>
-                     {% endif %}
-                 </div>
-                    <div class="card-title text-center border-bottom border-dark product-name-div"><b>{{ product.name }}</b></div>
-                 </a>
-                <div class="card-text px-1">
-                    <p>{{ product.short_description }}</p>
-                    <div class="text-center">
-                        {% if product.discount == 0 %}
-                            <b>${{ product.price }}</b>
-                        {% else %}
-                            <b><s>${{ product.price }}</s></b>
-                            {% for finalPrice in extra|slice:"1:" %}
-                                <b class="text-monospace">${{ finalPrice }}</b>
-                            {% endfor %}
-                        {% endif %}
-                    </div>
-                </div>
+                    {% endif %}
+            </div>
+            <div class="card-title text-center border-bottom border-dark product-name-div">
+                <b>{{ product.name }}</b>
+            </div>
+        </a>
+
+        <div class="card-text px-1">
+            <p>{{ product.short_description }}</p>
+            <div class="text-center">
+                {% if product.discount == 0 %}
+                    <b>${{ product.price }}</b>
+                {% else %}
+                    <b><s>${{ product.price }}</s></b>
+                    <b class="text-monospace">${{ product.getFinalPrice }}</b>
+                {% endif %}
             </div>
         </div>
+    </div>
+</div>

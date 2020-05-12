@@ -81,3 +81,34 @@
     margin:auto;
 }
 
+.step-links {
+    width:100%;
+    display: block;
+    text-align: center;
+}
+
+.pagination {
+    width: 100%;
+}
+
+.fast-forward {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#last-next {
+    width:50%;
+    display: block;
+    text-align: right;
+}
+
+#first-previous {
+    width:50%;
+    display: inline-flex;
+    justify-content: left;
+}
+
+#current {
+    display: flex;
+    justify-content: center;
+}

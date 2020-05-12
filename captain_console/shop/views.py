@@ -3,6 +3,7 @@ from shop.forms import AddToCart, Filtering, Categories
 from shop.models import Product, ProductImage, Tag
 from user.models import UserHistory
 from time import gmtime, strftime
+from django.core.paginator import Paginator
 from django.db import IntegrityError
 
 
@@ -31,19 +32,15 @@ def shop(request):
 
     if len(products) == 0:  # failsafe in case user messes with url parameters
         products = Product.objects.all()
-    # dump images into product collection, we only want the first image we find,
-    # and calculate a final price
-    temp = {}
-    finalPrice = {}
-    for item in products:
-        temp[item] = (ProductImage.objects.filter(product_id=item.id).first(), item.getFinalPrice())
-        if temp[item] is None:  # if no image is found
-            temp[item] = "static/images/no-image-found.png"  # default.
 
-    products = temp
     filters = Filtering()
     categories = Categories()
-    context = {"products": products,
+
+    paginator = Paginator(products, 6)  # Show 6 products per page.
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {"page_obj": page_obj,
                "filters": filters,
                "categories": categories}
     response = render(request, 'shop/shop.html', context)

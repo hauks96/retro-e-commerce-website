@@ -7,14 +7,13 @@
 <div class="container" id="mainContainer">
     <div class="row" id="row1">
         <div class="col-md-12">
-            <div id="myInfo">
+
+            <div id="order_history_btn_container">
+                <a href="{% url 'profile-index' %}" class="btn btn-primary">< Back to profile</a>
             </div>
-                <div id="search_history_btn_container">
-                    <a href="{% url 'profile-index' %}" class="btn btn-primary">Back to profile</a>
-                </div>
-                <div id="username">
-                    <b>{{user.username}}'s order history</b>
-                </div>
+            <div id="username">
+                <b>{{user.username}}'s order history</b>
+            </div>
 
         </div>
     </div>

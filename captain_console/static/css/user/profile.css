@@ -16,7 +16,13 @@
 }
 
 #searchHistoryButtonContainer {
+    padding-top: 10px;
     margin-right: 20px;
+    margin-left: 10px;
+}
+
+#orderHistoryButtonContainer{
+    padding-top: 10px;
 }
 
 #editAddressButton {
@@ -44,4 +50,12 @@
 
 #lol {
     color: pink;
+}
+
+#order_history_btn_container {
+    margin-top: 10px;
+}
+
+#search_history_btn_container {
+    margin-top: 10px;
 }

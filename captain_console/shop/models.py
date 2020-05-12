@@ -35,13 +35,17 @@ class Product(models.Model):
     def getFinalPrice(self):  # returns a calculated price based on discount
         return self.price * (100 - self.discount) / 100
 
+    def getProductImage(self):
+        product_image = ProductImage.objects.filter(product_id=self.id).first()
+        return product_image.image
+
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     image = models.CharField(max_length=999)
 
     def __str__(self):
-        return self.image
+        return "Image for product: "+self.product.name
 
 
 # can be called with Tags.objects.filter(product=product_id) to fetch all product tags

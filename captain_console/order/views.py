@@ -161,10 +161,16 @@ def success(request):
             'Order Confirmation from Captain Console ' + secondary_id,
             msg_plain,
             'captainconsole69@gmail.com',
-            ['agir96@gmail.com'],
+            [order.email],
         )
         # html_message=msg_html,
 
+        request.session['full_name'] = ""
+        request.session['address'] = ""
+        request.session['country'] = ""
+        request.session['city'] = ""
+        request.session['postal_code'] = ""
+        request.session['note'] = ""
         response = render(request, 'order/confirmationPage.html', context={'order': order})
         response.set_cookie('cart', "")
         response.set_cookie('itm_count', 0)
