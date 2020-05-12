@@ -47,7 +47,7 @@ class ProductImage(models.Model):
 # can be called with Tags.objects.filter(product=product_id) to fetch all product tags
 class Tag(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    tag = models.CharField(max_length=50, unique=True)
+    tag = models.CharField(max_length=50)
 
     def __str__(self):
         return self.tag
