@@ -1,6 +1,6 @@
 from django.forms import ModelForm, widgets
 from django import forms
-from shop.models import Product, Category
+from shop.models import Product, Category, ProductImage
 from user.models import User
 
 

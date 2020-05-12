@@ -12,5 +12,7 @@ urlpatterns = [
     path('delete_category/', views.delete_category, name='delete_category'),
     #user urls
     path('users/', views.backend_users, name='backend_users'),
-    #path('create_user', views.create_user, name='create_user')
+    path('create_user', views.create_user, name='create_user'),
+    path('delete_user<int:id>', views.delete_user, name='delete_user'),
+    path('update_user<int:id>', views.update_user, name='update_user'),
 ]

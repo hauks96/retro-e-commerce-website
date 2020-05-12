@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.hashers import make_password
 
 # Create your views here.
 from backend.forms.product_form import productCreateForm, productUpdateForm, categoryCreateForm, categoryDeleteForm
+from backend.forms.user_forms import userCreateForm, userUpdateForm
 from shop.models import ProductImage
 from shop.models import Product, Category, Tag
 from user.models import Address, User
@@ -66,12 +68,15 @@ def create_product(request):
 
 def update_product(request, id):
     instance = get_object_or_404(Product, pk=id)
+    #print(ProductImage.objects.filter(product_id=id).order_by("id", "-id").first())
     if request.method == "POST":
         form = productUpdateForm(data=request.POST, instance=instance)
         if form.is_valid():
+            print(ProductImage.objects.filter(product_id=id).order_by("id", "-id").first())
+            form.cleaned_data['image'] = ProductImage.objects.filter(product_id=id).order_by("id", "-id").first()
             form.save()
-            product_image = ProductImage(image=request.POST['image'], product=instance)
-            product_image.save() # Creates product image instance in DB
+            #product_image = ProductImage(image=request.POST['image'], product=instance)
+            #product_image.save() # Creates product image instance in DB
             if form.data['image2']:
                 product_image2 = ProductImage(image=request.POST['image2'], product=instance)
                 product_image2.save()
@@ -127,7 +132,7 @@ def delete_category(request):
     if request.method == 'POST':
         form = categoryDeleteForm(data=request.POST)
         if form.is_valid():
-            category_id = form.cleaned_data['category']
+            category_id = form.cleaned_data['category'].id
             category = get_object_or_404(Category, pk=category_id)
             category.delete()
             return redirect('backend_index')
@@ -139,19 +144,37 @@ def backend_users(request):
     if request.method == "GET":
         return render(request, 'backend/backendUsers.html', context={"users": User.objects.all()})
 
+def create_user(request):
+    if request.method == 'POST':
+        form = userCreateForm(data=request.POST) # Creates the form
+        if form.is_valid():
+            user = form.save(commit=False) # Creates the user
+            user.password = make_password(form.cleaned_data['password'])
+            user.save()
+            user.address = Address() # Creates an address instance for user
+            # Saves all product images if user decides to add more than one
 
-#TODO def create_user(request):
+            return redirect('backend_users')
+    else:
+        form = userCreateForm()
+    return render(request, 'backend/backendCreateUser.html', {'form': form})
 
-"""def update_user(request, id):
+def delete_user(request, id):
+    user = get_object_or_404(User, pk=id)
+    user.delete()
+    return redirect('backend_users')
+
+def update_user(request, id):
     user = get_object_or_404(User, pk=id)
     if request.method == "POST":
-        form = userUpdateForm(data=request.POST, instance=instance)
+        form = userUpdateForm(data=request.POST, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('backend_product', id=id)
+            return redirect('backend_users')
     else:
-        form = productUpdateForm(instance=instance)
-    return render(request, 'backend/updateProduct.html', {'form': form, 'id':id})"""
+        form = userUpdateForm(instance=user)
+    return render(request, 'backend/backendUpdateUser.html', {'form': form, 'id': id})
+
 
 
 
