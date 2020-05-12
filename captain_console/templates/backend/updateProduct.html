@@ -1,9 +1,42 @@
 {% extends 'base.html' %}
 {% block content %}
-    <form action="{% url 'update_product' id %}" method='POST'>
-        {% csrf_token %}
-        {{ form }}
-        <br>
-        <input type="submit" value="Update" class="btn btn-success">
-    </form>
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <form action="{% url 'update_product' id %}" method='POST' name="updateInfo">
+                    {% csrf_token %}
+                    {{ form }}
+                    <br>
+                    <input type="submit" value="Update" class="btn btn-success">
+                </form>
+            </div>
+            <div class="col-6">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Tag</th>
+                                <th scope="col">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tag in tagforms %}
+                                <form action="{% url 'update_product' id %}" method="post" name="deleteTag">
+                                {% csrf_token %}
+                                <tr>
+                                    <th>{{ tag.name }}</th>
+                                    <th>
+                                        <button type="submit" class="btn btn-danger" name="deleteTag">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    </th>
+                                </tr>
+                                </form>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+
+            </div>
+        </div>
+    </div>
 {% endblock %}

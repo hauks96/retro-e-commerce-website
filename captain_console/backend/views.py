@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import make_password
 from django.contrib.admin.views.decorators import staff_member_required
-from backend.forms.product_form import productCreateForm, productUpdateForm, categoryCreateForm, categoryDeleteForm
+from backend.forms.product_form import productCreateForm, productUpdateForm, categoryCreateForm, categoryDeleteForm, singleTag
 from backend.forms.user_forms import userCreateForm, userUpdateForm
 from backend.forms.carousel_forms import carouselImageForm
 from shop.models import ProductImage
@@ -10,9 +10,6 @@ from user.models import Address, User
 from home.models import BannerImages
 
 
-# Create your views here.
-
-#Product views
 
 @staff_member_required()
 def backend(request):
@@ -31,15 +28,15 @@ def backend_product(request, id):
 @staff_member_required()
 def create_product(request):
     if request.method == 'POST':
-        form = productCreateForm(data=request.POST) # Creates the form
+        form = productCreateForm(data=request.POST)  # Creates the form
         if form.is_valid():
             product = form.save()
             product_image = ProductImage(image=request.POST['image'], product=product)
-            product_image.save() #Creates product image instance in DB
+            product_image.save()  # Creates product image instance in DB
             # Saves all product images if user decides to add more than one
             if form.data['image2']:
                 product_image2 = ProductImage(image=request.POST['image2'], product=product)
-                product_image2.save() # Creates product image instance in DB
+                product_image2.save()  # Creates product image instance in DB
             if form.data['image3']:
                 product_image3 = ProductImage(image=request.POST['image3'], product=product)
                 product_image3.save()
@@ -52,7 +49,7 @@ def create_product(request):
             # Saves tags if user decides to add some
             if form.data['tag']:
                 tag = Tag(tag=request.POST['tag'], product=product)
-                tag.save() # Creates tag instance in DB
+                tag.save()  # Creates tag instance in DB
             if form.data['tag2']:
                 tag2 = Tag(tag=request.POST['tag2'], product=product)
                 tag2.save()
@@ -71,55 +68,45 @@ def create_product(request):
         form = productCreateForm()
     return render(request, 'backend/create_product.html', {'form': form})
 
+@staff_member_required()
+def deleteTag(request, productID):
+    print("hi")
+    if request.method == "POST":
+        pass
+    return redirect(update_product(request, productID))
 
 @staff_member_required()
 def update_product(request, id):
-    product = get_object_or_404(Product, pk=id)
-    productImages = ProductImage.objects.filter(product_id=id)
-    tags = Tag.objects.filter(product_id=id)
-    print(productImages)
-    print(tags)
     if request.method == "POST":
-        image = ProductImage.objects.filter(product_id=id).order_by("id", "-id").first()
-        form = productUpdateForm(instance=product, initial={"image": "hello", "image2": "goodbye"}, data=request.POST)
-        if form.is_valid():
-            print(ProductImage.objects.filter(product_id=id).order_by("id", "-id").first())
-            #form.cleaned_data['image'] = ProductImage.objects.filter(product_id=id).order_by("id", "-id").first()
-            form.save()
-            #product_image = ProductImage(image=request.POST['image'], product=instance)
-            #product_image.save() # Creates product image instance in DB
-            """if form.data['image2']:
-                product_image2 = ProductImage(image=request.POST['image2'], product=product)
-                product_image2.save()
-            if form.data['image3']:
-                product_image3 = ProductImage(image=request.POST['image3'], product=product)
-                product_image3.save()
-            if form.data['image4']:
-                product_image4 = ProductImage(image=request.POST['image4'], product=product)
-                product_image4.save()
-            if form.data['image5']:
-                product_image5 = ProductImage(image=request.POST['image5'], product=product)
-                product_image5.save()
-            # Saves tags if user decides to add some
-            if form.data['tag']:
-                tag = Tag(tag=request.POST['tag'], product=product)
-                tag.save() # Creates product image instance in DB
-            if form.data['tag2']:
-                tag2 = Tag(tag=request.POST['tag2'], product=product)
-                tag2.save()
-            if form.data['tag3']:
-                tag3 = Tag(tag=request.POST['tag3'], product=product)
-                tag3.save()
-            if form.data['tag4']:
-                tag4 = Tag(tag=request.POST['tag4'], product=product)
-                tag4.save()
-            if form.data['tag5']:
-                tag5 = Tag(tag=request.POST['tag5'], product=product)
-                tag5.save()"""
-            return redirect('backend_index')
+        # check if we're deleting a tag
+        if "deleteTag" in request.POST:
+            print("við komumst hingað inn en faum ekkert data.. held eg :)")
+            print(request.POST['deleteTag'])
+            print("delete tag")
+            form = singleTag(request.POST)
+            print(form)
+        elif "updateInfo" in request.POST:
+            print("updating info")
+        instance = get_object_or_404(Product, pk=id)
+        tags = Tag.objects.filter(product_id=id)  # delete me
+        form = productUpdateForm(instance=instance)
+        tagforms = []
+        for tag in tags:
+            singleForm = singleTag({'name': tag})
+            tagforms.append(singleForm)
     else:
-        form = productUpdateForm(instance=product)
-    return render(request, 'backend/updateProduct.html', {'form': form, 'id': id})
+        instance = get_object_or_404(Product, pk=id)
+        tags = Tag.objects.filter(product_id=id)  # delete me
+        form = productUpdateForm(instance=instance)
+        tagforms = []
+        for tag in tags:
+            singleForm = singleTag({'name': tag})
+            tagforms.append(singleForm)
+
+    return render(request, 'backend/updateProduct.html', {'id': id,
+                                                          'form': form,
+                                                          'tagforms': tagforms})
+
 
 
 @staff_member_required()
@@ -133,7 +120,7 @@ def delete_product(request, id):
 def create_category(request):
     form = categoryCreateForm()
     if request.method == 'POST':
-        form = categoryCreateForm(data=request.POST) # Creates the form
+        form = categoryCreateForm(data=request.POST)  # Creates the form
         if form.is_valid():
             form.save()
             return redirect('backend_index')
@@ -154,7 +141,8 @@ def delete_category(request):
             return redirect('backend_index')
     return render(request, 'backend/backendDeleteCategory.html', {'form': form})
 
-#User views here
+
+# User views here
 
 
 @staff_member_required()
@@ -166,12 +154,12 @@ def backend_users(request):
 @staff_member_required()
 def create_user(request):
     if request.method == 'POST':
-        form = userCreateForm(data=request.POST) # Creates the form
+        form = userCreateForm(data=request.POST)  # Creates the form
         if form.is_valid():
-            user = form.save(commit=False) # Creates the user
+            user = form.save(commit=False)  # Creates the user
             user.password = make_password(form.cleaned_data['password'])
             user.save()
-            user.address = Address() # Creates an address instance for user
+            user.address = Address()  # Creates an address instance for user
             # Saves all product images if user decides to add more than one
 
             return redirect('backend_users')
@@ -199,6 +187,7 @@ def update_user(request, id):
         form = userUpdateForm(instance=user)
     return render(request, 'backend/backendUpdateUser.html', {'form': form, 'id': id})
 
+
 @staff_member_required()
 def carousel(request):
     if request.method == "GET":
@@ -222,4 +211,5 @@ def carousel_delete(request, id):
     banner_image = get_object_or_404(BannerImages, pk=id)
     banner_image.delete()
     return redirect('carousel')
+
 
