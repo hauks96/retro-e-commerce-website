@@ -119,7 +119,7 @@ def change_profile_pic(request):
 
 @login_required
 def search_history(request):
-    history = UserHistory.objects.filter(user=request.user.id)
+    history = UserHistory.objects.filter(user=request.user.id).order_by('-date')
     context = {
         'history': history
     }

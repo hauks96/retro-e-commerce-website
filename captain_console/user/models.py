@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from shop.models import Product
 from time import gmtime, strftime
+from django.utils import timezone
 
 # Create your models here.
 
@@ -59,12 +60,12 @@ class User(AbstractUser):
 class UserHistory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, default=1)
-    #todo: uncomment the date line and migrate, then fix views to show products ordered by date
-    #date = models.DateTimeField(default=strftime("%Y-%m-%d %H:%M:%S", gmtime()))
+    date = models.DateTimeField(default=None)
 
     class Meta:
         unique_together = ('user', 'product',)
-    # add a models.Date field?
+
+
 
 
 """

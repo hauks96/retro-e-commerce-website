@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from shop.forms import AddToCart, Filtering, Categories
 from shop.models import Product, ProductImage, Tag
 from user.models import UserHistory
+from time import gmtime, strftime
+from django.db import IntegrityError
 
 
 # Create your views here.
@@ -56,17 +58,14 @@ def shop(request):
 
 
 def product(request, product_id):
-    # if user.is_authenticated -> save search to search history model
-    # load product details page
-    # todo: add to search history if authenticated
     if request.method == 'GET':
         instance = get_object_or_404(Product, pk=product_id)
-
-        if request.user.is_authenticated:
+        if request.user.is_authenticated:  # add to search history
             UserHistory.objects.update_or_create(
-                user=request.user,
-                product=Product.objects.get(pk=product_id)
-            )
+                    user=request.user,
+                    product=instance,
+                    defaults={'date': strftime("%Y-%m-%d %H:%M:%S", gmtime())}
+                )
 
         images = ProductImage.objects.filter(product_id=product_id)
         tags = Tag.objects.filter(product_id=product_id)
