@@ -1,5 +1,5 @@
  <div id="card" class="col">
-            <div class="card border-dark h-100">
+            <div class="card border-dark h-100 pad-some">
                  <a href="{{ request.path }}{{ product.id }}">
                  <div class="card-img-top embed-responsive-4by3 embed-responsive">
                     {% for item in extra|slice:":1" %}
@@ -11,7 +11,7 @@
                         </div>
                      {% endif %}
                  </div>
-                    <div id="test" class="card-title text-center border-bottom border-dark"><b>{{ product.name }}</b></div>
+                    <div class="card-title text-center border-bottom border-dark product-name-div"><b>{{ product.name }}</b></div>
                  </a>
                 <div class="card-text px-1">
                     <p>{{ product.short_description }}</p>

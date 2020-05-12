@@ -1,6 +1,70 @@
-#altImg{
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
+#filterBar {
+    background-color: #94ceff!important;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding-left: 20px;
+    margin: 10px;
+    margin-bottom: 30px;
+    margin-top:0px;
+}
+.width-80 {
+    width: 75%;
 }
 
+#filters-mobile{
+    padding-left: 10px;
+    border-left: 1px dashed black;
+}
+
+#filter-container-mobile {
+    margin-top: 10px;
+}
+
+#mobile-filter-button-container{
+    width: 100%;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: right;
+
+}
+#mobile-search-label {
+    margin-right: 10px
+}
+.search-input {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#desktop-sidebar {
+    padding-left: 30px;
+    border: 1px solid #021c89;
+    background-color: #94ceff!important;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+
+#categories {
+    margin-top: 15px;
+}
+
+#id_categories {
+    font-weight: normal;
+}
+#id_order_by {
+    font-weight: normal;
+}
+
+#mainShoppingContainer {
+    margin-top: 10px;
+}
+
+#main-grid{
+    padding-top: 10px;
+}
+.pad-some {
+    margin-left: 10px;
+    margin-right: 10px;
+}

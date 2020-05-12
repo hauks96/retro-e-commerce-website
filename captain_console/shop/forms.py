@@ -1,5 +1,7 @@
 from django import forms
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.utils.safestring import mark_safe
+
 from shop.models import Category
 
 
@@ -19,13 +21,13 @@ def get_choices():
 
 
 class Categories(forms.Form):
-    categories = forms.ChoiceField(widget=forms.RadioSelect,
+    categories = forms.ChoiceField(label=mark_safe("<strong>Categories</strong>"), widget=forms.RadioSelect,
                                    choices=get_choices,
                                    initial=["All"])
 
 
 class Filtering(forms.Form):
-    order_by = forms.ChoiceField(widget=forms.RadioSelect,
+    order_by = forms.ChoiceField(label=mark_safe("<strong>Order by</strong>"), widget=forms.RadioSelect,
                                  choices=[("name", "Name A-Z"),
                                           ("-name", "Name Z-A"),
                                           ("-price", "Price (high to low)"),
