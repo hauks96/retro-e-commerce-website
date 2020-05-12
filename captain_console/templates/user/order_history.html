@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% for order in orders %}
+        <a href="{{ request.path }}{{ order.id }}">
+        <div>
+            <h3>{{ order.order_id }}  |  {{ order.date }}  |  {{ order.email }}</h3>
+        </div>
+        </a>
+    {% endfor %}
+{% endblock %}

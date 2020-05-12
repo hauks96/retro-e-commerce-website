@@ -10,13 +10,17 @@ class AddToCart(forms.Form):
                                                                           'min': 1, 'max': 50, 'step': 1}))
 
 
-class Categories(forms.Form):
+def get_choices():
     allCategories = Category.objects.all()
-    choices = [('All', 'All')]
+    choices = []
     for category in allCategories:
         choices.append((category.getName(), category.getName()))
+    return choices
+
+
+class Categories(forms.Form):
     categories = forms.ChoiceField(widget=forms.RadioSelect,
-                                   choices=choices,
+                                   choices=get_choices,
                                    initial=["All"])
 
 

@@ -10,4 +10,6 @@ urlpatterns = [
     path('profile/edit_address/', views.address_edit, name='edit-address'),
     path('profile/edit_profile_pic/', views.change_profile_pic, name='edit-profile-pic'),
     path('profile/search_history/', views.search_history, name='search-history'),
+    path('profile/order_history/', views.order_history, name='order-history'),
+    path('profile/order_history/<int:orderID>/', views.order_details, name='order-details'),
 ]

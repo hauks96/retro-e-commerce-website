@@ -19,6 +19,12 @@ class Order(models.Model):
     status = models.ForeignKey(OrderStatus, blank=True, null=True, on_delete=models.DO_NOTHING)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     email = models.EmailField(default="email@email.com")
+    full_name = models.CharField(max_length=70, blank=True, default="")
+    address = models.CharField(max_length=32, blank=True, default="")
+    country = models.CharField(max_length=32, blank=True, default="")
+    city = models.CharField(max_length=32, blank=True, default="")
+    postal_code = models.CharField(max_length=12, blank=True, default="")
+    note = models.CharField(max_length=100, blank=True, default="")
 
     def get_order_data(self):
         return self.order_items.get_products()

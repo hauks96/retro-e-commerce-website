@@ -1,9 +1,15 @@
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import UserRegistrationForm, ProfileForm, AddressForm, ProfilePicForm
 from django.contrib.auth import authenticate
 from .models import User, Address, UserHistory
+from order.models import Order
+
+from order.forms import CartItemDisplay
+from shop.models import Product, ProductImage
+from shop.views import render_dict_cookie
 
 
 # Create your views here.
@@ -120,13 +126,54 @@ def search_history(request):
     return render(request, 'user/search_history.html', context)
 
 
-
-
-
-
-
-
-
 @login_required
 def order_history(request):
-    pass
+    if request.method == "GET":
+        user = User.objects.get(id=request.user.id)
+        orders = Order.objects.filter(user=user.id)
+
+        return render(request, 'user/order_history.html', context={'orders': orders})
+
+
+def order_details(request, orderID):
+    if request.method == "GET":
+        order = Order.objects.get(id=orderID)
+        cart_cookie = order.items
+        forms, cart_total = get_product_forms(cart_cookie)
+
+        return render(request, 'user/order_details.html', context={'order': order, 'forms': forms, 'cart_total': cart_total})
+
+
+def get_product_forms(cart_cookie):
+    cart_dict = render_dict_cookie(cart_cookie)
+    cart_keys = list(cart_dict.keys())
+
+    # Initializing form list, since we are rendering multiple forms
+    forms = []
+
+    # Sending a cart total value with the return context (call by name in template)
+    cart_total = 0
+
+    # Iterating over all the keys in the cart dictionary
+    for product_id in cart_keys:
+        quantity = int(cart_dict[str(product_id)])
+        # Trying to fetch a product with the product id present in the cookie dict
+        try:
+            # Setting all return data values
+            product = Product.objects.get(id=product_id)
+            product_image = ProductImage.objects.filter(product=product.id).first()
+            cart_total += product.price * quantity
+            single_form = CartItemDisplay(initial={'quantity': quantity,
+                                                   'name': product.name,
+                                                   'price': product.price,
+                                                   'total_price': product.price * quantity,
+                                                   'image': product_image})
+            # Appending all forms to the form list
+            forms.append(single_form)
+
+        # If the product we tried to fetch didn't exist we skip it and delete the key
+        except Product.DoesNotExist:
+            del cart_dict[product_id]
+            continue
+
+    return forms, cart_total

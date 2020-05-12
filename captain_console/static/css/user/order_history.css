@@ -1,0 +1,30 @@
+#order_history_btn_container {
+
+}
+
+#cart-container-order-history {
+    min-height: 300px;
+    display: inline-block;
+    width: auto;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 2%;
+    margin-bottom: 20px;
+}
+
+.center-content {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+.details {
+    display: inline-block;
+    height: 100%;
+    vertical-align: top;
+    margin: 20px;
+}
+
+.summary-container {
+    display: inline-block;
+    height: auto;
+}
