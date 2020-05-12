@@ -51,13 +51,14 @@ def cart(request):
                 try:
                     # Setting all return data values
                     product = Product.objects.get(id=product_id)
+                    final_price = float(product.price) * (1.0-(float(product.discount)/100.0))
                     product_image = ProductImage.objects.filter(product=product.id).first()
-                    cart_total += product.price*quantity
+                    cart_total += final_price*float(quantity)
                     single_form = EditCartItem(initial={'quantity': quantity,
                                                         'product_id': int(product_id),
                                                         'name': product.name,
-                                                        'price': product.price,
-                                                        'total_price': product.price*quantity,
+                                                        'price': final_price,
+                                                        'total_price': final_price*float(quantity),
                                                         'image': product_image,
                                                         'remove': 'False',
                                                         'edit': 'False'})

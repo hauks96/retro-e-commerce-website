@@ -125,11 +125,11 @@ def success(request):
         primary_id = order.id
         secondary_id = "#CPTCS" + str(primary_id)
         order.order_id = secondary_id
-        order.email = user.email
         if user:
             order.user = user
 
         address_data = get_session_address(request)
+        order.email = request.session['address_email']
         order.address = address_data['address']
         order.country = address_data['country']
         order.city = address_data['city']
@@ -145,12 +145,13 @@ def success(request):
         for key in product_keys:
             product = Product.objects.get(id=int(key))
             quantity = int(dict_cookie[key])
-            total_price += product.price * quantity
+            final_price = float(product.price) * (1.0 - (float(product.discount) / 100.0))
+            total_price += final_price * float(quantity)
             data = {
                 'quantity': quantity,
                 'name': product.name,
-                'price': product.price,
-                'total': product.price * quantity
+                'price': final_price,
+                'total': final_price * float(quantity)
             }
             product_list.append(data)
 
