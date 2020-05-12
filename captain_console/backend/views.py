@@ -1,15 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import make_password
 from django.contrib.admin.views.decorators import staff_member_required
-
-# Create your views here.
 from backend.forms.product_form import productCreateForm, productUpdateForm, categoryCreateForm, categoryDeleteForm
 from backend.forms.user_forms import userCreateForm, userUpdateForm
+from backend.forms.carousel_forms import carouselImageForm
 from shop.models import ProductImage
 from shop.models import Product, Category, Tag
 from user.models import Address, User
+from home.models import BannerImages
 
-# Create your views here.
 
 # Create your views here.
 
@@ -200,7 +199,27 @@ def update_user(request, id):
         form = userUpdateForm(instance=user)
     return render(request, 'backend/backendUpdateUser.html', {'form': form, 'id': id})
 
+@staff_member_required()
+def carousel(request):
+    if request.method == "GET":
+        return render(request, 'backend/carousel.html', context={"images": BannerImages.objects.all()})
 
 
+@staff_member_required()
+def carousel_add(request):
+    if request.method == 'POST':
+        form = carouselImageForm(data=request.POST) # Creates the form
+        if form.is_valid():
+            BannerImages = form.save() # Saves the BannerImages instance to the DB
+            return redirect('carousel')
+    else:
+        form = carouselImageForm()
+    return render(request, 'backend/addToCarousel.html', {'form': form})
 
+
+@staff_member_required()
+def carousel_delete(request, id):
+    banner_image = get_object_or_404(BannerImages, pk=id)
+    banner_image.delete()
+    return redirect('carousel')
 

@@ -1,13 +1,18 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'CSS/shop/shop.css' %}">
+
 {% if bannerImages %}
     <div id="carousel" class="carousel slide w-50 mx-auto" data-ride="carousel">
-        <div class="carousel-inner">
+        <div class="carousel-inner" id="carouselContainer">
             {% for banner in bannerImages %}
                 {% if forloop.first %}
                     <div class="carousel-item active">
                     {% else %}
                     <div class="carousel-item">
                 {% endif %}
-                    <img class="d-block w-100" src="{{ banner.imageURL }}" alt="{{ forloop.counter }}slide">
+                        <a href="{% url 'product-index' banner.product.id %}">
+                            <img class="img-fluid" src="{{ banner.imageURL }}" alt="{{ forloop.counter }}slide" id="bannerImage">
+                        </a>
                     </div>
             {% endfor %}
         </div>
