@@ -32,11 +32,19 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav" id="shopButton">
           <li class="nav-item active">
             <a class="navbar-brand" href="{% url 'shop-index' %}">Shop <span class="sr-only">(current)</span></a>
           </li>
         </ul>
+
+        {% if request.user.is_staff %}
+            <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="navbar-brand" href="{% url 'backend_index' %}">Backend <span class="sr-only">(current)</span></a>
+          </li>
+        </ul class="navbar-nav mr-auto">
+            {% endif %}
 
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
@@ -46,6 +54,7 @@
                 <div id="button-item-count"></div>
               </button>
             </form>
+
 
           </li>
           {% if user.is_authenticated %}

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
-from backend.forms.product_form import productCreateForm, productUpdateForm, categoryCreateForm
+from backend.forms.product_form import productCreateForm, productUpdateForm, categoryCreateForm, categoryDeleteForm
 from shop.models import ProductImage
 from shop.models import Product, Category, Tag
 from user.models import Address, User
@@ -122,10 +122,16 @@ def create_category(request):
     return render(request, 'backend/backendAddCategory.html', {'form': form})
 
 
-def delete_category(request, id):
-    category = get_object_or_404(Category, pk=id)
-    category.delete()
-    return redirect('backend_index')
+def delete_category(request):
+    form = categoryDeleteForm()
+    if request.method == 'POST':
+        form = categoryDeleteForm(data=request.POST)
+        if form.is_valid():
+            category_id = form.cleaned_data['category']
+            category = get_object_or_404(Category, pk=category_id)
+            category.delete()
+            return redirect('backend_index')
+    return render(request, 'backend/backendDeleteCategory.html', {'form': form})
 
 #User views here
 

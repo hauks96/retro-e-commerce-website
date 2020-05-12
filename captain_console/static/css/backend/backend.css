@@ -43,14 +43,24 @@
     margin-left: 5%;
 }
 
-#createButton {
-    margin-right: 5%;
+#createButton1 {
+    margin-right: 70px;
     margin-bottom: 10px;
+}
+
+#createButton2 {
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.flex-row-reverse {
+    width: 100%;
+    margin-right: 0px;
 }
 
 table {
     table-layout: auto;
-    width: 80%;
+    min-width: 90%;
     margin: auto;
     background-color: lightgrey;
     border-collapse: collapse;

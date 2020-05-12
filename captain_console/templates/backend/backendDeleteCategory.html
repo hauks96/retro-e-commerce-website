@@ -1,0 +1,8 @@
+{% extends 'backend/backendbase.html' %}
+{% block content %}
+    <form action="{% url 'delete_category' %}" method='POST'>
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Delete" class="btn btn-success">
+    </form>
+{% endblock %}

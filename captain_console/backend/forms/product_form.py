@@ -67,5 +67,9 @@ class categoryCreateForm(ModelForm):
             'description': widgets.TextInput(attrs={'class': 'form-control'}),
         }
 
+class categoryDeleteForm(forms.Form):
+    category = forms.ModelChoiceField(queryset=Category.objects.all())
+
+
 
 
