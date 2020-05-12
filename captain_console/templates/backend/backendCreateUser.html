@@ -1,10 +1,9 @@
 {% extends 'backend/backendbase.html' %}
 {% block content %}
-    <form action="{% url 'create_product' %}" method='POST'>
+    <form action="{% url 'create_user' %}" method='POST'>
         {% csrf_token %}
         {{ form.as_p }}
-        <br>
-        <a href="{% url 'backend_index' %}" class="btn btn-secondary" role="button" aria-pressed="true">Cancel</a>
+</form>
         <input type="submit" value="Create" class="btn btn-success">
     </form>
 {% endblock %}

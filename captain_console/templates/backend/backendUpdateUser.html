@@ -1,9 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'backend/backendbase.html' %}
 {% block content %}
-    <form action="{% url 'update_product' id %}" method='POST'>
+    <form action="{% url 'update_user' id %}" method='POST'>
         {% csrf_token %}
         {{ form }}
-        <br>
         <input type="submit" value="Update" class="btn btn-success">
     </form>
 {% endblock %}

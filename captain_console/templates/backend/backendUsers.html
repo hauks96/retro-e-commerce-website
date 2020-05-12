@@ -3,11 +3,13 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/backend/backend.css' %}">
 {% block content %}
     <script src='http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.js'></script>
-    <div id="allProducts"><h1> All users</h1></div>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="{% static 'js/backendProducts.js' %}"></script>
+
+<div class="col">
+    <div id="allProducts"><h1> All users</h1></div>
     <input type="search" id="productSearch" placeholder="Search">
-    <div id="createButton"><div id="button" align="right"><a class="btn btn-primary" href="{% url 'create_product' %}"> Add new user</a></div></div>
+    <div id="createButton3"><div id="button" align="right"><a class="btn btn-primary" href="{% url 'create_user' %}"> Add new user</a></div></div>
 
     <div class="table-responsive" id="tableContainer">
         <table class="productTable">
@@ -19,8 +21,8 @@
                     <th>First name</th>
                     <th>Last name</th>
                     <!-- <th>Cart ID</th> -->
-                    <th>Address ID</th>
-                    <th>Image ID</th>
+                    <th>Address</th>
+                    <th>Image</th>
                     <th>Enabled</th>
                     <th>Operations</th>
                 </tr>
@@ -37,14 +39,15 @@
                 <td>{{ user.image }}</td>
                 <td>{{ user.enabled }}</td>
                 <td><div class="buttonBoxes">
-                        <div class="button"><a class="btn btn-success" href="#"> Update</a></div>
-                        <div class="button"><a class="btn btn-success" href="#"> Remove</a></div>
+                        <div class="button"><a class="btn btn-success" href="{% url 'update_user' user.id %}"> Update</a></div>
+                        <div class="button"><a class="btn btn-success" href="{% url 'delete_user' user.id %}"> Remove</a></div>
                     </div>
                 </td>
             </tr>
             {% endfor %}
         </table>
     </div>
+</div>
 
 {% endblock %}
 

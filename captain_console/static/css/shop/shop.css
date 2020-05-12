@@ -68,3 +68,16 @@
     margin-left: 10px;
     margin-right: 10px;
 }
+
+.carousel-inner{
+  max-height: 600px !important;
+}
+
+#bannerImage {
+    width: auto;
+    height: 400px;
+    max-height: 400px;
+    display:block;
+    margin:auto;
+}
+
