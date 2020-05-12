@@ -1,10 +1,56 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/user/profile.css' %}">
+{% endblock %}
 {% block content %}
-    {% for order in orders %}
-        <a href="{{ request.path }}{{ order.id }}">
-        <div>
-            <h3>{{ order.order_id }}  |  {{ order.date }}  |  {{ order.email }}</h3>
+<div class="container" id="mainContainer">
+    <div class="row" id="row1">
+        <div class="col-md-12">
+            <div id="myInfo">
+            </div>
+                <div id="search_history_btn_container">
+                    <a href="{% url 'profile-index' %}" class="btn btn-primary">Back to profile</a>
+                </div>
+                <div id="username">
+                    <b>{{user.username}}'s order history</b>
+                </div>
+
         </div>
-        </a>
-    {% endfor %}
+    </div>
+
+
+    <div class="row">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Order ID</th>
+            <th scope="col">Date</th>
+            <th scope="col">Status</th>
+            <th scope="col">Email</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+
+            <tr>
+
+                <th scope="row">{{ forloop.counter }}</th>
+                <td><a href="{% url 'order-history' %}{{ order.id }}">
+                    {{ order.order_id}}
+                </a></td>
+                <td>{{ order.date }}</td>
+                <td>{{ order.status }}</td>
+                <td>{{ order.email }}</td>
+
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+
+    </div>
+</div>
+
 {% endblock %}

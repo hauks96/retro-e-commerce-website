@@ -52,10 +52,7 @@ def shipping_saved(request):
     user_id = request.user.id
     user = User.objects.get(id=user_id)
     address = user.address
-    my_form = ShippingAddressInfoForm({'full_name': address.full_name, 'address': address.address,
-                                       'country': address.country, 'city': address.city,
-                                       'postal_code': address.postal_code, 'note': address.note,
-                                       'address_email': user.email})
+
     if request.method == "POST":
         my_form = ShippingAddressInfoForm(data=request.POST)
         # Save info in session
@@ -67,6 +64,10 @@ def shipping_saved(request):
         request.session['note'] = my_form.cleaned_data['note']
         request.session['address_email'] = my_form.cleaned_data['address_email']
     else:
+        my_form = ShippingAddressInfoForm({'full_name': address.full_name, 'address': address.address,
+                                           'country': address.country, 'city': address.city,
+                                           'postal_code': address.postal_code, 'note': address.note,
+                                           'address_email': user.email})
         context['form'] = my_form
 
     context['form'] = my_form
