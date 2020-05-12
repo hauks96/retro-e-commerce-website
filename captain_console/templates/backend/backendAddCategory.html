@@ -3,6 +3,8 @@
     <form action="{% url 'create_category' %}" method='POST'>
         {% csrf_token %}
         {{ form }}
+        <br>
+        <a href="{% url 'backend_index' %}" class="btn btn-secondary" role="button" aria-pressed="true">Cancel</a>
         <input type="submit" value="Create" class="btn btn-success">
     </form>
 {% endblock %}

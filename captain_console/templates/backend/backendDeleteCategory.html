@@ -2,7 +2,9 @@
 {% block content %}
     <form action="{% url 'delete_category' %}" method='POST'>
         {% csrf_token %}
-        {{ form }}
+        {{ form.as_p }}
+        <br>
+        <a href="{% url 'backend_index' %}" class="btn btn-secondary" role="button" aria-pressed="true">Cancel</a>
         <input type="submit" value="Delete" class="btn btn-success">
     </form>
 {% endblock %}

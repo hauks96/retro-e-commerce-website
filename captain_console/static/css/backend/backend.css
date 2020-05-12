@@ -39,9 +39,6 @@
     margin-right: 50px;
 }
 
-#productSearch, #allProducts {
-    margin-left: 5%;
-}
 
 #createButton1 {
     margin-right: 70px;
@@ -50,6 +47,10 @@
 
 #createButton2 {
     margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+#createButton3 {
     margin-bottom: 10px;
 }
 

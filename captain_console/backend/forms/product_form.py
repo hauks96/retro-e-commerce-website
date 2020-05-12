@@ -27,7 +27,6 @@ class productCreateForm(ModelForm):
             'short_description': widgets.TextInput(attrs={'class': 'form-control'}),
             'long_description': widgets.TextInput(attrs={'class': 'form-control'}),
             'category': widgets.Select(attrs={'class': 'form-control'}),
-
         }
 
 

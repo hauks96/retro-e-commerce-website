@@ -57,10 +57,7 @@ def shipping_saved(request):
                                        'postal_code': address.postal_code, 'note': address.note,
                                        'address_email': user.email})
     if request.method == "POST":
-        my_form = ShippingAddressInfoForm({'full_name': address.full_name, 'address': address.address,
-                                           'country': address.country, 'city': address.city,
-                                           'postal_code': address.postal_code, 'note': address.note,
-                                           'address_email': user.email}, data=request.POST)
+        my_form = ShippingAddressInfoForm(data=request.POST)
         # Save info in session
         request.session['full_name'] = my_form.cleaned_data['full_name']
         request.session['address'] = my_form.cleaned_data['address']

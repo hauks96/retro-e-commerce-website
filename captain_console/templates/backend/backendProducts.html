@@ -25,6 +25,7 @@
                     <th>Product ID</th>
                     <th>Price</th>
                     <th>Category</th>
+                    <th>Discount (%)</th>
                     <th>Short description</th>
                     <th>Operations</th>
                 </tr>
@@ -35,6 +36,7 @@
                 <td>{{ product.id }}</td>
                 <td>{{ product.price }}</td>
                 <td>{{ product.category }}</td>
+                <td>{{ product.discount }}</td>
                 <td>{{product.short_description}}</td>
                 <td><div class="buttonBoxes">
                         <div class="button"><a class="btn btn-success" href="{% url 'update_product' product.id %}"> Update</a></div>

@@ -15,9 +15,8 @@
     text-align: center;
 }
 
-#search_history_btn_container {
-    text-align: right;
-    margin-top: 20px;
+#searchHistoryButtonContainer {
+    margin-right: 20px;
 }
 
 #editAddressButton {

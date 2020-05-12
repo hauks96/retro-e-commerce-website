@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import make_password
+from django.contrib.admin.views.decorators import staff_member_required
 
 # Create your views here.
 from backend.forms.product_form import productCreateForm, productUpdateForm, categoryCreateForm, categoryDeleteForm
@@ -14,16 +15,21 @@ from user.models import Address, User
 
 #Product views
 
+@staff_member_required()
 def backend(request):
     if request.method == "GET":
         # if logged in fetch users cart
         # else load session data
         return render(request, 'backend/backendProducts.html', context={"products": Product.objects.all()})
 
+
+@staff_member_required()
 def backend_product(request, id):
     if request.method == "GET":
         return render(request, 'backend/backendSingleProduct.html', {'product': get_object_or_404(Product, pk=id)})
 
+
+@staff_member_required()
 def create_product(request):
     if request.method == 'POST':
         form = productCreateForm(data=request.POST) # Creates the form
@@ -66,11 +72,14 @@ def create_product(request):
         form = productCreateForm()
     return render(request, 'backend/create_product.html', {'form': form})
 
+
+@staff_member_required()
 def update_product(request, id):
     instance = get_object_or_404(Product, pk=id)
     #print(ProductImage.objects.filter(product_id=id).order_by("id", "-id").first())
     if request.method == "POST":
-        form = productUpdateForm(data=request.POST, instance=instance)
+        image = ProductImage.objects.filter(product_id=id).order_by("id", "-id").first()
+        form = productUpdateForm(initial={'image': "hihihihi"}, data=request.POST, instance=instance)
         if form.is_valid():
             print(ProductImage.objects.filter(product_id=id).order_by("id", "-id").first())
             form.cleaned_data['image'] = ProductImage.objects.filter(product_id=id).order_by("id", "-id").first()
@@ -110,11 +119,15 @@ def update_product(request, id):
         form = productUpdateForm(instance=instance)
     return render(request, 'backend/updateProduct.html', {'form': form, 'id': id})
 
+
+@staff_member_required()
 def delete_product(request, id):
     product = get_object_or_404(Product, pk=id)
     product.delete()
     return redirect('backend_index')
 
+
+@staff_member_required()
 def create_category(request):
     form = categoryCreateForm()
     if request.method == 'POST':
@@ -127,6 +140,7 @@ def create_category(request):
     return render(request, 'backend/backendAddCategory.html', {'form': form})
 
 
+@staff_member_required()
 def delete_category(request):
     form = categoryDeleteForm()
     if request.method == 'POST':
@@ -140,10 +154,14 @@ def delete_category(request):
 
 #User views here
 
+
+@staff_member_required()
 def backend_users(request):
     if request.method == "GET":
         return render(request, 'backend/backendUsers.html', context={"users": User.objects.all()})
 
+
+@staff_member_required()
 def create_user(request):
     if request.method == 'POST':
         form = userCreateForm(data=request.POST) # Creates the form
@@ -159,11 +177,15 @@ def create_user(request):
         form = userCreateForm()
     return render(request, 'backend/backendCreateUser.html', {'form': form})
 
+
+@staff_member_required()
 def delete_user(request, id):
     user = get_object_or_404(User, pk=id)
     user.delete()
     return redirect('backend_users')
 
+
+@staff_member_required()
 def update_user(request, id):
     user = get_object_or_404(User, pk=id)
     if request.method == "POST":

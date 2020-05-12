@@ -3,6 +3,7 @@
     <form action="{% url 'update_product' id %}" method='POST'>
         {% csrf_token %}
         {{ form }}
-        <input type="submit" value="Update" class="">
+        <br>
+        <input type="submit" value="Update" class="btn btn-success">
     </form>
 {% endblock %}
