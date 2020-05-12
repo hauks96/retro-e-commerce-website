@@ -75,48 +75,51 @@ def create_product(request):
 
 @staff_member_required()
 def update_product(request, id):
-    instance = get_object_or_404(Product, pk=id)
-    #print(ProductImage.objects.filter(product_id=id).order_by("id", "-id").first())
+    product = get_object_or_404(Product, pk=id)
+    productImages = ProductImage.objects.filter(product_id=id)
+    tags = Tag.objects.filter(product_id=id)
+    print(productImages)
+    print(tags)
     if request.method == "POST":
         image = ProductImage.objects.filter(product_id=id).order_by("id", "-id").first()
-        form = productUpdateForm(initial={'image': "hihihihi"}, data=request.POST, instance=instance)
+        form = productUpdateForm(instance=product, initial={"image": "hello", "image2": "goodbye"}, data=request.POST)
         if form.is_valid():
             print(ProductImage.objects.filter(product_id=id).order_by("id", "-id").first())
-            form.cleaned_data['image'] = ProductImage.objects.filter(product_id=id).order_by("id", "-id").first()
+            #form.cleaned_data['image'] = ProductImage.objects.filter(product_id=id).order_by("id", "-id").first()
             form.save()
             #product_image = ProductImage(image=request.POST['image'], product=instance)
             #product_image.save() # Creates product image instance in DB
-            if form.data['image2']:
-                product_image2 = ProductImage(image=request.POST['image2'], product=instance)
+            """if form.data['image2']:
+                product_image2 = ProductImage(image=request.POST['image2'], product=product)
                 product_image2.save()
             if form.data['image3']:
-                product_image3 = ProductImage(image=request.POST['image3'], product=instance)
+                product_image3 = ProductImage(image=request.POST['image3'], product=product)
                 product_image3.save()
             if form.data['image4']:
-                product_image4 = ProductImage(image=request.POST['image4'], product=instance)
+                product_image4 = ProductImage(image=request.POST['image4'], product=product)
                 product_image4.save()
             if form.data['image5']:
-                product_image5 = ProductImage(image=request.POST['image5'], product=instance)
+                product_image5 = ProductImage(image=request.POST['image5'], product=product)
                 product_image5.save()
             # Saves tags if user decides to add some
             if form.data['tag']:
-                tag = Tag(tag=request.POST['tag'], product=instance)
+                tag = Tag(tag=request.POST['tag'], product=product)
                 tag.save() # Creates product image instance in DB
             if form.data['tag2']:
-                tag2 = Tag(tag=request.POST['tag2'], product=instance)
+                tag2 = Tag(tag=request.POST['tag2'], product=product)
                 tag2.save()
             if form.data['tag3']:
-                tag3 = Tag(tag=request.POST['tag3'], product=instance)
+                tag3 = Tag(tag=request.POST['tag3'], product=product)
                 tag3.save()
             if form.data['tag4']:
-                tag4 = Tag(tag=request.POST['tag4'], product=instance)
+                tag4 = Tag(tag=request.POST['tag4'], product=product)
                 tag4.save()
             if form.data['tag5']:
-                tag5 = Tag(tag=request.POST['tag5'], product=instance)
-                tag5.save()
+                tag5 = Tag(tag=request.POST['tag5'], product=product)
+                tag5.save()"""
             return redirect('backend_index')
     else:
-        form = productUpdateForm(instance=instance)
+        form = productUpdateForm(instance=product)
     return render(request, 'backend/updateProduct.html', {'form': form, 'id': id})
 
 
