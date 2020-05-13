@@ -51,7 +51,9 @@
                         {{ field }}
                         {% if form.errors %}
                             {% for error in field.errors %}
-                                {{ error }}
+                            <span class="error text-danger">
+                                <b>{{ error }}</b>
+                            </span>
                             {% endfor %}
                         {% endif %}
                     </div>
