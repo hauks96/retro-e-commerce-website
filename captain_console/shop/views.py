@@ -14,29 +14,31 @@ def shop(request):
     # filtering is dynamic except for the 'All' category.
     if 'categories' in request.GET and 'order_by' in request.GET:
         if request.GET['categories'] == 'All':
-            products = Product.objects.all().order_by(request.GET['order_by'])
+            products = Product.objects.filter(enabled=True).order_by(request.GET['order_by'])
         else:
             products = Product.objects.filter(
+                enabled=True,
                 category__name__contains=request.GET['categories']
             ).order_by(
                 request.GET['order_by'])
     elif 'categories' in request.GET:
         if request.GET['categories'] == 'All':
-            products = Product.objects.all()
+            products = Product.objects.filter(enabled=True)
         else:
-            products = Product.objects.filter(category__name__contains=request.GET['categories'])
+            products = Product.objects.filter(enabled=True, category__name__contains=request.GET['categories'])
     elif 'order_by' in request.GET:
-        products = Product.objects.all().order_by(request.GET['order_by'])
+        products = Product.objects.filter(enabled=True).order_by(request.GET['order_by'])
     else:
-        products = Product.objects.all()
+        products = Product.objects.filter(enabled=True)
 
     if len(products) == 0:  # failsafe in case user messes with url parameters
-        products = Product.objects.all()
+        products = Product.objects.filter(enabled=True)
 
     filters = Filtering()
     categories = Categories()
 
-    paginator = Paginator(products, 6)  # Show 6 products per page.
+    paginator = Paginator(products, 12)  # Show 12 products per page.
+    # 12 pages since its dividable by 4,3,2 meaning we have more flexibility with rows.
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
