@@ -15,6 +15,11 @@ from user.views import get_product_forms
 
 
 def shipping(request):
+    checkout_is_valid = check_cart_before_checkout(request)
+    if not checkout_is_valid:
+        return redirect('shop-index')
+
+    request.session['shipping_process'] = 'True'
     # TODO add option to use saved address info for registered user
     # TODO If user is logged and has already entered address info but doesn't have it saved in profile, offer to save it for them
     my_form = ShippingAddressInfoForm()
@@ -48,6 +53,11 @@ def shipping(request):
 
 @login_required
 def shipping_saved(request):
+    checkout_is_valid = check_cart_before_checkout(request)
+    if not checkout_is_valid:
+        return redirect('shop-index')
+
+    request.session['shipping_process'] = 'True'
     context = {}
     user_id = request.user.id
     user = User.objects.get(id=user_id)
@@ -76,6 +86,15 @@ def shipping_saved(request):
 
 def billing(request):
     # TODO get form to actually show validation errors
+    try:
+        has_done_shipping = request.session['shipping_process']
+    except KeyError:
+        return redirect('shop-index')
+
+    if has_done_shipping != "True":
+        return redirect('cart-index')
+
+    request.session['billing_process'] = 'True'
 
     my_form = PaymentInfoForm()
     if request.method == "POST":
@@ -100,6 +119,16 @@ def billing(request):
 
 
 def summary(request):
+    try:
+        has_done_billing = request.session['billing_process']
+    except KeyError:
+        return redirect('shop-index')
+
+    if has_done_billing != "True":
+        return redirect('cart-index')
+
+    request.session['summary_process'] = 'True'
+
     cart_cookie = request.COOKIES['cart']
     forms, cart_total = get_product_forms(cart_cookie)
 
@@ -107,13 +136,24 @@ def summary(request):
 
 
 def success(request):
+    try:
+        has_done_summary = request.session['summary_process']
+    except KeyError:
+        return redirect('shop-index')
+
+    if has_done_summary != "True":
+        if request.user.is_authenticated:
+            return redirect('order-history')
+        return redirect('cart-index')
+
+
     if request.method == "GET":
         user = None
         cart_cookie = request.COOKIES['cart']
 
         if cart_cookie == "" or request.session['credit_card_num'] == "":
             if request.user.is_authenticated:
-                return redirect('product-index')
+                return redirect('order-history')
             return redirect('home-index')
 
         if request.user.is_authenticated:
@@ -180,6 +220,9 @@ def success(request):
         request.session["expiry_year"] = ""
         request.session["expiry_month"] = ""
         request.session["CVC"] = ""
+        request.session['billing_process'] = ""
+        request.session['summary_process'] = ""
+        request.session['shipping_process'] = ""
         response = render(request, 'order/confirmationPage.html', context={'order': order})
         response.set_cookie('cart', "")
         response.set_cookie('itm_count', 0)
@@ -194,3 +237,21 @@ def get_session_address(request):
                  'postcode': request.session['postal_code'],
                  'note': request.session['note']}
     return addr_dict
+
+
+def check_cart_before_checkout(request):
+    try:
+        cart_cookie = request.COOKIES['cart']
+    except KeyError:
+        return False
+
+    if cart_cookie == "":
+        return False
+    else:
+        try:
+            cart_dict = render_dict_cookie(cart_cookie)
+        except IndexError:
+            return False
+
+    return True
+
