@@ -1,0 +1,10 @@
+{% extends 'backend/backendbase.html' %}
+{% block content %}
+    <form action="{% url 'add_image' productID%}" method='POST'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br>
+        <a href="{% url 'update_product' productID  %}" class="btn btn-secondary" role="button" aria-pressed="true">Cancel</a>
+        <input type="submit" value="Add image" class="btn btn-success">
+    </form>
+{% endblock %}
