@@ -15,8 +15,12 @@ from user.views import get_product_forms
 
 
 def shipping(request):
-    """Takes in shipping information from the user, validates it and saves it to the current session. Also includes
+     """Takes in shipping information from the user, validates it and saves it to the current session. Also includes
     the option to save the entered shipping information to the account"""
+    checkout_is_valid = check_cart_before_checkout(request) 
+    if not checkout_is_valid:  # Checks if the user is allowed to enter shipping information
+        return redirect('shop-index')
+    request.session['shipping_process'] = 'True'
     my_form = ShippingAddressInfoForm()
     if request.method == "POST":
         my_form = ShippingAddressInfoForm(request.POST)
@@ -50,6 +54,11 @@ def shipping(request):
 def shipping_saved(request):
     """The same basic functionality as the above shipping function except it requires a login and lets the user
     use the shipping information saved to their account"""
+    checkout_is_valid = check_cart_before_checkout(request)
+    if not checkout_is_valid: # Checks if the user is allowed to enter shipping information
+        return redirect('shop-index')
+
+    request.session['shipping_process'] = 'True'
     context = {}
     user_id = request.user.id
     user = User.objects.get(id=user_id)
@@ -78,6 +87,16 @@ def shipping_saved(request):
 
 def billing(request):
     """Takes in payment information from the user, validates it and saves it to the current session."""
+    try:
+        has_done_shipping = request.session['shipping_process']  # Checks if the user has completed the shipping information process of the checkout
+    except KeyError:
+        return redirect('shop-index')
+
+    if has_done_shipping != "True":
+        return redirect('cart-index')
+
+    request.session['billing_process'] = 'True'
+
     my_form = PaymentInfoForm()
     if request.method == "POST":
         my_form = PaymentInfoForm(request.POST)
@@ -96,6 +115,16 @@ def billing(request):
 
 def summary(request):
     """Displays the summary of the user order"""
+    try:
+        has_done_billing = request.session['billing_process']  # Checks if the user has completed the payment information process of the checkout
+    except KeyError:
+        return redirect('shop-index')
+
+    if has_done_billing != "True":
+        return redirect('cart-index')
+
+    request.session['summary_process'] = 'True'
+
     cart_cookie = request.COOKIES['cart']
     forms, cart_total = get_product_forms(cart_cookie)
     return render(request, 'order/summaryPage.html', context={'cart_total': cart_total, 'forms': forms})
@@ -103,9 +132,25 @@ def summary(request):
 
 def success(request):
     """Lets the user know that his order was succesful and sends the order information to the given email"""
+    try:
+        has_done_summary = request.session['summary_process']  # Checks if the user has been to the summary page of the order process
+    except KeyError:
+        return redirect('shop-index')
+
+    if has_done_summary != "True":
+        if request.user.is_authenticated:
+            return redirect('order-history')
+        return redirect('cart-index')
+
+
     if request.method == "GET":
         user = None
         cart_cookie = request.COOKIES['cart']
+
+        if cart_cookie == "" or request.session['credit_card_num'] == "":
+            if request.user.is_authenticated:
+                return redirect('order-history')
+            return redirect('home-index')
 
         if request.user.is_authenticated:
             user_id = request.user.id
@@ -166,6 +211,14 @@ def success(request):
         request.session['city'] = ""
         request.session['postal_code'] = ""
         request.session['note'] = ""
+        request.session["cardholder_name"] = ""
+        request.session["credit_card_num"] = ""
+        request.session["expiry_year"] = ""
+        request.session["expiry_month"] = ""
+        request.session["CVC"] = ""
+        request.session['billing_process'] = ""
+        request.session['summary_process'] = ""
+        request.session['shipping_process'] = ""
         response = render(request, 'order/confirmationPage.html', context={'order': order})
         response.set_cookie('cart', "")
         response.set_cookie('itm_count', 0)
@@ -181,3 +234,21 @@ def get_session_address(request):
                  'postcode': request.session['postal_code'],
                  'note': request.session['note']}
     return addr_dict
+
+
+def check_cart_before_checkout(request):
+    try:
+        cart_cookie = request.COOKIES['cart']
+    except KeyError:
+        return False
+
+    if cart_cookie == "":
+        return False
+    else:
+        try:
+            cart_dict = render_dict_cookie(cart_cookie)
+        except IndexError:
+            return False
+
+    return True
+
