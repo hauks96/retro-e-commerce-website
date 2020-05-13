@@ -110,7 +110,11 @@ def success(request):
     if request.method == "GET":
         user = None
         cart_cookie = request.COOKIES['cart']
-        # order_email = request.session['order_email']
+
+        if cart_cookie == "" or request.session['credit_card_num'] == "":
+            if request.user.is_authenticated:
+                return redirect('product-index')
+            return redirect('home-index')
 
         if request.user.is_authenticated:
             user_id = request.user.id
@@ -171,6 +175,11 @@ def success(request):
         request.session['city'] = ""
         request.session['postal_code'] = ""
         request.session['note'] = ""
+        request.session["cardholder_name"] = ""
+        request.session["credit_card_num"] = ""
+        request.session["expiry_year"] = ""
+        request.session["expiry_month"] = ""
+        request.session["CVC"] = ""
         response = render(request, 'order/confirmationPage.html', context={'order': order})
         response.set_cookie('cart', "")
         response.set_cookie('itm_count', 0)
