@@ -153,14 +153,20 @@
     {% endfor %}
     </div>
                 <h2>Order total: {{ cart_total }}$</h2>
-                <a href="{% url 'success' %}" class="btn btn-success">Place your order</a>
+
+                <div id="next-previous" class="row">
+                    <div id="checkoutButtons">
+                        <a href="{% url 'billing-index' %}" class="btn btn-primary">< Previous</a>
+                    </div>
+                <div id="next-button">
+                    <a href="{% url 'success' %}" class="btn btn-success">Place your order</a>
+                </div>
+        </div>
+
+
         </div>
                 </div>
-        <div class="row">
-            <div id="checkoutButtons">
-                <a id="summary-to-payment-button" href="{% url 'billing-index' %}" class="btn btn-success">Previous</a>
-            </div>
-        </div>
+
 
         </div>
 
