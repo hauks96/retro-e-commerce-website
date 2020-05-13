@@ -115,11 +115,11 @@ def product(request, product_id):
                     index_of_tag = tagnames.index(this_product.get_category_name().lower())
                     the_tag = tags[index_of_tag]
                     current_products = the_tag.product_set.all()[:4]
-                    for i in range(len(current_products)):
-                        if current_products[i].id == product_id:
+                    for x in range(len(current_products)):
+                        if current_products[x].id == product_id:
                             continue
                         else:
-                            relatedProducts[i] = current_products[i]
+                            relatedProducts[x] = current_products[x]
                     break
 
             current_products = tag.product_set.all()[:4]
@@ -127,8 +127,10 @@ def product(request, product_id):
                 if current_products[i].id == product_id:
                     continue
                 else:
+                    if count == 4:
+                        break
                     relatedProducts.append(current_products[i])
-                    count+=1
+                    count += 1
 
 
         # calculate discounted price

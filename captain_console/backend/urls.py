@@ -14,6 +14,12 @@ urlpatterns = [
     path('carousel/', views.carousel, name='carousel'),
     path('carousel_add/', views.carousel_add, name='carousel_add'),
     path('carousel_remove/<int:id>/', views.carousel_delete, name='carousel_remove'),
+    path('add_tag/<int:id>/', views.createTag, name='add_tag'),
+    path('use_tag/<int:id>/', views.useTag, name='use_tag'),
+    path('remove_tag/<int:id>/<int:productID>/', views.deleteTag, name='delete_tag'),
+    path('remove_image/<int:id>/', views.deleteImage, name='delete_image'),
+    path('add_image/<int:id>/', views.createImage, name='add_image'),
+
 
     #user urls
     path('users/', views.backend_users, name='backend_users'),
