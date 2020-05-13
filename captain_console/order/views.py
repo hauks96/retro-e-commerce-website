@@ -15,7 +15,7 @@ from user.views import get_product_forms
 
 
 def shipping(request):
-     """Takes in shipping information from the user, validates it and saves it to the current session. Also includes
+    """Takes in shipping information from the user, validates it and saves it to the current session. Also includes
     the option to save the entered shipping information to the account"""
     checkout_is_valid = check_cart_before_checkout(request) 
     if not checkout_is_valid:  # Checks if the user is allowed to enter shipping information
