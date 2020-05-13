@@ -12,6 +12,8 @@ from django.contrib import messages
 
 
 def shop(request):
+    """Sends queries to the database depending on the search and filter options
+    chosen by the user and then displays those results to the shop section of the website."""
     failsafe = False  # user feedback if nothing was found
     # filtering is dynamic except for the 'All' category.
     if 'categories' in request.GET and 'order_by' in request.GET:
@@ -88,20 +90,21 @@ def shop(request):
 
 
 def product(request, product_id):
+    """Gets the product information, images and tags and displays it on a single product page"""
     if request.method == 'GET':
         instance = get_object_or_404(Product, pk=product_id)
         if instance.enabled is False:
             raise Http404  # if the product is set to enabled=False we reroute to 404.html
-        if request.user.is_authenticated:  # add to search history
+        if request.user.is_authenticated:  # add search to search history is user is logged in
             UserHistory.objects.update_or_create(
                 user=request.user,
                 product=instance,
             )
 
-        images = ProductImage.objects.filter(product_id=product_id)
-        this_product = Product.objects.get(id=product_id)
-        tags = this_product.tag.all()
-        relatedProducts = []
+        images = ProductImage.objects.filter(product_id=product_id)  # Gets the relevant product images
+        this_product = Product.objects.get(id=product_id)  # Get the product instance to be shown
+        tags = this_product.tag.all()  # Gets the tags for this product
+        relatedProducts = []  # Creates list of related products to display based on the tags
         count = 0
         tagnames = []
         for tag in tags:
@@ -127,16 +130,16 @@ def product(request, product_id):
                 else:
                     if count == 4:
                         break
-                    relatedProducts.append(current_products[i])
+                    relatedProducts.append(current_products[i])  # Connects the relevant products to the product
                     count += 1
 
         # calculate discounted price
-        if instance.discount == 0:
+        if instance.discount == 0:  # If there is no discount
             finalPrice = instance.price
-        else:
-            finalPrice = instance.price * (100 - instance.discount) / 100
+        else:  # If discount
+            finalPrice = instance.price * (100 - instance.discount) / 100  # Calculates the discount
 
-        form = AddToCart(initial={'product_quantity': 1, 'product_id': product_id})
+        form = AddToCart(initial={'product_quantity': 1, 'product_id': product_id})  # Creats a form to add to cart
 
         user_messages = get_messages(request)
         return render(request, 'shop/product.html', {'form': form,
@@ -149,7 +152,7 @@ def product(request, product_id):
 
 
 def add_to_basket(request):
-    """Cart items in cookie are stored as prod_id: quantity"""
+    """Adds a selected product to the shopping cart. Cart items in cookie are stored as prod_id: quantity"""
     if request.method == "POST":
         form = AddToCart(data=request.POST)
         if form.is_valid():

@@ -16,6 +16,7 @@ from shop.views import render_dict_cookie
 
 
 def login(request):
+    """Authenticates the user"""
     user = authenticate(username=request.data["username"], password=request.data["password"])
     if user:
         #  user exists, redirect to home-index
@@ -26,6 +27,7 @@ def login(request):
 
 
 def register(request):
+    """Registers a new user to the site"""
     context = {}
     if request.method == "POST":
         form = UserRegistrationForm(data=request.POST)
@@ -48,6 +50,7 @@ def register(request):
 
 @login_required
 def profile(request):
+    """Displays the profile of a single user"""
     user_id = request.user.id  # Users id from django auth
     user = User.objects.get(id=user_id)  # User instance
     address = user.address  # Users address instance
@@ -60,6 +63,7 @@ def profile(request):
 
 @login_required
 def user_edit(request):
+    """Updates the information of the user on the profile page"""
     context = {}
     user_id = request.user.id  # Users id from django auth
     user = User.objects.get(id=user_id)  # User instance
@@ -78,6 +82,7 @@ def user_edit(request):
 
 @login_required
 def address_edit(request):
+    """Updates the address information of the user on the profile page"""
     context = {}
     user_id = request.user.id  # Users id from django auth
     user = User.objects.get(id=user_id)  # User instance
@@ -97,6 +102,7 @@ def address_edit(request):
 
 @login_required
 def change_profile_pic(request):
+    """Changes the profile pic of the user to the image on the URL given"""
     user_id = request.user.id  # Users id from django auth
     user = User.objects.get(id=user_id)  # User instance  # User instance
     form = ProfilePicForm(instance=user)
@@ -116,6 +122,7 @@ def change_profile_pic(request):
 
 @login_required
 def search_history(request):
+    """Displays the search history of the user"""
     history = UserHistory.objects.filter(user=request.user.id).order_by('-date')
     context = {
         'history': history
@@ -125,6 +132,7 @@ def search_history(request):
 
 @login_required
 def order_history(request):
+    """Displays the order history of the user"""
     if request.method == "GET":
         user = User.objects.get(id=request.user.id)
         orders = Order.objects.filter(user=user.id)
@@ -133,6 +141,7 @@ def order_history(request):
 
 
 def order_details(request, orderID):
+    """Displays the details of a single order"""
     if request.method == "GET":
         order = Order.objects.get(id=orderID)
         cart_cookie = order.items
@@ -144,6 +153,7 @@ def order_details(request, orderID):
 
 
 def get_product_forms(cart_cookie):
+    """Creates product forms from the user cart cookies"""
     cart_dict = render_dict_cookie(cart_cookie)
     cart_keys = list(cart_dict.keys())
 
