@@ -4,7 +4,7 @@ from shop.models import Product, ProductImage, Tag
 from user.models import UserHistory
 from time import gmtime, strftime
 from django.core.paginator import Paginator
-from django.db import IntegrityError
+from django.http import Http404
 
 
 # Create your views here.
@@ -59,6 +59,8 @@ def shop(request):
 def product(request, product_id):
     if request.method == 'GET':
         instance = get_object_or_404(Product, pk=product_id)
+        if instance.enabled is False:
+            raise Http404  # if the product is set to enabled=False we reroute to 404.html
         if request.user.is_authenticated:  # add to search history
             UserHistory.objects.update_or_create(
                     user=request.user,
