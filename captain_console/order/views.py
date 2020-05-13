@@ -132,8 +132,10 @@ def summary(request):
 
 def success(request):
     """Lets the user know that his order was succesful and sends the order information to the given email"""
+    # Checks if the user has been to the summary page of the order process
+
     try:
-        has_done_summary = request.session['summary_process']  # Checks if the user has been to the summary page of the order process
+        has_done_summary = request.session['summary_process']
     except KeyError:
         return redirect('shop-index')
 
@@ -145,7 +147,10 @@ def success(request):
 
     if request.method == "GET":
         user = None
-        cart_cookie = request.COOKIES['cart']
+        try:
+            cart_cookie = request.COOKIES['cart']
+        except KeyError:
+            cart_cookie = ""
 
         if cart_cookie == "" or request.session['credit_card_num'] == "":
             if request.user.is_authenticated:

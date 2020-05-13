@@ -2,34 +2,37 @@
 {% load static %}
 {% block stylesheets %}
     <link rel="stylesheet" href="{% static 'css/order/order.css' %}">
+    <link rel="stylesheet" href="{% static 'css/order/confirmation.css' %}">
 {% endblock %}
 {% block content %}
-    <div class="container">
+    <div class="page-container text-center">
+        <div class="center-confirmation-content">
+            <div class="row justify-content-center">
+                <h1>Payment successful!</h1>
+            </div>
 
-        <div class="row">
-            <h1>Payment successful!</h1>
-        </div>
+            <div class="row justify-content-center">
+                <h3>Order ID: {{ order.order_id }}</h3>
+            </div>
 
-        <div class="row">
-            <h3>Order ID: {{ order.order_id }}</h3>
-        </div>
+            <div class="row justify-content-center">
+                 <h3>Order Date: {{ order.date }}</h3>
+            </div>
 
-        <div class="row">
-             <h3>Order Date: {{ order.date }}</h3>
-        </div>
+            <div class="row justify-content-center">
+                 <h3>Order status: {{ order.status }}</h3>
+            </div>
 
-        <div class="row">
-             <h3>Order status: {{ order.status }}</h3>
+            <div id="row justify-content-center">
+                <p id="page-text" class="justify-content-center">
+                    Your payment was successful! <br>
+                    Shortly you will receive an email at {{ order.email }}. <br>
+                    The email contains all the relevant information regarding your order. <br>
+                    <br>
+                    To go back to the store press the button below "Back to store" <br>
+                </p>
+            </div>
+            <a id="back-top-shop" href="{% url 'shop-index' %}" class="btn btn-success">Back to shop</a>
         </div>
-
-        <div id="row">
-            <p>
-                Your payment was successful! <br>
-                Shortly you will receive an email with your order information. <br>
-                To go back to the store press the button below "Back to store" <br>
-            </p>
-        </div>
-
-                <a href="{% url 'shop-index' %}" class="btn btn-success">Back to shop</a>
-        </div>
+    </div>
 {% endblock %}
