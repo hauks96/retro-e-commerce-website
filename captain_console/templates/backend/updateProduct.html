@@ -3,27 +3,43 @@
     <div class="container">
         <div class="row">
             <div class="col-6">
-                <form action="{% url 'update_product' id %}" method='POST' name="updateInfo">
+                <form action="{% url 'update_product' productID %}" method='POST' name="updateInfo">
                     {% csrf_token %}
-                    {{ form }}
-                    <br>
-                    <input type="submit" value="Update" class="btn btn-success">
+                    {{ form.as_p }}
+                    <a href="{% url 'backend_index' %}" class="btn btn-primary" role="button" aria-pressed="true">Back</a>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Add tag
+                      </button>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'use_tag' productID %}">Use existing</a>
+                          <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'add_tag' productID %}">Create new</a>
+                      </div>
+                    </div>
+                    <a href="{% url 'add_image' productID %}" class="btn btn-success" role="button" aria-pressed="true">Add image</a>
+                    <input type="submit" value="Update info" class="btn btn-success">
                 </form>
+                <br>
             </div>
             <div class="col-6">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Tag</th>
+                                <th scope="col">Tags</th>
                                 <th scope="col">Delete</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for tag in tagforms %}
-                                <form action="{% url 'update_product' id %}" method="post" name="deleteTag">
-                                {% csrf_token %}
+                            {% for form in tagforms %}
+                                <form action="{% url 'delete_tag' form.instance.id productID %}" method="post" name="deleteTag">
+                                    {{ formset.management_form }}
+                                    {% csrf_token %}
                                 <tr>
-                                    <th>{{ tag.name }}</th>
+                                    <th>{% for field in form %}
+                                            {{ field }}
+                                        {% endfor %}
+                                    </th>
                                     <th>
                                         <button type="submit" class="btn btn-danger" name="deleteTag">
                                             <i class="fa fa-trash-o"></i>
@@ -35,8 +51,37 @@
                         </tbody>
                     </table>
 
+                    <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Images</th>
+                                    <th scope="col">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for form in imageforms %}
+                                    <form action="{% url 'delete_image' form.instance.id %}" method="post" name="deleteImage">
+                                        {{ formset.management_form }}
+                                        {% csrf_token %}
+                                    <tr>
+                                        <th>{% for field in form %}
+                                            {{ field }}
+                                        {% endfor %}
+                                        </th>
+                                        <th>
+                                            <button type="submit" class="btn btn-danger" name="deleteImage">
+                                                <i class="fa fa-trash-o"></i>
+                                            </button>
+                                        </th>
+                                    </tr>
+                                    </form>
+                                {% endfor %}
+                            </tbody>
+                        </table>
 
             </div>
         </div>
     </div>
+        <br>
+
 {% endblock %}
