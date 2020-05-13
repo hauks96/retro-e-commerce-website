@@ -62,6 +62,9 @@
 #product-data {
     display: inline-block;
     vertical-align: top;
+    border: 1px dashed black;
+    border-radius: 4%;
+    padding-top: 10px;
 }
 .block-button {
     display: block;
@@ -110,7 +113,6 @@
 
 #related-label {
     margin-bottom: 20px;
-    margin-top: 20px;
     width: 100%;
 }
 
