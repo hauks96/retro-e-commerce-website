@@ -16,6 +16,7 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
 class Tag(models.Model):
     tag = models.CharField(max_length=50, unique=True)
 
@@ -56,7 +57,6 @@ class ProductImage(models.Model):
     image = models.CharField(max_length=999)
 
     def __str__(self):
-        return "Image for product: "+self.product.name
-
+        return "Image for product: " + self.product.name
 
 # can be called with Tags.objects.filter(product=product_id) to fetch all product tags

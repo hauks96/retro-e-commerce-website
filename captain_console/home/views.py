@@ -1,8 +1,7 @@
-from django.http import HttpResponse
 from django.shortcuts import render
 from shop.models import Category
 from .models import BannerImages
-from shop.views import render_dict_cookie
+
 
 # Create your views here.
 # home page view (index)
@@ -27,10 +26,9 @@ def home(request):
     return response
 
 
-
-
 def affiliate(request):
     return render(request, 'home/affiliatePage.html')
+
 
 def shipping(request):
     return render(request, 'home/shipping.html')

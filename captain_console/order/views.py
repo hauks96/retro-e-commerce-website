@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from user.models import Address, User
 from shop.models import Product
 from cart.views import render_dict_cookie
-from .forms import ShippingAddressForm, PaymentInfoForm, ShippingAddressInfoForm, CartItemDisplay
+from .forms import PaymentInfoForm, ShippingAddressInfoForm
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -75,7 +75,7 @@ def shipping_saved(request):
 
 
 def billing(request):
-    # TODO get form to acutally show validation errors
+    # TODO get form to actually show validation errors
 
     my_form = PaymentInfoForm()
     if request.method == "POST":

@@ -1,7 +1,6 @@
 from django.forms import ModelForm, widgets
 from django import forms
 from shop.models import Product, Category, ProductImage, Tag
-from user.models import User
 
 
 class productCreateForm(ModelForm):
@@ -69,9 +68,6 @@ class categoryCreateForm(ModelForm):
             'description': widgets.TextInput(attrs={'class': 'form-control'}),
         }
 
+
 class categoryDeleteForm(forms.Form):
     category = forms.ModelChoiceField(queryset=Category.objects.all())
-
-
-
-

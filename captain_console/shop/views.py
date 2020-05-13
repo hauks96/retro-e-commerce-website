@@ -1,13 +1,11 @@
 from django.contrib.messages import get_messages
 from django.shortcuts import render, get_object_or_404, redirect
 from shop.forms import AddToCart, Filtering, Categories, SearchBar
-from shop.models import Product, ProductImage, Tag
+from shop.models import Product, ProductImage
 from user.models import UserHistory
-from time import gmtime, strftime
 from django.core.paginator import Paginator
 from django.http import Http404
 from django.contrib import messages
-
 
 
 # Create your views here.
@@ -96,15 +94,14 @@ def product(request, product_id):
             raise Http404  # if the product is set to enabled=False we reroute to 404.html
         if request.user.is_authenticated:  # add to search history
             UserHistory.objects.update_or_create(
-                    user=request.user,
-                    product=instance,
-                )
+                user=request.user,
+                product=instance,
+            )
 
         images = ProductImage.objects.filter(product_id=product_id)
         this_product = Product.objects.get(id=product_id)
         tags = this_product.tag.all()
         relatedProducts = []
-        # todo: make a better searcher for related tags
         count = 0
         tagnames = []
         for tag in tags:
@@ -132,7 +129,6 @@ def product(request, product_id):
                         break
                     relatedProducts.append(current_products[i])
                     count += 1
-
 
         # calculate discounted price
         if instance.discount == 0:
@@ -195,7 +191,6 @@ def add_to_basket(request):
             response.set_cookie('cart', cookie_string)
             response.set_cookie('itm_count', cookie_item_counter)
 
-
             return response
 
 
@@ -227,4 +222,3 @@ def render_string_cookie(cart_dict):
         cookie_string += cart_product_ids[i] + ":" + str(cart_dict[cart_product_ids[i]]) + " "
 
     return cookie_string
-

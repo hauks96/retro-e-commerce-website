@@ -20,4 +20,3 @@ class EditCartItem(forms.Form):
 
     remove = forms.CharField(widget=forms.HiddenInput())
     edit = forms.CharField(widget=forms.HiddenInput())
-
