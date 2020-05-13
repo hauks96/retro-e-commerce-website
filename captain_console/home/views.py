@@ -7,7 +7,13 @@ from shop.views import render_dict_cookie
 # Create your views here.
 # home page view (index)
 def home(request):
-    context = {'bannerImages': BannerImages.objects.all(),
+    banner_images = BannerImages.objects.all()
+    banner_images_ret = []
+    for image in banner_images:
+        if image.product.enabled:
+            banner_images_ret.append(image)
+
+    context = {'bannerImages': banner_images_ret,
                'productTypes': Category.objects.all().order_by('name')
                }
     response = render(request, 'home/home.html', context)

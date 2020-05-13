@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'CSS/shop/shop.css' %}">
 
 {% if bannerImages %}
-    <div id="carousel" class="carousel slide w-50 mx-auto" data-ride="carousel">
+    <div id="carousel" class="carousel slide w-50 mx-auto carousel-margins" data-ride="carousel">
         <div class="carousel-inner" id="carouselContainer">
             {% for banner in bannerImages %}
                 {% if forloop.first %}
