@@ -36,7 +36,11 @@ class Product(models.Model):
         return self.price * (100 - self.discount) / 100
 
     def getProductImage(self):
-        product_image = ProductImage.objects.filter(product_id=self.id).first()
+        try:
+            product_image = ProductImage.objects.filter(product_id=self.id).first()
+        except:
+            return 'https://www.saccon.it/img/coming-soon.jpg'
+
         return product_image.image
 
 

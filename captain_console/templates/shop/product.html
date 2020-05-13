@@ -10,11 +10,11 @@
         <div class="col col-sm-12 col-md-4 col-xs-12">
             <div class="card">
                 <h2 class="mx-auto card-title"><i>{{ product.name }}</i></h2>
-                {% for image in images|slice:":1" %}
-                    <div class="card-img-top embed-responsive-4by3 embed-responsive">
-                        <img id="mainImage" class="embed-responsive-item" src="{{ image }}" alt="main image {{ forloop.counter }}">
-                    </div>
-                {% endfor %}
+
+                <div class="card-img-top embed-responsive-4by3 embed-responsive">
+                    <img id="mainImage" class="embed-responsive-item" src="{{ product.getProductImage }}" alt="main image">
+                </div>
+
             {% if product.discount != 0 %}
                 <div id="discountTag" class="w-100 p-0 text-center text-uppercase">
                     <div class="py-2 bg-success w-100 text-dark"><b>{{ product.discount }}% discount</b></div>
@@ -26,7 +26,7 @@
                 <div class="row">
                     {% for image in images %}
                         <div id="altImg" class="border mx-2 border-dark">
-                            <img class="img-fluid" src="{{ image }}" alt="thumb image {{ forloop.counter }}">
+                            <img class="img-fluid" src="{{ image.image }}" alt="thumb image {{ forloop.counter }}">
                         </div>
                     {% endfor %}
 
@@ -83,7 +83,7 @@
                     {% for value in values|slice:":1" %}
                         <a href="{% url 'shop-index' %}{{ value.id }}">
                     {% endfor %}
-                    <img class="w-50 img-fluid" src="{{ image }}" alt="related image {{ forloop.counter }}">
+                    <img class="w-50 img-fluid" src="{{ image.image }}" alt="related image {{ forloop.counter }}">
                     {% for value in values %}
                         <b>{{ value.name }} ${{ value.price }}</b>
                     {% endfor %}
