@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import make_password
 from django.contrib.admin.views.decorators import staff_member_required
-from backend.forms.product_form import productCreateForm, productUpdateForm, categoryCreateForm, categoryDeleteForm, singleTag, singleImage, selectTagForm
+from backend.forms.product_form import productCreateForm, productUpdateForm, categoryCreateForm, categoryDeleteForm, \
+    singleTag, singleImage, selectTagForm
 from backend.forms.user_forms import userCreateForm, userUpdateForm
 from backend.forms.carousel_forms import carouselImageForm
 from shop.models import ProductImage
@@ -10,17 +11,18 @@ from user.models import Address, User
 from home.models import BannerImages
 
 
-
 @staff_member_required()
 def backend(request):
     if request.method == "GET":
-        return render(request, 'backend/backendProducts.html', context={"products": Product.objects.all().order_by('id')})
+        return render(request, 'backend/backendProducts.html',
+                      context={"products": Product.objects.all().order_by('id')})
 
 
 @staff_member_required()
 def backend_product(request, id):
     if request.method == "GET":
         return render(request, 'backend/backendSingleProduct.html', {'product': get_object_or_404(Product, pk=id)})
+
 
 @staff_member_required()
 def backend_users(request):
@@ -119,20 +121,20 @@ def deleteImage(request, id):
 def update_product(request, id):
     product = get_object_or_404(Product, pk=id)  # Gets our product
     tags = Tag.objects.filter(product=id)  # Gets the tags for that product
-    tagforms = [] # Initializes a list of tag forms
-    for tag in tags: # Creates the list
+    tagforms = []  # Initializes a list of tag forms
+    for tag in tags:  # Creates the list
         singleForm = singleTag(instance=tag)
         tagforms.append(singleForm)
     images = ProductImage.objects.filter(product=id)  # Gets the images for that product
     imageforms = []  # Initializes a list of image forms
-    for image in images: # Creates the list
+    for image in images:  # Creates the list
         singleForm = singleImage(instance=image)
         imageforms.append(singleForm)
 
     if request.method == "POST":
         form = productUpdateForm(data=request.POST, instance=product)
         if form.is_valid():
-            form.save() # Saves the updates product to the database
+            form.save()  # Saves the updates product to the database
             return redirect(update_product, id=id)
     else:
         form = productUpdateForm(instance=product)
@@ -225,9 +227,9 @@ def carousel(request):
 @staff_member_required()
 def carousel_add(request):
     if request.method == 'POST':
-        form = carouselImageForm(data=request.POST) # Creates the form
+        form = carouselImageForm(data=request.POST)  # Creates the form
         if form.is_valid():
-            BannerImages = form.save() # Saves the BannerImages instance to the DB
+            BannerImages = form.save()  # Saves the BannerImages instance to the DB
             return redirect('carousel')
     else:
         form = carouselImageForm()
@@ -239,5 +241,3 @@ def carousel_delete(request, id):
     banner_image = get_object_or_404(BannerImages, pk=id)
     banner_image.delete()
     return redirect('carousel')
-
-

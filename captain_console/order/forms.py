@@ -3,12 +3,11 @@ from django_countries.widgets import CountrySelectWidget
 from django_countries.fields import CountryField
 from django import forms
 from user.models import Address
-from order.models import Order
-from django.db import models
 
 
 class ShippingAddressForm(ModelForm):  # To use if user is logged in and wants to use his saved address info
     address_email = forms.EmailField(required=True)
+
     class Meta:
         model = Address
         exclude = ['id']
@@ -30,7 +29,6 @@ class ShippingAddressInfoForm(forms.Form):
     address = forms.CharField(label='Address', max_length=32, required=True)
     note = forms.CharField(label='Enter additional info if required', max_length=100, required=False)
     address_email = forms.EmailField(label='Order email', required=True)
-
 
 
 class PaymentInfoForm(forms.Form):
@@ -82,5 +80,3 @@ class CartItemDisplay(forms.Form):
                                    widget=forms.TextInput(attrs={'class': 'form-control'}))
     quantity = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
     image = forms.CharField(max_length=999, widget=forms.HiddenInput())
-
-

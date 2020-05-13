@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.backend, name='backend_index'),
 
-    #products urls
+    # products urls
     path('<int:id>/', views.backend_product, name='backend_product'),
     path('create_product/', views.create_product, name='create_product'),
     path('delete_product/<int:id>/', views.delete_product, name='delete_product'),
@@ -20,8 +20,7 @@ urlpatterns = [
     path('remove_image/<int:id>/', views.deleteImage, name='delete_image'),
     path('add_image/<int:id>/', views.createImage, name='add_image'),
 
-
-    #user urls
+    # user urls
     path('users/', views.backend_users, name='backend_users'),
     path('create_user', views.create_user, name='create_user'),
     path('delete_user<int:id>', views.delete_user, name='delete_user'),

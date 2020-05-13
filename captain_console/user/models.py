@@ -2,8 +2,6 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from shop.models import Product
 from django_countries.fields import CountryField
-from time import gmtime, strftime
-from django.utils import timezone
 
 # Create your models here.
 
@@ -17,9 +15,6 @@ class Address(models.Model):
     city = models.CharField(max_length=32, blank=True, default="")
     postal_code = models.CharField(max_length=12, blank=True, default="")
     note = models.CharField(max_length=100, blank=True, default="")
-
-    def __str__(self):
-        return str(self.id)
 
     def __str__(self):
         return self.address
@@ -65,13 +60,3 @@ class UserHistory(models.Model):
 
     class Meta:
         unique_together = ('user', 'product',)
-
-
-
-
-"""
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    address = models.ForeignKey(Address, on_delete=models.CASCADE)
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
-"""

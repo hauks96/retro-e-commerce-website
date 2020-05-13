@@ -1,14 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
-
+from django.shortcuts import render, redirect
 from .forms import UserRegistrationForm, ProfileForm, AddressForm, ProfilePicForm
 from django.contrib.auth import authenticate
 from .models import User, Address, UserHistory
 from order.models import Order
-
 from order.forms import CartItemDisplay
-from shop.models import Product, ProductImage
+from shop.models import Product
 from shop.views import render_dict_cookie
 
 
@@ -141,7 +138,9 @@ def order_details(request, orderID):
         cart_cookie = order.items
         forms, cart_total = get_product_forms(cart_cookie)
 
-        return render(request, 'user/order_details.html', context={'order': order, 'forms': forms, 'cart_total': cart_total})
+        return render(request, 'user/order_details.html', context={'order': order,
+                                                                   'forms': forms,
+                                                                   'cart_total': cart_total})
 
 
 def get_product_forms(cart_cookie):

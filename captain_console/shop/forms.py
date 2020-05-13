@@ -35,6 +35,7 @@ class Filtering(forms.Form):
                                           ],
                                  required=False)
 
+
 class SearchBar(forms.Form):
     search = forms.CharField(label=mark_safe('<strong>Search</strong>'),
                              required=False)

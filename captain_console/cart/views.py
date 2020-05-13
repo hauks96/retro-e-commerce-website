@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from shop.views import render_dict_cookie, render_string_cookie
-from shop.models import Product, ProductImage
+from shop.models import Product
 from cart.forms import EditCartItem
 
 # Create your views here.
