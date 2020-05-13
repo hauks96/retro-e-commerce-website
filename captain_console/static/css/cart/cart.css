@@ -20,6 +20,7 @@ img.product-icon {
     margin-left: 20px;
     margin-top: 20px;
     margin-bottom: 20px;
+    background-color: rgba(187,231,255,0.51);
 }
 
 #cart-summary{
@@ -95,3 +96,4 @@ img.product-icon {
 #to-checkout-container {
     margin-top: 20px;
 }
+
