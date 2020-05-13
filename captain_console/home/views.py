@@ -4,8 +4,8 @@ from .models import BannerImages
 
 
 # Create your views here.
-# home page view (index)
 def home(request):
+    """Displays the homepage of the website"""
     banner_images = BannerImages.objects.all()
     banner_images_ret = []
     for image in banner_images:
@@ -27,8 +27,10 @@ def home(request):
 
 
 def affiliate(request):
+    """Displays the website affiliate page"""
     return render(request, 'home/affiliatePage.html')
 
 
 def shipping(request):
+    """Displays the website shipping price page"""
     return render(request, 'home/shipping.html')

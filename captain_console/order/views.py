@@ -15,8 +15,8 @@ from user.views import get_product_forms
 
 
 def shipping(request):
-    # TODO add option to use saved address info for registered user
-    # TODO If user is logged and has already entered address info but doesn't have it saved in profile, offer to save it for them
+    """Takes in shipping information from the user, validates it and saves it to the current session. Also includes
+    the option to save the entered shipping information to the account"""
     my_form = ShippingAddressInfoForm()
     if request.method == "POST":
         my_form = ShippingAddressInfoForm(request.POST)
@@ -33,7 +33,7 @@ def shipping(request):
                 user_id = request.user.id  # Users id from django auth
                 user = User.objects.get(id=user_id)  # User instance
                 address_id = user.address
-                Address.objects.filter(id=address_id).update(full_name=my_form.cleaned_data['full_name'],
+                Address.objects.filter(id=address_id).update(full_name=my_form.cleaned_data['full_name'],  # Updating
                                                              address=my_form.cleaned_data['address'],
                                                              country=my_form.cleaned_data['country'],
                                                              city=my_form.cleaned_data['city'],
@@ -48,6 +48,8 @@ def shipping(request):
 
 @login_required
 def shipping_saved(request):
+    """The same basic functionality as the above shipping function except it requires a login and lets the user
+    use the shipping information saved to their account"""
     context = {}
     user_id = request.user.id
     user = User.objects.get(id=user_id)
@@ -67,7 +69,7 @@ def shipping_saved(request):
         my_form = ShippingAddressInfoForm({'full_name': address.full_name, 'address': address.address,
                                            'country': address.country, 'city': address.city,
                                            'postal_code': address.postal_code, 'note': address.note,
-                                           'address_email': user.email})
+                                           'address_email': user.email})  # Initializes the form with the shipping info
         context['form'] = my_form
 
     context['form'] = my_form
@@ -75,24 +77,17 @@ def shipping_saved(request):
 
 
 def billing(request):
-    # TODO get form to actually show validation errors
-
+    """Takes in payment information from the user, validates it and saves it to the current session."""
     my_form = PaymentInfoForm()
     if request.method == "POST":
         my_form = PaymentInfoForm(request.POST)
         if my_form.is_valid():
-
-            my_form = my_form.cleaned_data  # TEMP SOLUTION: Save payment info into session
-            # TODO possibly create payment info instance and store id in cookie
-
+            my_form = my_form.cleaned_data
             request.session["cardholder_name"] = my_form['cardholder_name']
             request.session["credit_card_num"] = my_form['credit_card_num']
             request.session["expiry_year"] = my_form['expiry_year']
             request.session["expiry_month"] = my_form['expiry_month']
             request.session["CVC"] = my_form['CVC']
-            """return redirect(
-                '../summary/?cardholder_name=' + cardholder_name
-                + '&credit_card_num=' + credit_card_num + '&expiry_date=' + expiry_date + '&CVC=' + CVC)"""
             return redirect('../summary/')
         else:
             return render(request, 'order/paymentInfo.html', {'form': my_form})
@@ -100,17 +95,17 @@ def billing(request):
 
 
 def summary(request):
+    """Displays the summary of the user order"""
     cart_cookie = request.COOKIES['cart']
     forms, cart_total = get_product_forms(cart_cookie)
-
     return render(request, 'order/summaryPage.html', context={'cart_total': cart_total, 'forms': forms})
 
 
 def success(request):
+    """Lets the user know that his order was succesful and sends the order information to the given email"""
     if request.method == "GET":
         user = None
         cart_cookie = request.COOKIES['cart']
-        # order_email = request.session['order_email']
 
         if request.user.is_authenticated:
             user_id = request.user.id
@@ -126,7 +121,7 @@ def success(request):
         if user:
             order.user = user
 
-        address_data = get_session_address(request)
+        address_data = get_session_address(request)  # Sets the order information
         order.email = request.session['address_email']
         order.address = address_data['address']
         order.country = address_data['country']
@@ -134,30 +129,30 @@ def success(request):
         order.postal_code = address_data['postcode']
         order.full_name = address_data['full_name']
         order.note = address_data['note']
-        order.save()
+        order.save() #  Saves the order instance
 
-        dict_cookie = render_dict_cookie(cart_cookie)
-        product_keys = list(dict_cookie.keys())
+        dict_cookie = render_dict_cookie(cart_cookie)  # Renders the shopping cart cookie into a dictionary
+        product_keys = list(dict_cookie.keys())  # Creates a list of the product id in the shopping cart
         product_list = []
         total_price = 0
-        for key in product_keys:
-            product = Product.objects.get(id=int(key))
-            quantity = int(dict_cookie[key])
-            final_price = float(product.price) * (1.0 - (float(product.discount) / 100.0))
-            total_price += final_price * float(quantity)
-            data = {
+        for key in product_keys:  # For each product in the shopping cart
+            product = Product.objects.get(id=int(key))  # Get the product instance
+            quantity = int(dict_cookie[key])  # Set the quantity from the shopping cart
+            final_price = float(product.price) * (1.0 - (float(product.discount) / 100.0))  # Calculates the discount
+            total_price += final_price * float(quantity)  # Calculates the total price for that quantity of that product
+            data = {  # Creates the information to be sent in the email
                 'quantity': quantity,
                 'name': product.name,
                 'price': final_price,
                 'total': final_price * float(quantity)
             }
-            product_list.append(data)
+            product_list.append(data)  # Adds the information to the product list
 
         msg_plain = render_to_string('order/email.txt',
                                      context={'user': user, 'cart': product_list,
                                               'id': secondary_id, 'total_price': total_price, 'status': order.status})
 
-        send_mail(
+        send_mail(  # Sends the email
             'Order Confirmation from Captain Console ' + secondary_id,
             msg_plain,
             'captainconsole69@gmail.com',
@@ -178,6 +173,7 @@ def success(request):
 
 
 def get_session_address(request):
+    """Retrieves the address information from the session and renders it into a dictionary"""
     addr_dict = {'full_name': request.session['full_name'],
                  'address': request.session['address'],
                  'country': request.session['country'],

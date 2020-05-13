@@ -13,25 +13,22 @@ from home.models import BannerImages
 
 @staff_member_required()
 def backend(request):
+    """Displays all the site products in the main backend"""
     if request.method == "GET":
         return render(request, 'backend/backendProducts.html',
                       context={"products": Product.objects.all().order_by('id')})
 
 
 @staff_member_required()
-def backend_product(request, id):
-    if request.method == "GET":
-        return render(request, 'backend/backendSingleProduct.html', {'product': get_object_or_404(Product, pk=id)})
-
-
-@staff_member_required()
 def backend_users(request):
+    """Displays all the site users in the main backend"""
     if request.method == "GET":
         return render(request, 'backend/backendUsers.html', context={"users": User.objects.all().order_by('id')})
 
 
 @staff_member_required()
 def update_user(request, id):
+    """Updates the information of a single user"""
     user = get_object_or_404(User, pk=id)
     if request.method == "POST":
         form = userUpdateForm(data=request.POST, instance=user)
@@ -45,6 +42,7 @@ def update_user(request, id):
 
 @staff_member_required()
 def create_product(request):
+    """Creates a single product for the website"""
     if request.method == 'POST':
         form = productCreateForm(data=request.POST)  # Creates the form
         if form.is_valid():
@@ -60,6 +58,7 @@ def create_product(request):
 
 @staff_member_required()
 def createTag(request, id):
+    """Creates a single tag for products"""
     if request.method == 'POST':
         form = singleTag(data=request.POST)
         if form.is_valid():
@@ -75,6 +74,7 @@ def createTag(request, id):
 
 @staff_member_required()
 def useTag(request, id):
+    """Attaches an existing tag to an existing product"""
     if request.method == 'POST':
         form = selectTagForm(data=request.POST)
         if form.is_valid():
@@ -90,6 +90,7 @@ def useTag(request, id):
 
 @staff_member_required()
 def deleteTag(request, id, productID):
+    """Removes an attached tag from a product"""
     product = get_object_or_404(Product, pk=productID)
     tag = get_object_or_404(Tag, pk=id)
     product.tag.remove(tag)
@@ -98,6 +99,7 @@ def deleteTag(request, id, productID):
 
 @staff_member_required()
 def createImage(request, id):
+    """Create an image istance in the database and adds it to an existing product"""
     if request.method == 'POST':
         form = singleImage(initial={'product': id}, data=request.POST)
         if form.is_valid():
@@ -111,6 +113,7 @@ def createImage(request, id):
 
 @staff_member_required()
 def deleteImage(request, id):
+    """Removes an image from the database and an existing product"""
     image = get_object_or_404(ProductImage, pk=id)
     productID = image.product.id
     image.delete()
@@ -119,6 +122,7 @@ def deleteImage(request, id):
 
 @staff_member_required()
 def update_product(request, id):
+    """Updates the information, images and tags of a product"""
     product = get_object_or_404(Product, pk=id)  # Gets our product
     tags = Tag.objects.filter(product=id)  # Gets the tags for that product
     tagforms = []  # Initializes a list of tag forms
@@ -147,6 +151,7 @@ def update_product(request, id):
 
 @staff_member_required()
 def delete_product(request, id):
+    """Deletes an individual product from the database"""
     product = get_object_or_404(Product, pk=id)
     product.delete()
     return redirect('backend_index')
@@ -154,6 +159,7 @@ def delete_product(request, id):
 
 @staff_member_required()
 def create_category(request):
+    """Creates a new catagory for products to belong to"""
     form = categoryCreateForm()
     if request.method == 'POST':
         form = categoryCreateForm(data=request.POST)  # Creates the form
@@ -167,6 +173,7 @@ def create_category(request):
 
 @staff_member_required()
 def delete_category(request):
+    """Deletes an existing category"""
     form = categoryDeleteForm()
     if request.method == 'POST':
         form = categoryDeleteForm(data=request.POST)
@@ -183,6 +190,7 @@ def delete_category(request):
 
 @staff_member_required()
 def create_user(request):
+    """Creates an new user for the website"""
     if request.method == 'POST':
         form = userCreateForm(data=request.POST)  # Creates the form
         if form.is_valid():
@@ -200,6 +208,7 @@ def create_user(request):
 
 @staff_member_required()
 def delete_user(request, id):
+    """Deletes an existing user"""
     user = get_object_or_404(User, pk=id)
     user.delete()
     return redirect('backend_users')
@@ -207,6 +216,7 @@ def delete_user(request, id):
 
 @staff_member_required()
 def update_user(request, id):
+    """Updates the information of an existing user"""
     user = get_object_or_404(User, pk=id)
     if request.method == "POST":
         form = userUpdateForm(data=request.POST, instance=user)
@@ -220,12 +230,14 @@ def update_user(request, id):
 
 @staff_member_required()
 def carousel(request):
+    """Manages the carousel images shown on the homepage"""
     if request.method == "GET":
         return render(request, 'backend/carousel.html', context={"images": BannerImages.objects.all()})
 
 
 @staff_member_required()
 def carousel_add(request):
+    """Adds an image to the carousel that links to an individual product"""
     if request.method == 'POST':
         form = carouselImageForm(data=request.POST)  # Creates the form
         if form.is_valid():
@@ -238,6 +250,7 @@ def carousel_add(request):
 
 @staff_member_required()
 def carousel_delete(request, id):
+    """Deletes an existing image from the home page carousel"""
     banner_image = get_object_or_404(BannerImages, pk=id)
     banner_image.delete()
     return redirect('carousel')

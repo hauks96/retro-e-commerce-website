@@ -3,7 +3,6 @@ from home.models import BannerImages
 
 
 class carouselImageForm(ModelForm):
-
     class Meta:
         model = BannerImages
         exclude = ['id']
