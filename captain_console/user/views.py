@@ -161,7 +161,7 @@ def get_product_forms(cart_cookie):
         try:
             # Setting all return data values
             product = Product.objects.get(id=product_id)
-            product_image = ProductImage.objects.filter(product=product.id).first()
+            product_image = product.getProductImage()
             final_price = float(product.price) * (1.0 - (float(product.discount) / 100.0))
             cart_total += final_price * float(quantity)
             single_form = CartItemDisplay(initial={'quantity': quantity,
