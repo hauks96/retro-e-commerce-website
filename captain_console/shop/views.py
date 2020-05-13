@@ -1,41 +1,70 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from shop.forms import AddToCart, Filtering, Categories
+from shop.forms import AddToCart, Filtering, Categories, SearchBar
 from shop.models import Product, ProductImage, Tag
 from user.models import UserHistory
 from time import gmtime, strftime
 from django.core.paginator import Paginator
 from django.http import Http404
+from django.db.models import Q
 
 
 # Create your views here.
 
 
 def shop(request):
+    failsafe = False  # user feedback if nothing was found
     # filtering is dynamic except for the 'All' category.
     if 'categories' in request.GET and 'order_by' in request.GET:
         if request.GET['categories'] == 'All':
-            products = Product.objects.filter(enabled=True).order_by(request.GET['order_by'])
+            if 'search' in request.GET:
+                products = Product.objects.filter(enabled=True, name__contains=request.GET['search'])
+            else:
+                products = Product.objects.filter(enabled=True)
         else:
-            products = Product.objects.filter(
-                enabled=True,
-                category__name__contains=request.GET['categories']
-            ).order_by(
-                request.GET['order_by'])
+            if 'search' in request.GET:
+                products = Product.objects.filter(
+                    enabled=True,
+                    category__name__contains=request.GET['categories'],
+                    name__icontains=request.GET['search']
+                )
+            else:
+                products = Product.objects.filter(
+                    enabled=True,
+                    category__name__contains=request.GET['categories']
+                ).order_by(
+                    request.GET['order_by'])
     elif 'categories' in request.GET:
         if request.GET['categories'] == 'All':
-            products = Product.objects.filter(enabled=True)
+            if 'search' in request.GET:
+                products = Product.objects.filter(enabled=True, name__icontains=request.GET['search'])
+            else:
+                products = Product.objects.filter(enabled=True)
         else:
-            products = Product.objects.filter(enabled=True, category__name__contains=request.GET['categories'])
+            if 'search' in request.GET:
+                products = Product.objects.filter(enabled=True, category__name__contains=request.GET['categories'],
+                                                  name__icontains=request.GET['search'])
+            else:
+                products = Product.objects.filter(enabled=True, category__name__contains=request.GET['categories'])
     elif 'order_by' in request.GET:
-        products = Product.objects.filter(enabled=True).order_by(request.GET['order_by'])
+        if 'search' in request.GET:
+            products = Product.objects.filter(enabled=True, name__icontains=request.GET['search']).order_by(
+                request.GET['order_by']
+            )
+        else:
+            products = Product.objects.filter(enabled=True).order_by(request.GET['order_by'])
     else:
-        products = Product.objects.filter(enabled=True)
+        if 'search' in request.GET:
+            products = Product.objects.filter(enabled=True, name__icontains=request.GET['search'])
+        else:
+            products = Product.objects.filter(enabled=True)
 
     if len(products) == 0:  # failsafe in case user messes with url parameters
+        failsafe = True
         products = Product.objects.filter(enabled=True)
 
     filters = Filtering()
     categories = Categories()
+    searchBar = SearchBar()
 
     paginator = Paginator(products, 12)  # Show 12 products per page.
     # 12 pages since its dividable by 4,3,2 meaning we have more flexibility with rows.
@@ -44,7 +73,9 @@ def shop(request):
 
     context = {"page_obj": page_obj,
                "filters": filters,
-               "categories": categories}
+               "categories": categories,
+               "searchBar": searchBar,
+               "failsafe": failsafe}
     response = render(request, 'shop/shop.html', context)
     try:
         request.COOKIES['cart']

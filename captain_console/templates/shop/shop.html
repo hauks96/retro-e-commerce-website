@@ -16,6 +16,9 @@
         </div>
     <!-- feed -->
         <div id="main-grid" class="col-xs-12 col-sm-12 col-md-9 bg-white" id="mainShoppingContainer">
+        {% if failsafe %}
+            <div class="bg-warning text-center w-100"><b>No products matched the filters, showing all products</b></div>
+        {% endif %}
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3">
                 {% for product in page_obj %}
                     {% if product %}

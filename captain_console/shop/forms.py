@@ -34,3 +34,7 @@ class Filtering(forms.Form):
                                           ("price", "Price (low to high)")
                                           ],
                                  required=False)
+
+class SearchBar(forms.Form):
+    search = forms.CharField(label=mark_safe('<strong>Search</strong>'),
+                             required=False)
