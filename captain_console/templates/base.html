@@ -5,6 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{% static 'images/favicon.ico' %}">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <!-- Icon library font awesome -->
@@ -43,7 +44,7 @@
           <li class="nav-item active">
             <a class="navbar-brand" href="{% url 'backend_index' %}">Backend <span class="sr-only">(current)</span></a>
           </li>
-        </ul class="navbar-nav mr-auto">
+        </ul>
             {% endif %}
 
         <ul class="navbar-nav ml-auto">
@@ -121,19 +122,19 @@
             <!-- Grid column -->
             <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
               <!-- Links -->
-              <h6 class="text-uppercase font-weight-bold">Products</h6>
+              <h6 class="text-uppercase font-weight-bold">Categories</h6>
               <hr class="teal accent-3 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
               <p>
-                <a class="dark-grey-text" href="#!">Playstation</a>
+                <a class="dark-grey-text" href="{% url 'shop-index' %}?categories=Other">Other</a>
               </p>
               <p>
-                <a class="dark-grey-text" href="#!">xBox</a>
+                <a class="dark-grey-text" href="{% url 'shop-index' %}?categories=Console">Console</a>
               </p>
               <p>
-                <a class="dark-grey-text" href="#!">Nitento</a>
+                <a class="dark-grey-text" href="{% url 'shop-index' %}?categories=Games">Games</a>
               </p>
               <p>
-                <a class="dark-grey-text" href="#!">Gameboy</a>
+                <a class="dark-grey-text" href="{% url 'shop-index' %}?categories=VR">VR</a>
               </p>
             </div>
             <!-- Grid column -->

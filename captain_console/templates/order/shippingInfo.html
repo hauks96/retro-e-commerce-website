@@ -29,7 +29,7 @@
         </div>
 
         {% if user.is_authenticated %} <!-- User can use saved shipping info is he is logged in -->
-        <a id="saved-address" href="{% url 'shipping-index-saved' %}" class="btn btn-primary">Use saved information</a>
+        <a id="saved-address" href="{% url 'shipping-index-saved' %}" class="btn btn-success">Use saved information</a>
         {% endif %}
 
         <div class="row">
@@ -85,12 +85,12 @@
 
         <div id="next-previous" class="row">
             <div id="checkoutButtons">
-                <a href="{% url 'shop-index' %}" class="btn btn-success">< Back to shop</a>
+                <a href="{% url 'shop-index' %}" class="btn btn-primary">< Back to shop</a>
                 <!-- <a href="{% url 'billing-index' %}" class="btn btn-success">Next</a> -->
             </div>
             <div id="next-button">
                  <button id="shipping-to-payment-button" type="submit" form="shipping-form"
-                         value="submit" class="btn btn-primary">Next ></button>
+                         value="submit" class="btn btn-success">Next ></button>
             </div>
 
         </div>
