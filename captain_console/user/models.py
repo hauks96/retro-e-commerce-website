@@ -61,7 +61,7 @@ class User(AbstractUser):
 class UserHistory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, default=1)
-    date = models.DateTimeField(default=None)
+    date = models.DateTimeField(auto_now=True)
 
     class Meta:
         unique_together = ('user', 'product',)

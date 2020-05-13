@@ -98,7 +98,6 @@ def product(request, product_id):
             UserHistory.objects.update_or_create(
                     user=request.user,
                     product=instance,
-                    defaults={'date': strftime("%Y-%m-%d %H:%M:%S", gmtime())}
                 )
 
         images = ProductImage.objects.filter(product_id=product_id)
