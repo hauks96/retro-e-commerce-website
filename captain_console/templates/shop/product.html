@@ -56,14 +56,8 @@
                <p><b>Price: </b>{{ product.getFinalPrice }}$</p>
             </div>
             <div id="tags-conainer" class="row">
-                <label><b>Tags:</b>
-                    {% for tag in tags %}
-                        {% if forloop.last %}
-                            <a href="#">{{ tag }}</a>
-                        {% else %}
-                            <a href="#">{{ tag }}</a>,
-                        {% endif %}
-                    {% endfor %}
+                <label><b>Category:</b>
+                    <a href="{% url 'shop-index' %}?categories={{ product.category }}">{{ product.category }}</a>
                 </label>
             </div>
             <div class="row description-text">
