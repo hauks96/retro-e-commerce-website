@@ -13,7 +13,7 @@ class EditCartItem(forms.Form):
     quantity = forms.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(50)],
                                   widget=forms.NumberInput(attrs={'class': 'form-control', 'type': 'number', 'min': 1, 'max': 50, 'step': 1}))
 
-    total_price = forms.FloatField(label='Total Price (€)',
+    total_price = forms.FloatField(label='Total Price ($)',
                                    widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     image = forms.CharField(max_length=999, widget=forms.HiddenInput())

@@ -146,9 +146,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-
-
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'captainconsole69@gmail.com'
 EMAIL_HOST_PASSWORD = 'zamnnbvxhvqtzemh'

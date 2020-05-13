@@ -20,3 +20,13 @@ $(document).ready(function () {
 
     });
 });
+
+
+$(document).ready(function(){
+    $("#added-to-cart-alert").slideToggle("slow");
+    setTimeout(function(){
+        $("#added-to-cart-alert").slideToggle("slow");
+    }, 2000);
+});
+
+

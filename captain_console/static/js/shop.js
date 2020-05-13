@@ -17,7 +17,7 @@ $(document).ready(function () {
 });
 // button filtering
 
-//The ajax request for adding an item to basket (reference to the onclick button)
+
 $(document).ready(function () {
     $("#search-mobile").on("keyup", function () { // When we type in something
         let value = $(this).val().toLowerCase(); // Makes title lowercase

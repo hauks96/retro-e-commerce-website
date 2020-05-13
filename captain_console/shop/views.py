@@ -1,3 +1,4 @@
+from django.contrib.messages import get_messages
 from django.shortcuts import render, get_object_or_404, redirect
 from shop.forms import AddToCart, Filtering, Categories
 from shop.models import Product, ProductImage, Tag
@@ -5,6 +6,7 @@ from user.models import UserHistory
 from time import gmtime, strftime
 from django.core.paginator import Paginator
 from django.http import Http404
+from django.contrib import messages
 
 
 # Create your views here.
@@ -110,12 +112,14 @@ def product(request, product_id):
 
         form = AddToCart(initial={'product_quantity': 1, 'product_id': product_id})
 
+        user_messages = get_messages(request)
         return render(request, 'shop/product.html', {'form': form,
                                                      'product': instance,
                                                      'images': images,
                                                      'tags': tags,
                                                      'finalPrice': finalPrice,
-                                                     'relatedProducts': relatedProducts})
+                                                     'relatedProducts': relatedProducts,
+                                                     'user_message': user_messages})
 
 
 def add_to_basket(request):
@@ -155,9 +159,12 @@ def add_to_basket(request):
 
             # Adding new cookie to response and returning
             cookie_string = render_string_cookie(cart_dict)
+            # messages.add_message(request, level, message, extra_tags='', fail_silently=False)
+            messages.add_message(request, messages.INFO, "Product added to cart!")
             response = redirect('/shop/' + str(product_id) + '/')
             response.set_cookie('cart', cookie_string)
             response.set_cookie('itm_count', cookie_item_counter)
+
 
             return response
 

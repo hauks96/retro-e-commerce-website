@@ -80,6 +80,12 @@
                     <div class="inline-form">
                         <button id="add-to-cart" type="submit" value="submit" class="btn btn-success">Add to cart</button>
                     </div>
+                    {% for message in user_message %}
+                        <div id="added-to-cart-alert" class="alert alert-success" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
                 </form>
             </div>
         </div>
@@ -105,5 +111,6 @@
 </div>
 {% endblock %}
 {% block scripts %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script type="text/javascript" src="{% static "js/product_page.js" %}"></script>
 {% endblock %}
