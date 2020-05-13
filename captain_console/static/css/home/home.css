@@ -17,3 +17,7 @@
     background: rgb(209,215,218);
     background: linear-gradient(90deg, rgba(209,215,218,0.7511379551820728) 100%, rgba(105,141,175,1) 100%);
 }
+
+#padding30 {
+    padding-bottom: 30px;
+}

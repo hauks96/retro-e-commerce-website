@@ -12,7 +12,14 @@ class UserRegistrationForm(UserCreationForm):
         model = User
         exclude = ['id', 'enabled', 'address', 'image']
         fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name']
-
+        widgets = {
+            'username': widgets.TextInput(attrs={'class': 'form-control'}),
+            'email': widgets.TextInput(attrs={'class': 'form-control'}),
+            'password1': widgets.TextInput(attrs={'class': 'form-control'}),
+            'password2': widgets.TextInput(attrs={'class': 'form-control'}),
+            'first_name': widgets.TextInput(attrs={'class': 'form-control'}),
+            'last_name': widgets.TextInput(attrs={'class': 'form-control'})
+        }
     def save(self, commit=True):
         user = super(UserRegistrationForm, self).save(commit=False)
         user_address = Address()

@@ -1,5 +1,5 @@
 #filterBar {
-    background-color: #94ceff!important;
+    background-color:rgba(254,255,253,0.62);
     border: 1px solid black;
     border-radius: 10px;
     padding-left: 20px;
@@ -10,6 +10,7 @@
 .width-80 {
     width: 75%;
 }
+
 
 #filters-mobile{
     padding-left: 10px;
@@ -41,20 +42,29 @@
 #desktop-sidebar {
     padding-left: 30px;
     border: 1px solid #021c89;
-    background-color: #94ceff!important;
+    background-color:rgba(254,255,253,0.62);
     border-radius: 20px;
     margin-bottom: 10px;
 }
 
 #categories {
     margin-top: 15px;
+    font-weight: bold;
+    font-size: 22px;
 }
 
+#filters {
+    font-size: 22px;
+}
 #id_categories {
-    font-weight: normal;
+    color: black;
+    font-weight: 500;
+    font-size: 22px;
 }
 #id_order_by {
-    font-weight: normal;
+    font-weight: 500;
+    color: black;
+    font-size: 22px;
 }
 
 #mainShoppingContainer {
@@ -111,4 +121,10 @@
 #current {
     display: flex;
     justify-content: center;
+}
+
+#sidebar {
+    color: black;
+    font-size: large;
+    font-weight: bold;
 }

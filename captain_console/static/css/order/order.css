@@ -29,7 +29,12 @@
     margin-bottom: 20px;
 }
 
-
+.background-opc {
+    background-color: rgba(187,231,255,0.51);
+    border-radius: 3%;
+    margin-bottom: 30px!important;
+    padding-bottom: 30px;
+}
 
 #cart-details {
     margin-top: 5%;

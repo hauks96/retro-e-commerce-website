@@ -1,11 +1,20 @@
+{% load static %}
 body {
-    background-image: radial-gradient( circle 343px at 46.3% 47.5%,  rgba(242,242,242,1) 0%, rgba(241,241,241,1) 72.9% );
-
+    background-image: url("https://w.wallhaven.cc/full/dg/wallhaven-dgkz1g.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
+main {
+    min-height: 650px;
+}
+
+footer {
+    background-color: white;
+}
 #mainheader{
-    background: rgb(2,0,36);
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(105,141,175,1) 100%);
+    background-image: url("https://w.wallhaven.cc/full/dg/wallhaven-dgkz1g.png");
     margin:0;
     padding: 0;
     margin-bottom: 5px;
@@ -19,7 +28,7 @@ body {
     font-weight: 550;
     border-radius: 10px;
     margin-bottom: 20px;
-    background-color: #a7adb0;
+    background: #FDB226;
     color: rgb(2,0,36);
 }
 

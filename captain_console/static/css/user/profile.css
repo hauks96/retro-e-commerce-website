@@ -5,6 +5,18 @@
     border-style: solid;
     margin-top: 50px;
     margin-bottom: 50px;
+    min-height: 650px;
+}
+
+#mainContainerprofile {
+    background-color: rgba(148,206,255,0.55);
+    border-color: black;
+    border-width: thin;
+    border-style: solid;
+    border-radius: 20px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    min-height: 650px;
 }
 
 #profile_image_container {
@@ -58,4 +70,15 @@
 
 #search_history_btn_container {
     margin-top: 10px;
+}
+
+#edit-window {
+    background-color: rgba(148,206,255,0.55);
+    border-color: black;
+    border-width: thin;
+    border-style: solid;
+    border-radius: 20px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding: 30px;
 }

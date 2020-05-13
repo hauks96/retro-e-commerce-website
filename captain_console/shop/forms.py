@@ -27,7 +27,8 @@ class Categories(forms.Form):
 
 
 class Filtering(forms.Form):
-    order_by = forms.ChoiceField(label=mark_safe("<strong>Order by</strong>"), widget=forms.RadioSelect,
+    order_by = forms.ChoiceField(label=mark_safe("<strong>Order by</strong>"), widget=forms.RadioSelect(attrs={
+        'font-weight': 'bolder'}),
                                  choices=[("name", "Name A-Z"),
                                           ("-name", "Name Z-A"),
                                           ("-price", "Price (high to low)"),
@@ -38,4 +39,4 @@ class Filtering(forms.Form):
 
 class SearchBar(forms.Form):
     search = forms.CharField(label=mark_safe('<strong>Search</strong>'),
-                             required=False)
+                             required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text'}))

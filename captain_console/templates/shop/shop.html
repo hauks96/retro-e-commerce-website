@@ -11,11 +11,11 @@
     </div>
     <!-- sidebar for medium or bigger screens (iPads and bigger) -->
     <div class="row w-75 mx-auto">
-        <div id="desktop-sidebar" class="d-none d-sm-none d-md-block col-md-3 bg-white">
+        <div id="desktop-sidebar" class="d-none d-sm-none d-md-block col-md-3">
             {% include 'shop/sidebar.html' %}
         </div>
     <!-- feed -->
-        <div id="main-grid" class="col-xs-12 col-sm-12 col-md-9 bg-white" id="mainShoppingContainer">
+        <div id="main-grid" class="col-xs-12 col-sm-12 col-md-9" id="mainShoppingContainer">
         {% if failsafe %}
             <div class="bg-warning text-center w-100"><b>No products matched the filters, showing all products</b></div>
         {% endif %}
@@ -32,7 +32,7 @@
         <div class="pagination">
             <span class="step-links">
                 <div id="current">
-                    <span class="current">
+                    <span style="color:white;" class="current">
                         <b>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</b>
                     </span>
                 </div>
