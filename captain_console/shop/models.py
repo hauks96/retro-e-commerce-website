@@ -16,6 +16,12 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+class Tag(models.Model):
+    tag = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.tag
+
 
 class Product(models.Model):
     name = models.CharField(max_length=64, unique=True)
@@ -25,6 +31,7 @@ class Product(models.Model):
     short_description = models.CharField(max_length=150)
     long_description = models.CharField(max_length=999)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
+    tag = models.ManyToManyField(Tag)
 
     def get_category_name(self):
         return self.category.name
@@ -53,9 +60,3 @@ class ProductImage(models.Model):
 
 
 # can be called with Tags.objects.filter(product=product_id) to fetch all product tags
-class Tag(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    tag = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.tag

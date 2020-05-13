@@ -1,0 +1,177 @@
+.card-width {
+    display: flex;
+    width:360px;
+}
+
+.margin5 {
+    margin-left: 1%;
+}
+
+#page-container {
+    padding: 20px;
+    background-color: white;
+    margin: 20px;
+    border-radius: 20px;
+    border: 1px solid black;
+}
+
+.center-carousel{
+    display: flex;
+    justify-content: center;
+}
+
+#main-image img{
+    width: 80%;
+
+}
+#main-image {
+    border: 1px solid black;
+}
+
+#product_name {
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    margin: 0px;
+    background-color: #94ceff;
+}
+.carousel-control-prev-icon {
+    background-color: #94ceff;
+}
+.carousel-control-next-icon {
+    background-color: #94ceff;
+}
+
+.card-body {
+    background-color: #dde9ff;
+    border: 1px solid black;
+}
+
+.carousel-inner {
+    border-radius: 5%;
+}
+
+#product-card {
+    display: inline-block;
+    vertical-align: top;
+}
+
+#product-data {
+    display: inline-block;
+    vertical-align: top;
+}
+.block-button {
+    display: block;
+
+}
+
+#tags-conainer {
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+.inline-form{
+    display: inline-block;
+    margin-right: 10px;
+}
+.height100 {
+    height: 100%;
+}
+
+.description-text {
+    text-align: left;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.data-width {
+    width: 25%;
+    padding: 20px;
+}
+
+
+.related-width {
+    width: 25%;
+}
+
+#related-content {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 10%;
+}
+
+#add-to-cart{
+    margin-bottom: 5px;
+}
+
+#related-label {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+@media (max-width: 400px) {
+    .card-width {
+        display: flex;
+        width: 90%;
+    }
+
+}
+
+@media (max-width: 900px) {
+    .data-width {
+        margin: 20px;
+        padding: 20px;
+        display:flex;
+        width:70%;
+    }
+
+}
+
+
+@media (max-width: 1065px) {
+    #related-content {
+        display: block;
+        vertical-align: top;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+
+    .related-width {
+        width: 88%;
+    }
+    .related-card {
+        width: 22%;
+        display: inline-block;
+        vertical-align: top;
+    }
+    .h-25 {
+        height: 200px!important;
+    }
+
+}
+
+
+@media (max-width: 750px) {
+    #related-content {
+        display: flex;
+        justify-content: center;
+        vertical-align: top;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+
+    .related-width {
+        width: 88%;
+    }
+    .related-card {
+        width: 60%;
+        height: 200px;
+        display: flex;
+        justify-content: center;
+    }
+    
+}
+

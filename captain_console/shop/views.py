@@ -65,17 +65,36 @@ def product(request, product_id):
                 )
 
         images = ProductImage.objects.filter(product_id=product_id)
-        tags = Tag.objects.filter(product_id=product_id)
+        this_product = Product.objects.get(id=product_id)
+        tags = this_product.tag.all()
         relatedProducts = []
         # todo: make a better searcher for related tags
-        for count, tag in enumerate(tags):
-            innerList = []
-            if count == 5:  # we dont want more than 5 items
-                break
-            innerList.append(Product.objects.filter(tag__tag__icontains=tag))
-            # get pictures of related products
-            innerList.append(ProductImage.objects.filter(product_id=innerList[0][0].pk).first())
-            relatedProducts.append(innerList)
+        count = 0
+        tagnames = []
+        for tag in tags:
+            tagnames.append(tag.tag.lower())
+
+        for cnt, tag in enumerate(tags):
+            if count == 4:  # we dont want more than 5 items
+                if this_product.get_category_name().lower() in tagnames[cnt:]:
+                    index_of_tag = tagnames.index(this_product.get_category_name().lower())
+                    the_tag = tags[index_of_tag]
+                    current_products = the_tag.product_set.all()[:4]
+                    for i in range(len(current_products)):
+                        if current_products[i].id == product_id:
+                            continue
+                        else:
+                            relatedProducts[i] = current_products[i]
+                    break
+
+            current_products = tag.product_set.all()[:4]
+            for i in range(len(current_products)):
+                if current_products[i].id == product_id:
+                    continue
+                else:
+                    relatedProducts.append(current_products[i])
+                    count+=1
+
 
         # calculate discounted price
         if instance.discount == 0:
