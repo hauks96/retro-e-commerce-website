@@ -23,13 +23,13 @@ class ShippingAddressForm(ModelForm):  # To use if user is logged in and wants t
 
 
 class ShippingAddressInfoForm(forms.Form):
-    address_email = forms.EmailField(required=True)
     full_name = forms.CharField(label='Full name', max_length=70, required=True)
-    address = forms.CharField(label='Address', max_length=32, required=True)
     country = CountryField().formfield()
     city = forms.CharField(label='City', max_length=32, required=True)
     postal_code = forms.CharField(label='Postal Code', max_length=12, required=True)
+    address = forms.CharField(label='Address', max_length=32, required=True)
     note = forms.CharField(label='Enter additional info if required', max_length=100, required=False)
+    address_email = forms.EmailField(label='Order email', required=True)
 
 
 
