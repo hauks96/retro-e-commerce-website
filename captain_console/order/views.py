@@ -36,7 +36,7 @@ def shipping(request):
             if 'savePaymentInfoBox' in request.POST:  # Saves user info if he checks the box
                 user_id = request.user.id  # Users id from django auth
                 user = User.objects.get(id=user_id)  # User instance
-                address_id = user.address
+                address_id = user.address.id
                 Address.objects.filter(id=address_id).update(full_name=my_form.cleaned_data['full_name'],  # Updating
                                                              address=my_form.cleaned_data['address'],
                                                              country=my_form.cleaned_data['country'],

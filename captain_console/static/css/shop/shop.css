@@ -11,6 +11,11 @@
     width: 75%;
 }
 
+input [type=radio] {
+    border: 0px;
+    width: 100%;
+    height: 5px;
+}
 
 #filters-mobile{
     padding-left: 10px;
