@@ -19,9 +19,10 @@ def shop(request):
     if 'categories' in request.GET and 'order_by' in request.GET:
         if request.GET['categories'] == 'All':
             if 'search' in request.GET:
-                products = Product.objects.filter(enabled=True, name__contains=request.GET['search'])
+                products = Product.objects.filter(enabled=True,
+                                                  name__contains=request.GET['search']).order_by(request.GET['order_by'])
             else:
-                products = Product.objects.filter(enabled=True)
+                products = Product.objects.filter(enabled=True).order_by(request.GET['order_by'])
         else:
             if 'search' in request.GET:
                 products = Product.objects.filter(
