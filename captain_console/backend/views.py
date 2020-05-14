@@ -15,7 +15,7 @@ from home.models import BannerImages
 def backend(request):
     """Displays all the site products in the main backend"""
     if request.method == "GET":
-        return render(request, 'backend/backendProducts.html',
+        return render(request, 'backend/backend_products.html',
                       context={"products": Product.objects.all().order_by('id')})
 
 
@@ -23,7 +23,7 @@ def backend(request):
 def backend_users(request):
     """Displays all the site users in the main backend"""
     if request.method == "GET":
-        return render(request, 'backend/backendUsers.html', context={"users": User.objects.all().order_by('id')})
+        return render(request, 'backend/backend_users.html', context={"users": User.objects.all().order_by('id')})
 
 
 @staff_member_required()
@@ -37,7 +37,7 @@ def update_user(request, id):
             return redirect('backend_users')
     else:
         form = userUpdateForm(instance=user)
-    return render(request, 'backend/backendUpdateUser.html', {'form': form, 'id': id})
+    return render(request, 'backend/backend_update_user.html', {'form': form, 'id': id})
 
 
 @staff_member_required()
@@ -69,7 +69,7 @@ def createTag(request, id):
     else:
         form = singleTag()  # Creates the form
 
-    return render(request, 'backend/addTag.html', {'form': form, 'productID': id})
+    return render(request, 'backend/add_tag.html', {'form': form, 'productID': id})
 
 
 @staff_member_required()
@@ -85,7 +85,7 @@ def useTag(request, id):
     else:
         form = selectTagForm()  # Creates the form
 
-    return render(request, 'backend/selectTag.html', {'form': form, 'productID': id})
+    return render(request, 'backend/select_tag.html', {'form': form, 'productID': id})
 
 
 @staff_member_required()
@@ -108,7 +108,7 @@ def createImage(request, id):
     else:
         form = singleImage(initial={'product': id})  # Creates the form
 
-    return render(request, 'backend/addImage.html', {'form': form, 'productID': id})
+    return render(request, 'backend/add_image.html', {'form': form, 'productID': id})
 
 
 @staff_member_required()
@@ -148,7 +148,7 @@ def update_product(request, id):
     else:
         form = productUpdateForm(instance=product)
 
-    return render(request, 'backend/updateProduct.html', {'productID': id,
+    return render(request, 'backend/update_product.html', {'productID': id,
                                                           'form': form,
                                                           'tagforms': tagforms,
                                                           'imageforms': imageforms})
@@ -173,7 +173,7 @@ def create_category(request):
             return redirect('backend_index/')
     else:
         form = categoryCreateForm()
-    return render(request, 'backend/backendAddCategory.html', {'form': form})
+    return render(request, 'backend/backend_add_category.html', {'form': form})
 
 
 @staff_member_required()
@@ -187,7 +187,7 @@ def delete_category(request):
             category = get_object_or_404(Category, pk=category_id)
             category.delete()
             return redirect('backend_index')
-    return render(request, 'backend/backendDeleteCategory.html', {'form': form})
+    return render(request, 'backend/backend_delete_category.html', {'form': form})
 
 
 # User views here
@@ -208,7 +208,7 @@ def create_user(request):
             return redirect('backend_users')
     else:
         form = userCreateForm()
-    return render(request, 'backend/backendCreateUser.html', {'form': form})
+    return render(request, 'backend/backend_create_user.html', {'form': form})
 
 
 @staff_member_required()
@@ -230,7 +230,7 @@ def update_user(request, id):
             return redirect('backend_users')
     else:
         form = userUpdateForm(instance=user)
-    return render(request, 'backend/backendUpdateUser.html', {'form': form, 'id': id})
+    return render(request, 'backend/backend_update_user.html', {'form': form, 'id': id})
 
 
 @staff_member_required()
@@ -250,7 +250,7 @@ def carousel_add(request):
             return redirect('carousel')
     else:
         form = carouselImageForm()
-    return render(request, 'backend/addToCarousel.html', {'form': form})
+    return render(request, 'backend/add_to_carousel.html', {'form': form})
 
 
 @staff_member_required()
