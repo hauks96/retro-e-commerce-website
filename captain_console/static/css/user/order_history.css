@@ -2,6 +2,7 @@
 #cart-container-order-history {
     min-height: 300px;
     display: inline-block;
+    background-color: rgba(165,166,164,0.75);
     width: auto;
     padding: 10px;
     border: 2px solid black;
@@ -24,4 +25,6 @@
 .summary-container {
     display: inline-block;
     height: auto;
+    font-size: 20px;
+    background-color: rgba(165,166,164,0.75);
 }

@@ -29,34 +29,36 @@
                     {% endif %}
                 {% endfor %}
             </div>
-        <div class="pagination">
-            <span class="step-links">
-                <div id="current">
-                    <span style="color:white;" class="current">
-                        <b>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</b>
+            <div class="container page-nav-container">
+                <div class="pagination">
+                    <span class="step-links">
+                        <div id="current">
+                            <span class="current">
+                                <b>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</b>
+                            </span>
+                        </div>
+                        <div class="row">
+                            <div id="first-previous">
+                                {% if page_obj.has_previous %}
+                                    <a class="fast-forward" href="?page=1"><i class="fa fa-fast-backward">
+                                        <b>First</b></i>
+                                    </a>
+                                    <a href="?page={{ page_obj.previous_page_number }}"><i class="fa fa-chevron-left"></i> Previous</a>
+                                {% endif %}
+                            </div>
+
+                            <div id="last-next">
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}">Next <i class="fa fa-chevron-right"></i></a>
+                                <a class="fast-forward" href="?page={{ page_obj.paginator.num_pages }}"><i class="fa fa-fast-forward">
+                                    <b>Last</b></i>
+                                </a>
+                            {% endif %}
+                            </div>
+                        </div>
                     </span>
                 </div>
-                <div class="row">
-                    <div id="first-previous">
-                        {% if page_obj.has_previous %}
-                            <a class="fast-forward" href="?page=1"><i class="fa fa-fast-backward">
-                                <b>First</b></i>
-                            </a>
-                            <a href="?page={{ page_obj.previous_page_number }}"><i class="fa fa-chevron-left"></i> Previous</a>
-                        {% endif %}
-                    </div>
-
-                    <div id="last-next">
-                    {% if page_obj.has_next %}
-                        <a href="?page={{ page_obj.next_page_number }}">Next <i class="fa fa-chevron-right"></i></a>
-                        <a class="fast-forward" href="?page={{ page_obj.paginator.num_pages }}"><i class="fa fa-fast-forward">
-                            <b>Last</b></i>
-                        </a>
-                    {% endif %}
-                    </div>
-                </div>
-            </span>
-        </div>
+            </div>
         </div>
     </div>
 
