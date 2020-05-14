@@ -22,8 +22,15 @@ footer {
 
 #mainheader img {
     height: 200px;
+    display: flex;
+    justify-content: center;
 }
-
+.header-image {
+    margin-left: 5%;
+    display: block;
+    transform: scale(1.7);
+    transform-origin: 50% 50%;
+}
 .navbar{
     font-weight: 550;
     border-radius: 10px;
