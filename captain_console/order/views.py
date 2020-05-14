@@ -46,8 +46,8 @@ def shipping(request):
 
             return redirect('../payment/')
         else:
-            return render(request, 'order/shippingInfo.html', {'form': my_form})
-    return render(request, 'order/shippingInfo.html', {'form': my_form})
+            return render(request, 'order/shipping_info.html', {'form': my_form})
+    return render(request, 'order/shipping_info.html', {'form': my_form})
 
 
 @login_required
@@ -82,7 +82,7 @@ def shipping_saved(request):
         context['form'] = my_form
 
     context['form'] = my_form
-    return render(request, 'order/shippingInfo.html', context)
+    return render(request, 'order/shipping_info.html', context)
 
 
 def billing(request):
@@ -109,8 +109,8 @@ def billing(request):
             request.session["CVC"] = my_form['CVC']
             return redirect('../summary/')
         else:
-            return render(request, 'order/paymentInfo.html', {'form': my_form})
-    return render(request, 'order/paymentInfo.html', {'form': my_form})
+            return render(request, 'order/payment_info.html', {'form': my_form})
+    return render(request, 'order/payment_info.html', {'form': my_form})
 
 
 def summary(request):
@@ -127,7 +127,7 @@ def summary(request):
 
     cart_cookie = request.COOKIES['cart']
     forms, cart_total = get_product_forms(cart_cookie)
-    return render(request, 'order/summaryPage.html', context={'cart_total': cart_total, 'forms': forms})
+    return render(request, 'order/summary_page.html', context={'cart_total': cart_total, 'forms': forms})
 
 
 def success(request):
@@ -224,7 +224,7 @@ def success(request):
         request.session['billing_process'] = ""
         request.session['summary_process'] = ""
         request.session['shipping_process'] = ""
-        response = render(request, 'order/confirmationPage.html', context={'order': order})
+        response = render(request, 'order/confirmation_page.html', context={'order': order})
         response.set_cookie('cart', "")
         response.set_cookie('itm_count', 0)
         return response
