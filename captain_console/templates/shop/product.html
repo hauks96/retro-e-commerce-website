@@ -10,7 +10,7 @@
     </div>
     <!--product card -->
     <div id="product-card" class="card text-center card-width margin5">
-        <!--Product name -->
+            <!--Product name -->
         <h4 id="product_name" class="card-title">{{ product.name }}</h4>
         <!--Product main image -->
         <img id="main-image" class="card-img-top" src="{{ product.getProductImage }}" alt="Card Image">
@@ -52,9 +52,21 @@
     <!--product data -->
     <div id="product-data" class="margin5 height100 data-width">
         <div class="h-100">
+            {% if product.discount != 0 %}
+            <div class="row">
+                <p><b>Price before: </b><s>{{ product.price }}$</s></p>
+            </div>
+            <div class="row">
+                <p><b>Discount: </b>{{ product.discount}}%</p>
+            </div>
+            <div id="discounted-price" class="row">
+               <p><b>Price now: </b>{{ product.getFinalPrice }}$</p>
+            </div>
+            {% else %}
             <div class="row">
                <p><b>Price: </b>{{ product.getFinalPrice }}$</p>
             </div>
+            {% endif %}
             <div id="tags-conainer" class="row">
                 <label><b>Category:</b>
                     <a href="{% url 'shop-index' %}?categories={{ product.category }}">{{ product.category }}</a>
