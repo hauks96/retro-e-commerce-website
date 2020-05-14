@@ -3,8 +3,7 @@
 }
 
 .carousel-inner {
-    border-radius: 5% 0% 5% 5%;
-    border: 1px solid black;
+    border-radius: 5% 5% 5% 5%;
 }
 
 .carousel-control-next-icon, .carousel-control-prev-icon {

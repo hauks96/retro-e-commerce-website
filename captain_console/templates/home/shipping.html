@@ -1,4 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'css/order/shipping_info.css' %}">
+{% endblock %}
 {% block content %}
 <div id="affiliateContainer">
     <h1>Shipping Rates</h1>
@@ -14,9 +18,9 @@
                 Other: 25$<br>
                 <br>
             </h3>
-            <p>Please contact
+            <p><b>Please contact
                 <a href="mailto:captainconsole@contact.com">captainconsole@contact.com</a>
-                for further questions regarding shipping.
+                for further questions regarding shipping.</b>
             </p>
         </div>
 </div>
