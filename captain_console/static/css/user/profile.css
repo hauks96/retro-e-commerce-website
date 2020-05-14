@@ -9,8 +9,9 @@
 }
 
 #mainContainerprofile {
-    background-color: rgba(148,206,255,0.55);
+    background-color: rgba(4,12,166,0.65);
     border-color: black;
+    color: white;
     border-width: thin;
     border-style: solid;
     border-radius: 20px;

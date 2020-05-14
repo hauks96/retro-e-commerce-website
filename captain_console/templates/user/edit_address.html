@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/user/edit_person.css' %}">
+{% endblock %}
 {% block content %}
-    <div class="container" id="edit-window">
+    <div class="container container-user-profile" id="edit-window">
         <legend>Shipping Address:</legend>
         <div class="container" id="form">
             <form action="{% url 'edit-address' %}" method="POST">
@@ -16,7 +20,10 @@
                     {% endif %}
                 </div>
             {% endfor %}
-                <button type="submit" value="submit" class="btn btn-primary">Save</button>
+                <a id="bla" href="{% url 'profile-index' %}">
+                    <button class="btn btn-secondary">Back</button>
+                </a>
+                <button form="form" type="submit" value="submit" class="btn btn-primary">Save</button>
             </form>
         </div>
     </div>
