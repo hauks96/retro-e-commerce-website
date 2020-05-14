@@ -1,10 +1,16 @@
 {% extends 'backend/backendbase.html' %}
+{% load static %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'css/backend/update_product.css' %}">
+{% endblock %}
 {% block content %}
-    <form action="{% url 'use_tag' productID%}" method='POST'>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <br>
-        <a href="{% url 'update_product' productID  %}" class="btn btn-secondary" role="button" aria-pressed="true">Cancel</a>
-        <input type="submit" value="Use tag" class="btn btn-success">
-    </form>
+<div class="container container-product-update">
+        <form action="{% url 'use_tag' productID%}" method='POST'>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <br>
+            <a href="{% url 'update_product' productID  %}" class="btn btn-secondary" role="button" aria-pressed="true">Cancel</a>
+            <input type="submit" value="Use tag" class="btn btn-success">
+        </form>
+</div>
 {% endblock %}

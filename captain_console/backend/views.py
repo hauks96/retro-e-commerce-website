@@ -117,6 +117,11 @@ def deleteImage(request, id):
     image = get_object_or_404(ProductImage, pk=id)
     productID = image.product.id
     image.delete()
+    if not ProductImage.objects.filter(product_id=productID).exists(): # disables the product if it has no images
+        product = get_object_or_404(Product, pk=productID)
+        product.enabled = False
+        product.save()
+
     return redirect(update_product, id=productID)
 
 
