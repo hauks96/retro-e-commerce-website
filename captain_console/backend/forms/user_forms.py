@@ -9,7 +9,7 @@ class userCreateForm(ModelForm):
         exclude = ['id', 'last_login', 'is_superuser', 'is_active', 'date_joined', 'groups', 'user_permissions', 'address']
         widgets = {
             'username': widgets.TextInput(attrs={'class': 'form-control'}),
-            'password': widgets.TextInput(attrs={'class': 'form-control'}),
+            'password': widgets.PasswordInput(attrs={'class': 'form-control'}),
             'email': widgets.EmailInput(attrs={'class': 'form-control'}),
             'first_name': widgets.TextInput(attrs={'class': 'form-control'}),
             'last_name': widgets.TextInput(attrs={'class': 'form-control'}),
@@ -25,7 +25,7 @@ class userUpdateForm(ModelForm):
         exclude = ['id', 'last_login', 'is_superuser', 'is_active', 'date_joined',
                    'groups', 'user_permissions', 'address', 'username']
         widgets = {
-            'password': widgets.TextInput(attrs={'class': 'form-control'}),
+            'password': widgets.PasswordInput(attrs={'class': 'form-control'}),
             'email': widgets.EmailInput(attrs={'class': 'form-control'}).is_required,
             'first_name': widgets.TextInput(attrs={'class': 'form-control'}),
             'last_name': widgets.TextInput(attrs={'class': 'form-control'}),
