@@ -10,7 +10,7 @@ class userCreateForm(ModelForm):
         widgets = {
             'username': widgets.TextInput(attrs={'class': 'form-control'}),
             'password': widgets.TextInput(attrs={'class': 'form-control'}),
-            'email': widgets.EmailInput(attrs={'class': 'form-control'}).is_required,
+            'email': widgets.EmailInput(attrs={'class': 'form-control'}),
             'first_name': widgets.TextInput(attrs={'class': 'form-control'}),
             'last_name': widgets.TextInput(attrs={'class': 'form-control'}),
             'image': widgets.URLInput(attrs={'class': 'form-control'}),
