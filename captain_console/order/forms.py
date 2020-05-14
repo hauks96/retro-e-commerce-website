@@ -76,7 +76,7 @@ class PaymentInfoForm(forms.Form):
 class CartItemDisplay(forms.Form):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     price = forms.FloatField(label='Unit Price', widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    total_price = forms.FloatField(label='Total Price (€)',
+    total_price = forms.FloatField(label='Total Price ($)',
                                    widget=forms.TextInput(attrs={'class': 'form-control'}))
     quantity = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
     image = forms.CharField(max_length=999, widget=forms.HiddenInput())
