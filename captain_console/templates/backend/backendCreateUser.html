@@ -1,9 +1,16 @@
 {% extends 'backend/backendbase.html' %}
 {% block content %}
-    <form action="{% url 'create_user' %}" method='POST'>
+    <div class="container container-product-update">
+    <h2>Create a user</h2>
+    <form id="createform" action="{% url 'create_user' %}" method='POST'>
         {% csrf_token %}
         {{ form.as_p }}
-</form>
-        <input type="submit" value="Create" class="btn btn-success">
     </form>
+        <a href="{% url 'backend_users' %}">
+            <button type="submit" class="btn btn-secondary">Back</button>
+        </a>
+        <input form="createform" type="submit" value="Create" class="btn btn-success">
+
+    </div>
+
 {% endblock %}

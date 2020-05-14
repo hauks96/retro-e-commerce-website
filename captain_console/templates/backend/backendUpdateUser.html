@@ -1,8 +1,16 @@
 {% extends 'backend/backendbase.html' %}
 {% block content %}
-    <form action="{% url 'update_user' id %}" method='POST'>
+<div class="container container-product-update">
+    <h2>Update User</h2>
+    <form id="updateuser" action="{% url 'update_user' id %}" method='POST'>
         {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Update" class="btn btn-success">
+        {{ form.as_p }}
     </form>
+    <div id="buttongroup" class="row">
+        <a id="backbutton" href="{% url 'backend_users' %}">
+            <input type="submit" value="back" class="btn btn-secondary">
+        </a>
+        <input form="updateuser" type="submit" value="Update" class="btn btn-success">
+    </div>
+</div>
 {% endblock %}

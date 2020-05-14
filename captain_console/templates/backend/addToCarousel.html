@@ -1,5 +1,6 @@
 {% extends 'backend/backendbase.html' %}
 {% block content %}
+<div class="container container-product-update">
     <form action="{% url 'carousel_add' %}" method='POST'>
         {% csrf_token %}
         {{ form.as_p }}
@@ -7,4 +8,5 @@
         <a href="{% url 'carousel' %}" class="btn btn-secondary" role="button" aria-pressed="true">Cancel</a>
         <input type="submit" value="Add" class="btn btn-success">
     </form>
+</div>
 {% endblock %}

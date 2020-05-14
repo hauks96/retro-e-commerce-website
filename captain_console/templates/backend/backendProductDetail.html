@@ -1,5 +1,8 @@
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/backend/backend.css' %}">
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/backend/backend.css' %}">
+{% endblock %}
+
 
 <div class="singleProducts">
         <div class="productInfoBox">
