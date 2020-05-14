@@ -28,7 +28,7 @@ def home(request):
 
 def affiliate(request):
     """Displays the website affiliate page"""
-    return render(request, 'home/affiliatePage.html')
+    return render(request, 'home/affiliate_page.html')
 
 
 def shipping(request):
