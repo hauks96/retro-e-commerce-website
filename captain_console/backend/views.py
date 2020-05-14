@@ -170,7 +170,7 @@ def create_category(request):
         form = categoryCreateForm(data=request.POST)  # Creates the form
         if form.is_valid():
             form.save()
-            return redirect('backend_index/')
+            return redirect('backend_index')
     else:
         form = categoryCreateForm()
     return render(request, 'backend/backend_add_category.html', {'form': form})
