@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'cj^&mhw!#mjj+0tag#_wh$-_*o&2y*zk6-epb$3r#3%bt8v*-0'
+SECRET_KEY = "" #Removed for obvious reasons
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True #We couldn't figure out how to make it work without debug on
@@ -85,12 +85,7 @@ WSGI_APPLICATION = 'captain_console.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mortzrxr',
-        'USER': 'mortzrxr',
-        'PASSWORD': 'GYTGyVclQoGtonslkcrnxKsXDu6Wgj0c',
-        'HOST': 'kandula.db.elephantsql.com',
-        'PORT': '5432'
+        "Removed for obvious reasons"
     }
 }
 
