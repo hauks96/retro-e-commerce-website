@@ -1,3 +1,4 @@
+#This is not the deployed version
 """
 Django settings for captain_console project.
 
@@ -24,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'cj^&mhw!#mjj+0tag#_wh$-_*o&2y*zk6-epb$3r#3%bt8v*-0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True #We couldn't figure out how to make it work without debug on
 
 ALLOWED_HOSTS = ['*']  # currently everything is allowed
 
