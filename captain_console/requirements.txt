@@ -6,7 +6,7 @@ chardet==3.0.4
 click==7.1.1
 colorama==0.4.3
 distlib==0.3.0
-Django==3.0.5
+Django==3.0.7
 django-countries==6.1.2
 django-readonly-field==1.0.5
 djangorestframework==3.11.0
